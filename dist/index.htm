@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <title> </title>
+    <style>
+        body {
+            background-color: #ffffff;
+            margin: 0;
+        }
+
+        .isvisible {
+            display: block !important;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+
+        .outer {
+            display: flex;
+            margin: 200px auto;
+        }
+
+        .field {
+            position: relative;
+            width: 350px;
+            height: 100%;
+            margin: 0 auto;
+            font-size: 18px;
+            line-height: 1.5;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode';
+            color: #000;
+        }
+
+        label {
+            display: block;
+            height: 25px;
+            font-size: 18px;
+            margin-left: 5px;
+        }
+
+        input {
+            height: 42px;
+            width: 250px;
+            padding: 5px 12px;
+            border-radius: 16px;
+            box-sizing: border-box;
+        }
+
+        ul.countrylist {
+            display: none;
+            position: absolute;
+            top: 49px;
+            left: -10px;
+            width: 250px;
+            height: auto;
+            z-index: 1000;
+            margin: 10px 10px;
+            padding-top: 2px;
+            background-color: #fff;
+            box-shadow: 0px 6px 12px rgba(32, 33, 36, .28);
+        }
+
+        .countrylist {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .countrylist li {
+            /* font-size: 18px; */
+            padding-left: 12px;
+        }
+
+        /* .countrylist li:hover, */
+        .countrylist li.active {
+            /* color: #fff; */
+            background-color: #ddf;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="outer">
+
+        </div>
+    </div>
+
+</body>
+<!-- <script src="./tools.js"></script> -->
+<script src="./scripts/dropDownList.js"></script>
+<script type="module" src="./scripts/app.js"></script>
+
+</html>
