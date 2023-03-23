@@ -1,3 +1,17 @@
+/*  This drop down is like google.com
+ *  The user can use up or down arrows or the mouse to select items
+ *  Up and down arrows change the text in the text
+ *  box but move hover doesn't change the text field value
+ *  Hovering over a list item, then using the arrows takes out the hover effect
+ *  It doesn't use CSS hover because I have more control with mousemove
+ *  when working with together with keypresses
+ */
+
+/*
+ * Focus is the only event that's always on, it triggers the start of keyup and blur events
+ * The DOM holds all the information, no global vars are used
+ */
+
 import {createElementAtt} from "./lib/dom.js"
 
 import {eventkeyAZ09} from "./lib/event-keys.js"
@@ -14,7 +28,6 @@ function render(ULSelector, fieldLabel, placeholder, tabindex, ID) {
 			["type", "text"],
 			["placeholder", placeholder],
 			["ID", ID],
-			["autofocus", ""],
 			["aria-autocomplete", "both"],
 			["autocapitalize", "none"],
 			["autocomplete", "off"],
@@ -79,6 +92,7 @@ function bindEvents(
 	// For each field, focus and blur events are always on
 	// As soon as the field gets focus, keyup event fires
 	function onFocus(e) {
+		console.log("onFocus")
 		originalText = elInput.value.trim()
 		elInput.addEventListener("keyup", onKeyUp)
 		elInput.addEventListener("blur", onBlur)
@@ -88,7 +102,7 @@ function bindEvents(
 	}
 
 	function onKeyUp(e) {
-		const COUNTRY_COUNT = 196
+		const DD_LIST_SIZE = objectLength(dropDownOptions)
 		let matches
 		let matchlist
 
@@ -172,7 +186,7 @@ function bindEvents(
 			originalText = elInput.value.trim()
 
 			// Nothing typed in or nothing matching
-			if (results.length === COUNTRY_COUNT || results.length === 0) {
+			if (results.length === DD_LIST_SIZE || results.length === 0) {
 				matches = []
 				elUL.classList.remove("isvisible")
 				for (let i = 0, len = elUL.children.length; i < len; i++) {
@@ -292,9 +306,10 @@ function bindEvents(
 		maxLines: 10,
 	}
 
-	let settings = opts || {}
+	const settings = opts || {}
 
-	let maxLines = settings.maxLines ?? settingDefaults.maxLines
+	const maxLines = settings.maxLines ?? settingDefaults.maxLines
+	const objectLength = (obj) => Object.entries(obj).length
 
 	// Number of lines to display
 	// Work out height of a line and multiply for height of box
@@ -310,7 +325,6 @@ function bindEvents(
 	elLI.textContent = "abc"
 
 	let lineHeight = elLI.clientHeight
-	console.log(lineHeight)
 	elULTemp.remove()
 
 	maxHeight = lineHeight * maxLines

@@ -199,6 +199,8 @@ const dropDownOptions = [
 	"Zimbabwe",
 ]
 
+const dropDownOptions2 = ["Matthew", "Mark", "Luke", "John", "Mary", "Pauline"]
+
 render(
 	".container .outer",
 	"Country of birthSS",
@@ -228,11 +230,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	bindEvents(
 		".container .outer",
-		"Country of residence",
-		"Country of residence",
+		"Name",
+		"Name",
 		3,
 		"dd2",
-		["d", "e", "f"],
+		dropDownOptions2,
 		{maxLines: 10}
 	)
+
+	let elInput1 = document.querySelector("#dd1")
+	elInput1.focus()
 })
