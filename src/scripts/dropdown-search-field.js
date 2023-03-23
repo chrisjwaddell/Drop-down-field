@@ -76,6 +76,8 @@ function bindEvents(
 	let selectionLength
 	let originalText
 	let maxHeight
+	let lineHeight
+	let scrollAt
 
 	function selectionActive() {
 		if (elInput.nextElementSibling) {
@@ -114,11 +116,24 @@ function bindEvents(
 			if (selectionLength > 0) {
 				// Arrows work only when the list is showing
 				if (elUL.classList.contains("isvisible")) {
+					if (elUL.children[index]) {
+						if (elUL.children[index].offsetTop < lineHeight * 2) {
+							let ulTop = elUL.scrollTop
+							if (ulTop - lineHeight * 3 < 0) {
+								elUL.scrollTo(0, ulTop - lineHeight)
+							} else {
+								elUL.scrollTo(0, ulTop - lineHeight)
+							}
+						}
+					}
+
 					if (index === -1) {
+						elUL.scrollTo(0, elUL.scrollHeight - maxHeight)
 						index = selectionLength - 1
 						elUL.children[index].classList.add("active")
 						elInput.value = elUL.children[index].textContent
 					} else if (index === 0) {
+						elUL.scrollTo(0, 0)
 						elUL.children[index].classList.remove("active")
 						index = -1
 						elInput.value = originalText
@@ -134,8 +149,15 @@ function bindEvents(
 			// Down arrow
 			if (selectionLength > 0) {
 				// Arrows work only when the list is showing
+				if (elUL.children[index]) {
+					if (elUL.children[index].offsetTop > scrollAt) {
+						let ulTop = elUL.scrollTop
+						elUL.scrollTo(0, ulTop + lineHeight)
+					}
+				}
 				if (elUL.classList.contains("isvisible")) {
 					if (index === -1) {
+						elUL.scrollTo(0, 0)
 						index++
 						elUL.children[index].classList.add("active")
 						elInput.value = elUL.children[index].textContent
@@ -324,11 +346,13 @@ function bindEvents(
 	let elLI = createElementAtt(elULTemp, "li", [], [], "li")
 	elLI.textContent = "abc"
 
-	let lineHeight = elLI.clientHeight
+	lineHeight = elLI.clientHeight
 	elULTemp.remove()
 
 	maxHeight = lineHeight * maxLines
 	elUL.style.maxHeight = maxHeight + "px"
+
+	scrollAt = maxHeight - lineHeight * 4 > 0 ? maxHeight - lineHeight * 4 : 0
 }
 
 export {render, bindEvents}
