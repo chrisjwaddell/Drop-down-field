@@ -1,6 +1,6 @@
 .ddsearchfield {
 	position: relative;
-	width: 350px;
+	width: 250px;
 	height: 100%;
 	margin: 0 auto;
 	font-size: 15px;
@@ -24,6 +24,34 @@
 	font-size: 16px;
 	border-radius: 16px;
 	box-sizing: border-box;
+}
+
+.ddsearchfield input .arrow {
+	padding-right: 25px;
+}
+
+.inputarrow {
+	position: relative;
+	width: 250px;
+}
+
+.inputarrow .arrow {
+	position: absolute;
+	right: 5px;
+	top: 8px;
+	/* top: calc(42px - 25px)/2; */
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	/* border: 1px solid black; */
+	background-color: #eeeeee;
+}
+
+.inputarrow svg {
+	width: 100%;
+	height: 100%;
+	stroke-width: 6px;
+	stroke: #000000;
 }
 
 .ddsearchfield ul.ddlist {
