@@ -44,7 +44,7 @@ var DropdownField = (function () {
         return false
     }
 
-    function DropdownField(
+    function DropdownList(
     	ULSelector,
     	fieldLabel,
     	placeholder,
@@ -53,7 +53,7 @@ var DropdownField = (function () {
     	dropDownOptions,
     	opts
     ) {
-    	const settingDefaults = {
+    	let settingDefaults = {
     		maxLines: 10,
     		searchMode: 1,
     		firstXLettersOppositeSearchMode: 0,
@@ -203,21 +203,25 @@ var DropdownField = (function () {
     		if (showDropdownArrow) {
     			document
     				.querySelector("#" + ID + " .arrow")
+    				// .querySelector("#" + ID + " .inputarrow")
     				.addEventListener("click", onClick);
     		}
     	});
 
     	function selectionActive() {
-    		for (let i = 0; i < selectionLength; i++) {
-    			if (elUL.children[i].classList.value === "active") {
-    				return i
+    		if (elInput.nextElementSibling) {
+    			for (let i = 0; i < selectionLength; i++) {
+    				if (elUL.children[i].classList.value === "active") {
+    					return i
+    				}
     			}
+    			return -1
     		}
     		return -1
     	}
 
     	// Return search results
-    	// searchMode - 0 = anywhere in; 1 = starts with str
+    	// searchMode - 0 - anywhere in, 1 - starts with str
     	function selectionFilter(str, dropDownOptions, searchMode) {
     		let regex;
 
@@ -388,8 +392,10 @@ var DropdownField = (function () {
     				matches = results.map((cv) =>
     					dropdownSelectedString(cv, elInput.value.trim())
     				);
+    				// console.log(matches)
 
     				matchlist = matches.map((cv) => `<li>${cv}</li>`).join("");
+    				// console.log(matchlist)
 
     				elUL.classList.add("isvisible");
     				elUL.style.maxHeight = maxHeight + "px";
@@ -437,6 +443,7 @@ var DropdownField = (function () {
 
     		arr = [...elUL.children];
 
+    		// elUL = document.querySelector("#" + ID + " ul")
     		if (arr.length === 1) {
     			if (
     				elInput.value.trim() !== arr[0].textContent &&
@@ -470,7 +477,6 @@ var DropdownField = (function () {
     	function onMouseMove() {
     		let selectionHover = "";
     		let index = -1;
-
     		if (elUL.children[0]) {
     			selectionHover =
     				document.querySelector(".ddlist li:hover") == null
@@ -517,6 +523,8 @@ var DropdownField = (function () {
     	}
     }
 
-    return DropdownField;
+    // export {DropdownList}
+
+    return DropdownList;
 
 })();
