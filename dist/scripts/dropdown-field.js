@@ -44,7 +44,7 @@ var DropdownField = (function () {
         return false
     }
 
-    function DropdownList(
+    function DropdownField(
     	ULSelector,
     	fieldLabel,
     	placeholder,
@@ -203,19 +203,15 @@ var DropdownField = (function () {
     		if (showDropdownArrow) {
     			document
     				.querySelector("#" + ID + " .arrow")
-    				// .querySelector("#" + ID + " .inputarrow")
     				.addEventListener("click", onClick);
     		}
     	});
 
     	function selectionActive() {
-    		if (elInput.nextElementSibling) {
-    			for (let i = 0; i < selectionLength; i++) {
-    				if (elUL.children[i].classList.value === "active") {
-    					return i
-    				}
+    		for (let i = 0; i < selectionLength; i++) {
+    			if (elUL.children[i].classList.value === "active") {
+    				return i
     			}
-    			return -1
     		}
     		return -1
     	}
@@ -392,10 +388,8 @@ var DropdownField = (function () {
     				matches = results.map((cv) =>
     					dropdownSelectedString(cv, elInput.value.trim())
     				);
-    				// console.log(matches)
 
     				matchlist = matches.map((cv) => `<li>${cv}</li>`).join("");
-    				// console.log(matchlist)
 
     				elUL.classList.add("isvisible");
     				elUL.style.maxHeight = maxHeight + "px";
@@ -443,7 +437,6 @@ var DropdownField = (function () {
 
     		arr = [...elUL.children];
 
-    		// elUL = document.querySelector("#" + ID + " ul")
     		if (arr.length === 1) {
     			if (
     				elInput.value.trim() !== arr[0].textContent &&
@@ -523,8 +516,6 @@ var DropdownField = (function () {
     	}
     }
 
-    // export {DropdownList}
-
-    return DropdownList;
+    return DropdownField;
 
 })();
