@@ -210,7 +210,7 @@ DropdownField(
 		maxLines: 10,
 		searchMode: "starts with",
 		firstXLettersOppositeSearchMode: 2,
-		showDropdownArrow: true,
+		// showDropdownArrow: true,
 	}
 )
 

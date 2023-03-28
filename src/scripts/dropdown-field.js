@@ -11,7 +11,7 @@ export default function DropdownField(
 	dropDownOptions,
 	opts
 ) {
-	let settingDefaults = {
+	const settingDefaults = {
 		maxLines: 10,
 		searchMode: 1,
 		firstXLettersOppositeSearchMode: 0,
@@ -166,19 +166,16 @@ export default function DropdownField(
 	})
 
 	function selectionActive() {
-		if (elInput.nextElementSibling) {
-			for (let i = 0; i < selectionLength; i++) {
-				if (elUL.children[i].classList.value === "active") {
-					return i
-				}
+		for (let i = 0; i < selectionLength; i++) {
+			if (elUL.children[i].classList.value === "active") {
+				return i
 			}
-			return -1
 		}
 		return -1
 	}
 
 	// Return search results
-	// searchMode - 0 - anywhere in, 1 - starts with str
+	// searchMode - 0 = anywhere in; 1 = starts with str
 	function selectionFilter(str, dropDownOptions, searchMode) {
 		let regex
 
@@ -433,6 +430,7 @@ export default function DropdownField(
 	function onMouseMove() {
 		let selectionHover = ""
 		let index = -1
+
 		if (elUL.children[0]) {
 			selectionHover =
 				document.querySelector(".ddlist li:hover") == null
