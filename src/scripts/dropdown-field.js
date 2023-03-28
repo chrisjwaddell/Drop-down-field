@@ -166,13 +166,10 @@ export default function DropdownField(
 	})
 
 	function selectionActive() {
-		if (elInput.nextElementSibling) {
-			for (let i = 0; i < selectionLength; i++) {
-				if (elUL.children[i].classList.value === "active") {
-					return i
-				}
+		for (let i = 0; i < selectionLength; i++) {
+			if (elUL.children[i].classList.value === "active") {
+				return i
 			}
-			return -1
 		}
 		return -1
 	}
