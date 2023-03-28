@@ -1,92 +1,169 @@
-/*  This drop down is like google.com
- *  The user can use up or down arrows or the mouse to select items
- *  Up and down arrows change the text in the text
- *  box but move hover doesn't change the text field value
- *  Hovering over a list item, then using the arrows takes out the hover effect
- *  It doesn't use CSS hover because I have more control with mousemove
- *  when working with together with keypresses
- */
-
-/*
- * Focus is the only event that's always on, it triggers the start of keyup and blur events
- * The DOM holds all the information, no global vars are used
- */
-
 import {createElementAtt} from "./lib/dom.js"
 
 import {eventkeyAZ09} from "./lib/event-keys.js"
 
-function render(ULSelector, fieldLabel, placeholder, tabindex, ID) {
-	const elOuter = document.querySelector(ULSelector)
-	const elField = createElementAtt(
-		elOuter,
-		"div",
-		["ddsearchfield"],
-		[["ID", ID]],
-		""
-	)
-	createElementAtt(elField, "label", [], [], fieldLabel)
-	const elInputArrow = createElementAtt(
-		elField,
-		"div",
-		["inputarrow"],
-		[],
-		""
-	)
-	createElementAtt(
-		elInputArrow,
-		"input",
-		[],
-		[
-			["type", "text"],
-			["placeholder", placeholder],
-			["aria-autocomplete", "both"],
-			["autocapitalize", "none"],
-			["autocomplete", "off"],
-			["autocorrect", "off"],
-			["spellcheck", "false"],
-			["tabindex", tabindex],
-			["value", ""],
-		],
-		""
-	)
-	// let elArrowDiv = createElementAtt(elField, "div", ["arrow"], [], "")
-
-	createElementAtt(elField, "ul", ["ddlist"], [], "")
-}
-
-// Return search results
-// searchMode - 0 - anywhere in, 1 - starts with str
-function selectionFilter(str, dropDownOptions, searchMode) {
-	let regex
-
-	searchMode
-		? (regex = new RegExp(`.*${str}.*`, "gi"))
-		: (regex = new RegExp(`^${str}.*`, "gi"))
-	return dropDownOptions.filter((cv) => cv.match(regex))
-}
-
-function dropdownSelectedString(selectionLine, searchString) {
-	const fieldString = new RegExp(`${searchString}`, "i")
-	const startPos = selectionLine.search(fieldString)
-	if (startPos === -1 || searchString.length === 0) {
-		return selectionLine
+export default function DropdownField(
+	ULSelector,
+	fieldLabel,
+	placeholder,
+	tabindex,
+	ID,
+	dropDownOptions,
+	opts
+) {
+	let settingDefaults = {
+		maxLines: 10,
+		searchMode: 1,
+		firstXLettersOppositeSearchMode: 0,
+		showDropdownArrow: false,
 	}
-	return `${selectionLine.slice(0, startPos)}<strong>${selectionLine.slice(
-		startPos,
-		startPos + searchString.length
-	)}</strong>${selectionLine.slice(startPos + searchString.length)}`
-}
 
-function bindEvents(ID, dropDownOptions, opts) {
-	let elInput = document.querySelector("#" + ID + " input")
-	let elUL = document.querySelector("#" + ID + " ul")
+	const settings = opts || {}
+
+	const maxLines = settings.maxLines ?? settingDefaults.maxLines
+	let searchModeNumber = 1
+	if (settings.searchMode) {
+		if (settings.searchMode.toLowerCase() === "starts with") {
+			searchModeNumber = 0
+		} else {
+			searchModeNumber = 1
+		}
+	} else {
+		searchModeNumber = 0
+	}
+	const firstXLettersOppositeSearchMode =
+		settings.firstXLettersOppositeSearchMode ??
+		settingDefaults.firstXLettersOppositeSearchMode
+
+	const showDropdownArrow =
+		settings.showDropdownArrow ?? settingDefaults.showDropdownArrow
+
+	const objectLength = (obj) => Object.entries(obj).length
 
 	let selectionLength
 	let originalText
 	let maxHeight
 	let lineHeight
 	let scrollAt
+
+	function render(
+		ULSelector,
+		fieldLabel,
+		placeholder,
+		tabindex,
+		ID,
+		dropDownOptions
+	) {
+		const elOuter = document.querySelector(ULSelector)
+		const elField = createElementAtt(
+			elOuter,
+			"div",
+			["ddfield"],
+			[["ID", ID]],
+			""
+		)
+		createElementAtt(elField, "label", [], [], fieldLabel)
+		const elInputArrow = createElementAtt(
+			elField,
+			"div",
+			["inputarrow"],
+			[],
+			""
+		)
+		let elInput = createElementAtt(
+			elInputArrow,
+			"input",
+			[],
+			[
+				["type", "text"],
+				["placeholder", placeholder],
+				["aria-autocomplete", "both"],
+				["autocapitalize", "none"],
+				["autocomplete", "off"],
+				["autocorrect", "off"],
+				["spellcheck", "false"],
+				["tabindex", tabindex],
+				["value", ""],
+			],
+			""
+		)
+
+		// Drop down arrow
+		if (showDropdownArrow) {
+			elInput.style.padding = "5px 30px 5px 12px"
+
+			let elArrow = createElementAtt(
+				elInputArrow,
+				"div",
+				["arrow"],
+				[],
+				""
+			)
+
+			const xmlns = "http://www.w3.org/2000/svg"
+			let elSVG = document.createElementNS(xmlns, "svg")
+			elSVG.setAttributeNS(null, "viewBox", "0 0 100 100")
+			elSVG.setAttributeNS(null, "width", "100")
+			elSVG.setAttributeNS(null, "height", "100")
+
+			let elLine1 = document.createElementNS(xmlns, "line")
+			elLine1.setAttribute("x1", 20)
+			elLine1.setAttribute("y1", 35)
+			elLine1.setAttribute("x2", 50)
+			elLine1.setAttribute("y2", 65)
+			elSVG.appendChild(elLine1)
+			let elLine2 = document.createElementNS(xmlns, "line")
+			elLine2.setAttribute("x1", 50)
+			elLine2.setAttribute("y1", 65)
+			elLine2.setAttribute("x2", 80)
+			elLine2.setAttribute("y2", 35)
+			elSVG.appendChild(elLine2)
+
+			elArrow.appendChild(elSVG)
+			// elArrow.appendChild(elSVG)
+		}
+
+		let elUL = createElementAtt(elField, "ul", ["ddlist"], [], "")
+
+		// Number of lines to display
+		// Work out height of a line and multiply for height of box
+		let elULTemp = createElementAtt(
+			document.querySelector("#" + ID + ".ddfield"),
+			"ul",
+			["ddlist", "isvisible"],
+			[],
+			""
+		)
+
+		elULTemp.style.visibility = "hidden"
+		let elLI = createElementAtt(elULTemp, "li", [], [], "li")
+		elLI.textContent = "abc"
+
+		lineHeight = elLI.clientHeight
+		elULTemp.remove()
+
+		maxHeight = lineHeight * maxLines
+		elUL.style.maxHeight = maxHeight + "px"
+
+		scrollAt =
+			maxHeight - lineHeight * 4 > 0 ? maxHeight - lineHeight * 4 : 0
+	}
+
+	render(ULSelector, fieldLabel, placeholder, tabindex, ID)
+
+	let elInput = document.querySelector("#" + ID + " input")
+	let elInputArrow = document.querySelector("#" + ID + " .inputarrow")
+	let elUL = document.querySelector("#" + ID + " ul")
+
+	document.addEventListener("DOMContentLoaded", function () {
+		elInput.addEventListener("focus", onFocus)
+
+		if (showDropdownArrow) {
+			document
+				.querySelector("#" + ID + " .arrow")
+				.addEventListener("click", onClick)
+		}
+	})
 
 	function selectionActive() {
 		if (elInput.nextElementSibling) {
@@ -100,10 +177,35 @@ function bindEvents(ID, dropDownOptions, opts) {
 		return -1
 	}
 
+	// Return search results
+	// searchMode - 0 - anywhere in, 1 - starts with str
+	function selectionFilter(str, dropDownOptions, searchMode) {
+		let regex
+
+		searchMode
+			? (regex = new RegExp(`.*${str}.*`, "gi"))
+			: (regex = new RegExp(`^${str}.*`, "gi"))
+		return dropDownOptions.filter((cv) => cv.match(regex))
+	}
+
+	function dropdownSelectedString(selectionLine, searchString) {
+		const fieldString = new RegExp(`${searchString}`, "i")
+		const startPos = selectionLine.search(fieldString)
+		if (startPos === -1 || searchString.length === 0) {
+			return selectionLine
+		}
+		return `${selectionLine.slice(
+			0,
+			startPos
+		)}<strong>${selectionLine.slice(
+			startPos,
+			startPos + searchString.length
+		)}</strong>${selectionLine.slice(startPos + searchString.length)}`
+	}
+
 	// For each field, focus and blur events are always on
 	// As soon as the field gets focus, keyup event fires
 	function onFocus(e) {
-		console.log("onFocus")
 		originalText = elInput.value.trim()
 		elInput.addEventListener("keyup", onKeyUp)
 		elInput.addEventListener("blur", onBlur)
@@ -207,14 +309,11 @@ function bindEvents(ID, dropDownOptions, opts) {
 				// If First x letters is a different mode
 				if (strSearch.length <= firstXLettersOppositeSearchMode) {
 					if (searchModeNumber === 0) {
-						console.log("1 0    ")
 						results = selectionFilter(strSearch, dropDownOptions, 1)
 					} else {
-						console.log("1 1   ")
 						results = selectionFilter(strSearch, dropDownOptions, 0)
 					}
 				} else {
-					console.log("2")
 					results = selectionFilter(
 						strSearch,
 						dropDownOptions,
@@ -222,7 +321,6 @@ function bindEvents(ID, dropDownOptions, opts) {
 					)
 				}
 			} else {
-				console.log("3")
 				results = selectionFilter(
 					strSearch,
 					dropDownOptions,
@@ -253,10 +351,8 @@ function bindEvents(ID, dropDownOptions, opts) {
 				matches = results.map((cv) =>
 					dropdownSelectedString(cv, elInput.value.trim())
 				)
-				// console.log(matches)
 
 				matchlist = matches.map((cv) => `<li>${cv}</li>`).join("")
-				// console.log(matchlist)
 
 				elUL.classList.add("isvisible")
 				elUL.style.maxHeight = maxHeight + "px"
@@ -317,19 +413,21 @@ function bindEvents(ID, dropDownOptions, opts) {
 		if (!dropDownOptions.includes(elInput.value.trim())) {
 			elInput.value = ""
 		}
-		elUL.classList.remove("isvisible")
 
 		elUL.removeEventListener("mousedown", onMouseDown)
 		elUL.removeEventListener("mousemove", onMouseMove)
 
 		elInput.removeEventListener("keyup", onKeyUp)
 		elInput.removeEventListener("blur", onBlur)
+
+		elUL.classList.remove("isvisible")
 	}
 
 	function onMouseDown(e) {
-		console.log("onMouseDown")
-		elInput.value = e.target.innerText
-		originalText = e.target.innerText
+		if (e.target.tagName === "LI") {
+			elInput.value = e.target.innerText
+			originalText = e.target.innerText
+		}
 	}
 
 	function onMouseMove() {
@@ -355,58 +453,28 @@ function bindEvents(ID, dropDownOptions, opts) {
 		}
 	}
 
-	elInput.addEventListener("focus", onFocus)
+	function onClick(e) {
+		elUL = document.querySelector("#" + ID + " ul")
 
-	let settingDefaults = {
-		maxLines: 10,
-		searchMode: 1,
-		firstXLettersOppositeSearchMode: 0,
-		showDropdownArrow: false,
-	}
-
-	const settings = opts || {}
-
-	const maxLines = settings.maxLines ?? settingDefaults.maxLines
-	let searchModeNumber = 1
-	if (settings.searchMode) {
-		if (settings.searchMode.toLowerCase() === "starts with") {
-			searchModeNumber = 0
-		} else {
-			searchModeNumber = 1
+		if (!elUL.value) {
+			let matches = selectionFilter("", dropDownOptions, 0)
+			let matchlist = matches.map((cv) => `<li>${cv}</li>`).join("")
+			elUL.innerHTML = matchlist
 		}
-	} else {
-		searchModeNumber = 0
+
+		let i
+		for (i = 0; i < elUL.children.length; i++) {
+			if (elUL.children[i].textContent === elInput.value) {
+				elUL.children[i].classList.add("active")
+				break
+			}
+		}
+
+		if (i === elUL.children.length) elUL.scrollTo(0, 0)
+
+		elUL.classList.toggle("isvisible")
+
+		elInput = document.querySelector("#" + ID + " input")
+		elInput.focus()
 	}
-	const firstXLettersOppositeSearchMode =
-		settings.firstXLettersOppositeSearchMode ??
-		settingDefaults.firstXLettersOppositeSearchMode
-
-	const showDropdownArrow =
-		settings.showDropdownArrow ?? settingDefaults.showDropdownArrow
-
-	const objectLength = (obj) => Object.entries(obj).length
-
-	// Number of lines to display
-	// Work out height of a line and multiply for height of box
-	let elULTemp = createElementAtt(
-		document.querySelector("#" + ID + ".ddsearchfield"),
-		"ul",
-		["ddlist", "isvisible"],
-		[],
-		""
-	)
-
-	elULTemp.style.visibility = "hidden"
-	let elLI = createElementAtt(elULTemp, "li", [], [], "li")
-	elLI.textContent = "abc"
-
-	lineHeight = elLI.clientHeight
-	elULTemp.remove()
-
-	maxHeight = lineHeight * maxLines
-	elUL.style.maxHeight = maxHeight + "px"
-
-	scrollAt = maxHeight - lineHeight * 4 > 0 ? maxHeight - lineHeight * 4 : 0
 }
-
-export {render, bindEvents}

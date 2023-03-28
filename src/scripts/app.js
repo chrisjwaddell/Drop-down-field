@@ -1,5 +1,3 @@
-import {render, bindEvents} from "./dropdown-search-field.js"
-
 const dropDownOptions = [
 	"Afghanistan",
 	"Albania",
@@ -201,31 +199,23 @@ const dropDownOptions = [
 
 const dropDownOptions2 = ["Matthew", "Mark", "Luke", "John", "Mary", "Pauline"]
 
-render(
+DropdownField(
 	".container .outer",
-	"Country of birthSS",
-	"Country of birthSS",
+	"Country of birth",
+	"Country of birth",
 	2,
-	"dd1"
-)
-
-render(
-	".container .outer",
-	"Country of residence",
-	"Country of residence",
-	3,
-	"dd2"
-)
-
-document.addEventListener("DOMContentLoaded", function () {
-	bindEvents("dd1", dropDownOptions, {
+	"dd1",
+	dropDownOptions,
+	{
 		maxLines: 10,
 		searchMode: "starts with",
 		firstXLettersOppositeSearchMode: 2,
-	})
+		showDropdownArrow: true,
+	}
+)
 
-	bindEvents("dd2", dropDownOptions2, {maxLines: 10})
-
-	let elInput1 = document.querySelector("#dd1")
-	elInput1.focus()
+DropdownField(".container .outer", "Name", "Name", 3, "dd2", dropDownOptions2, {
+	maxLines: 5,
+	searchMode: "anywhere in",
+	showDropdownArrow: true,
 })
