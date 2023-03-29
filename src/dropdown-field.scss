@@ -1,6 +1,7 @@
 $dd-width: 250px;
 $dd-font-size: 15px;
 $dd-border-radius: 16px;
+$dd-input-height: 42px;
 
 .ddfield {
 	position: relative;
@@ -22,7 +23,7 @@ $dd-border-radius: 16px;
 }
 
 .ddfield input {
-	height: 42px;
+	height: $dd-input-height;
 	width: $dd-width;
 	padding: 5px 12px;
 	font-size: $dd-font-size;

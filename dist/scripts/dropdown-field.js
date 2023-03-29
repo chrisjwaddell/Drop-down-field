@@ -130,6 +130,8 @@ var DropdownField = (function () {
     			""
     		);
 
+    		elInput.dataset.filter = "";
+
     		// Drop down arrow
     		if (showDropdownArrow) {
     			elInput.style.padding = "5px 30px 5px 12px";
@@ -327,7 +329,22 @@ var DropdownField = (function () {
     			// Enter
     			// Enter toggles showing the drop down
     			if (selectionLength <= 1) {
-    				elUL.classList.remove("isvisible");
+    				if (elInput.value === "") {
+    					// Nothing typed
+    					let matches = selectionFilter(
+    						"",
+    						dropDownOptions,
+    						searchModeNumber
+    					);
+
+    					matchlist = matches.map((cv) => `<li>${cv}</li>`).join("");
+    					elUL.innerHTML = matchlist;
+    					elUL.classList.add("isvisible");
+    					elUL.style.maxHeight = maxHeight + "px";
+    					elUL.scrollTo(0, 0);
+    				} else {
+    					elUL.classList.remove("isvisible");
+    				}
     			} else {
     				elUL.classList.toggle("isvisible");
     				elUL.style.maxHeight = maxHeight + "px";
@@ -377,7 +394,18 @@ var DropdownField = (function () {
     			originalText = elInput.value.trim();
 
     			// Nothing typed in or nothing matching
-    			if (results.length === DD_LIST_SIZE || results.length === 0) {
+    			if (results.length === DD_LIST_SIZE) {
+    				matches = results.map((cv) =>
+    					dropdownSelectedString(cv, elInput.value.trim())
+    				);
+
+    				matchlist = matches.map((cv) => `<li>${cv}</li>`).join("");
+
+    				elUL.classList.add("isvisible");
+    				elUL.style.maxHeight = maxHeight + "px";
+    				elUL.scrollTo(0, 0);
+    				elUL.innerHTML = matchlist;
+    			} else if (results.length === 0) {
     				matches = [];
     				elUL.classList.remove("isvisible");
     				for (let i = 0, len = elUL.children.length; i < len; i++) {

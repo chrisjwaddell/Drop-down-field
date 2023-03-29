@@ -214,7 +214,7 @@ DropdownField(
 	}
 )
 
-DropdownField(".container .outer", "Name", "Name", 3, "dd2", dropDownOptions2, {
+DropdownField(".container .outer", "Name", "Name", 3, "dd2", dropDownOptions, {
 	maxLines: 5,
 	searchMode: "anywhere in",
 	showDropdownArrow: true,
