@@ -1,7 +1,5 @@
 import {createElementAtt} from "./lib/dom.js"
 
-import {eventkeyAZ09} from "./lib/event-keys.js"
-
 export default function DropdownField(
 	ULSelector,
 	fieldLabel,
@@ -11,7 +9,7 @@ export default function DropdownField(
 	dropDownOptions,
 	opts
 ) {
-	let settingDefaults = {
+	const settingDefaults = {
 		maxLines: 10,
 		searchMode: 1,
 		firstXLettersOppositeSearchMode: 0,
@@ -41,7 +39,6 @@ export default function DropdownField(
 	const objectLength = (obj) => Object.entries(obj).length
 
 	let selectionLength
-	let originalText
 	let maxHeight
 	let lineHeight
 	let scrollAt
@@ -70,7 +67,7 @@ export default function DropdownField(
 			[],
 			""
 		)
-		let elInput = createElementAtt(
+		const elInput = createElementAtt(
 			elInputArrow,
 			"input",
 			[],
@@ -94,7 +91,7 @@ export default function DropdownField(
 		if (showDropdownArrow) {
 			elInput.style.padding = "5px 30px 5px 12px"
 
-			let elArrow = createElementAtt(
+			const elArrow = createElementAtt(
 				elInputArrow,
 				"div",
 				["arrow"],
@@ -103,18 +100,18 @@ export default function DropdownField(
 			)
 
 			const xmlns = "http://www.w3.org/2000/svg"
-			let elSVG = document.createElementNS(xmlns, "svg")
+			const elSVG = document.createElementNS(xmlns, "svg")
 			elSVG.setAttributeNS(null, "viewBox", "0 0 100 100")
 			elSVG.setAttributeNS(null, "width", "100")
 			elSVG.setAttributeNS(null, "height", "100")
 
-			let elLine1 = document.createElementNS(xmlns, "line")
+			const elLine1 = document.createElementNS(xmlns, "line")
 			elLine1.setAttribute("x1", 20)
 			elLine1.setAttribute("y1", 35)
 			elLine1.setAttribute("x2", 50)
 			elLine1.setAttribute("y2", 65)
 			elSVG.appendChild(elLine1)
-			let elLine2 = document.createElementNS(xmlns, "line")
+			const elLine2 = document.createElementNS(xmlns, "line")
 			elLine2.setAttribute("x1", 50)
 			elLine2.setAttribute("y1", 65)
 			elLine2.setAttribute("x2", 80)
@@ -125,11 +122,11 @@ export default function DropdownField(
 			// elArrow.appendChild(elSVG)
 		}
 
-		let elUL = createElementAtt(elField, "ul", ["ddlist"], [], "")
+		const elUL = createElementAtt(elField, "ul", ["ddlist"], [], "")
 
 		// Number of lines to display
 		// Work out height of a line and multiply for height of box
-		let elULTemp = createElementAtt(
+		const elULTemp = createElementAtt(
 			document.querySelector("#" + ID + ".ddfield"),
 			"ul",
 			["ddlist", "isvisible"],
@@ -138,7 +135,7 @@ export default function DropdownField(
 		)
 
 		elULTemp.style.visibility = "hidden"
-		let elLI = createElementAtt(elULTemp, "li", [], [], "li")
+		const elLI = createElementAtt(elULTemp, "li", [], [], "li")
 		elLI.textContent = "abc"
 
 		lineHeight = elLI.clientHeight
@@ -154,7 +151,7 @@ export default function DropdownField(
 	render(ULSelector, fieldLabel, placeholder, tabindex, ID)
 
 	let elInput = document.querySelector("#" + ID + " input")
-	let elInputArrow = document.querySelector("#" + ID + " .inputarrow")
+	const elInputArrow = document.querySelector("#" + ID + " .inputarrow")
 	let elUL = document.querySelector("#" + ID + " ul")
 
 	document.addEventListener("DOMContentLoaded", function () {
@@ -170,6 +167,15 @@ export default function DropdownField(
 	function selectionActive() {
 		for (let i = 0; i < selectionLength; i++) {
 			if (elUL.children[i].classList.value === "active") {
+				return i
+			}
+		}
+		return -1
+	}
+
+	function itemMatch(itemValue) {
+		for (let i = 0; i < elUL.children.length; i++) {
+			if (elUL.children[i].textContent === itemValue) {
 				return i
 			}
 		}
@@ -205,12 +211,40 @@ export default function DropdownField(
 	// For each field, focus and blur events are always on
 	// As soon as the field gets focus, keyup event fires
 	function onFocus(e) {
-		originalText = elInput.value.trim()
+		elInput.dataset.filter = ""
 		elInput.addEventListener("keyup", onKeyUp)
 		elInput.addEventListener("blur", onBlur)
 
 		elUL.addEventListener("mousemove", onMouseMove)
 		elUL.addEventListener("mousedown", onMouseDown)
+
+		// Search filter is clear so show all in the list
+		const matches = selectionFilter("", dropDownOptions, searchModeNumber)
+
+		const matchlist = matches.map((cv) => `<li>${cv}</li>`).join("")
+		elUL.innerHTML = matchlist
+		// elUL.classList.add("isvisible")
+		elUL.style.maxHeight = maxHeight + "px"
+		// elUL.scrollTo(0, 0)
+
+		if (elInput.value) {
+			const index = itemMatch(elInput.value)
+
+			if (index !== -1) {
+				elUL.children[index].classList.add("active")
+
+				if (elUL.children[index]) {
+					if (elUL.children[index].offsetTop < lineHeight * 2) {
+						const ulTop = elUL.scrollTop
+						if (ulTop - lineHeight * 3 < 0) {
+							elUL.scrollTo(0, ulTop - lineHeight)
+						} else {
+							elUL.scrollTo(0, ulTop - lineHeight)
+						}
+					}
+				}
+			}
+		}
 	}
 
 	function onKeyUp(e) {
@@ -228,7 +262,7 @@ export default function DropdownField(
 				if (elUL.classList.contains("isvisible")) {
 					if (elUL.children[index]) {
 						if (elUL.children[index].offsetTop < lineHeight * 2) {
-							let ulTop = elUL.scrollTop
+							const ulTop = elUL.scrollTop
 							if (ulTop - lineHeight * 3 < 0) {
 								elUL.scrollTo(0, ulTop - lineHeight)
 							} else {
@@ -246,7 +280,6 @@ export default function DropdownField(
 						elUL.scrollTo(0, 0)
 						elUL.children[index].classList.remove("active")
 						index = -1
-						elInput.value = originalText
 					} else {
 						elUL.children[index].classList.remove("active")
 						index--
@@ -261,7 +294,7 @@ export default function DropdownField(
 				// Arrows work only when the list is showing
 				if (elUL.children[index]) {
 					if (elUL.children[index].offsetTop > scrollAt) {
-						let ulTop = elUL.scrollTop
+						const ulTop = elUL.scrollTop
 						elUL.scrollTo(0, ulTop + lineHeight)
 					}
 				}
@@ -274,7 +307,6 @@ export default function DropdownField(
 					} else if (index === selectionLength - 1) {
 						elUL.children[index].classList.remove("active")
 						index = -1
-						elInput.value = originalText
 					} else {
 						elUL.children[index].classList.remove("active")
 						index++
@@ -286,28 +318,31 @@ export default function DropdownField(
 		} else if (e.keyCode === 13) {
 			// Enter
 			// Enter toggles showing the drop down
-			if (selectionLength <= 1) {
-				if (elInput.value === "") {
-					// Nothing typed
-					let matches = selectionFilter(
-						"",
-						dropDownOptions,
-						searchModeNumber
-					)
-
-					matchlist = matches.map((cv) => `<li>${cv}</li>`).join("")
-					elUL.innerHTML = matchlist
-					elUL.classList.add("isvisible")
-					elUL.style.maxHeight = maxHeight + "px"
-					elUL.scrollTo(0, 0)
-				} else {
-					elUL.classList.remove("isvisible")
-				}
-			} else {
+			if (selectionLength >= 1) {
 				elUL.classList.toggle("isvisible")
-				elUL.style.maxHeight = maxHeight + "px"
-				elUL.scrollTo(0, 0)
 			}
+			// if (selectionLength <= 1) {
+			// 	if (elInput.value === "") {
+			// 		// Nothing typed
+			// 		let matches = selectionFilter(
+			// 			"",
+			// 			dropDownOptions,
+			// 			searchModeNumber
+			// 		)
+
+			// 		matchlist = matches.map((cv) => `<li>${cv}</li>`).join("")
+			// 		elUL.innerHTML = matchlist
+			// 		elUL.classList.add("isvisible")
+			// 		elUL.style.maxHeight = maxHeight + "px"
+			// 		elUL.scrollTo(0, 0)
+			// 	} else {
+			// 		elUL.classList.remove("isvisible")
+			// 	}
+			// } else {
+			// 	elUL.classList.toggle("isvisible")
+			// 	elUL.style.maxHeight = maxHeight + "px"
+			// 	elUL.scrollTo(0, 0)
+			// }
 		} else if (e.keyCode === 27) {
 			// Escape
 			escape()
@@ -316,16 +351,39 @@ export default function DropdownField(
 		} else {
 			// Characters have been typed, this is where it finds the results
 
-			let results = ""
-			let strSearch = elInput.value.trim()
+			if (
+				e.key.length === 1 ||
+				e.key === "Backspace" ||
+				e.key === "Delete" ||
+				e.key === "Space"
+			) {
+				let results = ""
+				const strSearch = elInput.value
 
-			if (!!firstXLettersOppositeSearchMode) {
-				// If First x letters is a different mode
-				if (strSearch.length <= firstXLettersOppositeSearchMode) {
-					if (searchModeNumber === 0) {
-						results = selectionFilter(strSearch, dropDownOptions, 1)
+				elInput.dataset.filter = strSearch.toLowerCase()
+
+				if (firstXLettersOppositeSearchMode) {
+					// If First x letters is a different mode
+					if (strSearch.length <= firstXLettersOppositeSearchMode) {
+						if (searchModeNumber === 0) {
+							results = selectionFilter(
+								strSearch,
+								dropDownOptions,
+								1
+							)
+						} else {
+							results = selectionFilter(
+								strSearch,
+								dropDownOptions,
+								0
+							)
+						}
 					} else {
-						results = selectionFilter(strSearch, dropDownOptions, 0)
+						results = selectionFilter(
+							strSearch,
+							dropDownOptions,
+							searchModeNumber
+						)
 					}
 				} else {
 					results = selectionFilter(
@@ -334,55 +392,38 @@ export default function DropdownField(
 						searchModeNumber
 					)
 				}
-			} else {
-				results = selectionFilter(
-					strSearch,
-					dropDownOptions,
-					searchModeNumber
-				)
-			}
 
-			// This is mainly when the field gets focus from Shift+Tab, if there is only 1 item
-			// in the drop down, don't show the drop down
-			if (
-				originalText === elInput.value.trim() &&
-				results.length === 1 &&
-				!eventkeyAZ09(e.keyCode)
-			)
-				return
+				// Nothing typed in or nothing matching
+				if (results.length === DD_LIST_SIZE) {
+					matches = results.map((cv) =>
+						dropdownSelectedString(cv, elInput.value.trim())
+					)
 
-			originalText = elInput.value.trim()
+					matchlist = matches.map((cv) => `<li>${cv}</li>`).join("")
 
-			// Nothing typed in or nothing matching
-			if (results.length === DD_LIST_SIZE) {
-				matches = results.map((cv) =>
-					dropdownSelectedString(cv, elInput.value.trim())
-				)
+					elUL.classList.add("isvisible")
+					elUL.style.maxHeight = maxHeight + "px"
+					elUL.scrollTo(0, 0)
+					elUL.innerHTML = matchlist
+				} else if (results.length === 0) {
+					matches = []
+					elUL.classList.remove("isvisible")
+					for (let i = 0, len = elUL.children.length; i < len; i++) {
+						elUL.children[i] && elUL.children[i].remove()
+					}
+				} else {
+					// Letters typed are bold
+					matches = results.map((cv) =>
+						dropdownSelectedString(cv, elInput.value.trim())
+					)
 
-				matchlist = matches.map((cv) => `<li>${cv}</li>`).join("")
+					matchlist = matches.map((cv) => `<li>${cv}</li>`).join("")
 
-				elUL.classList.add("isvisible")
-				elUL.style.maxHeight = maxHeight + "px"
-				elUL.scrollTo(0, 0)
-				elUL.innerHTML = matchlist
-			} else if (results.length === 0) {
-				matches = []
-				elUL.classList.remove("isvisible")
-				for (let i = 0, len = elUL.children.length; i < len; i++) {
-					elUL.children[i] && elUL.children[i].remove()
+					elUL.classList.add("isvisible")
+					elUL.style.maxHeight = maxHeight + "px"
+					elUL.scrollTo(0, 0)
+					elUL.innerHTML = matchlist
 				}
-			} else {
-				// Letters typed are bold
-				matches = results.map((cv) =>
-					dropdownSelectedString(cv, elInput.value.trim())
-				)
-
-				matchlist = matches.map((cv) => `<li>${cv}</li>`).join("")
-
-				elUL.classList.add("isvisible")
-				elUL.style.maxHeight = maxHeight + "px"
-				elUL.scrollTo(0, 0)
-				elUL.innerHTML = matchlist
 			}
 		}
 	}
@@ -393,21 +434,8 @@ export default function DropdownField(
 
 	function escape() {
 		// Press Esc and it goes back to what was originally typed. Field focus stays.
-		listClose()
-		elInput.value = originalText
-
-		if (
-			!dropDownOptions
-				.map((x) => x.toLowerCase())
-				.includes(elInput.value.trim().toLowerCase())
-		) {
-			elInput.value = originalText
-		} else {
-			const dd = dropDownOptions
-				.map((x) => x.toLowerCase())
-				.findIndex((cv) => cv === elInput.value.trim().toLowerCase())
-			elInput.value = dropDownOptions[dd]
-		}
+		// listClose()
+		elInput.value = elInput.dataset.filter
 	}
 
 	function onBlur(e) {
@@ -446,12 +474,17 @@ export default function DropdownField(
 		elInput.removeEventListener("blur", onBlur)
 
 		elUL.classList.remove("isvisible")
+
+		elInput.dataset.filter = ""
 	}
 
 	function onMouseDown(e) {
 		if (e.target.tagName === "LI") {
 			elInput.value = e.target.innerText
 			originalText = e.target.innerText
+		} else if (e.target.tagName === "STRONG") {
+			elInput.value = e.target.parentElement.innerText
+			originalText = e.target.parentElement.innerText
 		}
 	}
 
@@ -482,8 +515,8 @@ export default function DropdownField(
 		elUL = document.querySelector("#" + ID + " ul")
 
 		if (!elUL.value) {
-			let matches = selectionFilter("", dropDownOptions, 0)
-			let matchlist = matches.map((cv) => `<li>${cv}</li>`).join("")
+			const matches = selectionFilter("", dropDownOptions, 0)
+			const matchlist = matches.map((cv) => `<li>${cv}</li>`).join("")
 			elUL.innerHTML = matchlist
 		}
 

@@ -39,8 +39,8 @@ $dd-input-height: 42px;
 .inputarrow .arrow {
 	position: absolute;
 	right: 5px;
-	top: 8px;
-	/* top: calc(42px - 25px)/2; */
+	// top: 8px;
+	top: calc(calc($dd-input-height - 25px) / 2);
 	width: 25px;
 	height: 25px;
 	border-radius: 50%;

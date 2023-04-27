@@ -208,14 +208,14 @@ DropdownField(
 	dropDownOptions,
 	{
 		maxLines: 10,
-		searchMode: "starts with",
+		searchMode: "anywhere in",
 		firstXLettersOppositeSearchMode: 2,
 		showDropdownArrow: true,
 	}
 )
 
-DropdownField(".container .outer", "Name", "Name", 3, "dd2", dropDownOptions2, {
-	maxLines: 5,
-	searchMode: "anywhere in",
+DropdownField(".container .outer", "Name", "Name", 3, "dd2", dropDownOptions, {
+	maxLines: 12,
+	searchMode: "starts with",
 	showDropdownArrow: true,
 })

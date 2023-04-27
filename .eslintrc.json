@@ -1,74 +1,72 @@
 {
-    "env": {
-        "browser": true,
-        "node": false,
-        "es2020": true
-    },
-    "extends": ["eslint:recommended"],
-    // "extends": ["standard"],
-    // "extends": ["airbnb"],
-    "globals": {
-        "sockets": true,
-        "io": true,
+	"env": {
+		"browser": true,
+		"node": false,
+		"es2020": true
+	},
+	"extends": ["eslint:recommended"],
+	// "extends": ["standard"],
+	// "extends": ["airbnb"],
+	"globals": {
+		"sockets": true,
+		"io": true,
 
-        // tools.js
-        "isObjectEmpty": true,
-        "createElementAtt": true,
-        "dateDDMMYY": true,
-        "eventkeyEditing": true,
-        "eventkeyAZ09": true,
+		// tools.js
+		"isObjectEmpty": true,
+		"createElementAtt": true,
+		"dateDDMMYY": true,
+		"eventkeyEditing": true,
 
-        "ht": true,
-        "d": true,
-        "strJSON": true,
-        "elUser": true,
-        "userModal": true,
-        "elModalOverlay": true,
-        "modalOpenClose": true,
-        "elModalUser": true,
-        "elModalNewUser": true,
-        "elLoginBtn": true,
-        "elUserRemember": true,
-        "newmode": true,
-        "elUserNew": true,
-        "validateEmail": true,
-        "userLocalStorageNew": true
-    },
-    "parserOptions": {
-        "ecmaVersion": 12,
-        "sourceType": "module"
-    },
-    "rules": {
-        // Debugging
-        // "no-console": "off",
-        // "no-alert": "off",
+		"ht": true,
+		"d": true,
+		"strJSON": true,
+		"elUser": true,
+		"userModal": true,
+		"elModalOverlay": true,
+		"modalOpenClose": true,
+		"elModalUser": true,
+		"elModalNewUser": true,
+		"elLoginBtn": true,
+		"elUserRemember": true,
+		"newmode": true,
+		"elUserNew": true,
+		"validateEmail": true,
+		"userLocalStorageNew": true
+	},
+	"parserOptions": {
+		"ecmaVersion": 12,
+		"sourceType": "module"
+	},
+	"rules": {
+		// Debugging
+		// "no-console": "off",
+		// "no-alert": "off",
 
-        //Formatting
-        "max-len": [2, 120, 4],
-        "linebreak-style": "off",
-        "no-tabs": "off",
-        // this clashes with Beautify
-        "indent": "off",
-        "space-before-function-paren": "off",
-        "no-multiple-empty-lines": "off",
-        // I can't get Beautify to put = at start of line when line breaks automatically
-        "operator-linebreak": "warn",
-        // Sometimes I comment out lines of code, line by line, I don't want to make it a block of comments
-        "spaced-comment": "warn",
+		//Formatting
+		"max-len": [2, 120, 4],
+		"linebreak-style": "off",
+		"no-tabs": "off",
+		// this clashes with Beautify
+		"indent": "off",
+		"space-before-function-paren": "off",
+		"no-multiple-empty-lines": "off",
+		// I can't get Beautify to put = at start of line when line breaks automatically
+		"operator-linebreak": "warn",
+		// Sometimes I comment out lines of code, line by line, I don't want to make it a block of comments
+		"spaced-comment": "warn",
 
-
-        // Code
-        "semi": "off",
-        "comma-dangle": "warn",
-        // potential problem with automatic semicolon insertion
-        "no-plusplus": "warn",
-        "prefer-const": "warn",
-        // make sure parenthesis are correct
-        "no-mixed-operators": "warn",
-        // this can't be avoided with max-len and Beautify
-        "no-unexpected-multiline": "off",
-        // prefer arrows for callbacks, maybe change this later to be warning
-        "prefer-arrow-callback": "off",
-        "consistent-return": "warn"
-    }
+		// Code
+		"semi": "off",
+		"comma-dangle": "warn",
+		// potential problem with automatic semicolon insertion
+		"no-plusplus": "warn",
+		"prefer-const": "warn",
+		// make sure parenthesis are correct
+		"no-mixed-operators": "warn",
+		// this can't be avoided with max-len and Beautify
+		"no-unexpected-multiline": "off",
+		// prefer arrows for callbacks, maybe change this later to be warning
+		"prefer-arrow-callback": "off",
+		"consistent-return": "warn"
+	}
 }

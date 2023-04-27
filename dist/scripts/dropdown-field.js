@@ -24,26 +24,6 @@ var DropdownField = (function () {
         return (parent && appendChild(parent, el)) || el
     }
 
-    function eventkeyAZ09(keycode) {
-        // this stops any key that is not a-z, A-Z, 0-9
-        // Use with eventkeyEditing
-
-        // Usage:
-        // elAddText.addEventListener("keydown", e => {
-        //   if (eventkeyAZ09(e.keyCode) === false) {
-        //     e.preventDefault()
-        //   }
-        // })
-
-        if ((keycode >= 65) && (keycode <= 90)) {
-            return true
-        }
-        if (((keycode >= 48) && (keycode <= 57)) || ((keycode >= 96) && (keycode <= 105))) {
-            return true
-        }
-        return false
-    }
-
     function DropdownField(
     	ULSelector,
     	fieldLabel,
@@ -83,7 +63,6 @@ var DropdownField = (function () {
     	const objectLength = (obj) => Object.entries(obj).length;
 
     	let selectionLength;
-    	let originalText;
     	let maxHeight;
     	let lineHeight;
     	let scrollAt;
@@ -218,6 +197,15 @@ var DropdownField = (function () {
     		return -1
     	}
 
+    	function itemMatch(itemValue) {
+    		for (let i = 0; i < selectionLength; i++) {
+    			if (elUL.children[i].textContent === itemValue) {
+    				return i
+    			}
+    		}
+    		return -1
+    	}
+
     	// Return search results
     	// searchMode - 0 - anywhere in, 1 - starts with str
     	function selectionFilter(str, dropDownOptions, searchMode) {
@@ -247,12 +235,40 @@ var DropdownField = (function () {
     	// For each field, focus and blur events are always on
     	// As soon as the field gets focus, keyup event fires
     	function onFocus(e) {
-    		originalText = elInput.value.trim();
+    		elInput.dataset.filter = "";
     		elInput.addEventListener("keyup", onKeyUp);
     		elInput.addEventListener("blur", onBlur);
 
     		elUL.addEventListener("mousemove", onMouseMove);
     		elUL.addEventListener("mousedown", onMouseDown);
+
+    		// Search filter is clear so show all in the list
+    		let matches = selectionFilter("", dropDownOptions, searchModeNumber);
+
+    		let matchlist = matches.map((cv) => `<li>${cv}</li>`).join("");
+    		elUL.innerHTML = matchlist;
+    		// elUL.classList.add("isvisible")
+    		elUL.style.maxHeight = maxHeight + "px";
+    		// elUL.scrollTo(0, 0)
+
+    		if (elInput.value) {
+    			let index = itemMatch(elInput.value);
+
+    			if (index !== -1) {
+    				elUL.children[index].classList.add("active");
+
+    				if (elUL.children[index]) {
+    					if (elUL.children[index].offsetTop < lineHeight * 2) {
+    						let ulTop = elUL.scrollTop;
+    						if (ulTop - lineHeight * 3 < 0) {
+    							elUL.scrollTo(0, ulTop - lineHeight);
+    						} else {
+    							elUL.scrollTo(0, ulTop - lineHeight);
+    						}
+    					}
+    				}
+    			}
+    		}
     	}
 
     	function onKeyUp(e) {
@@ -288,7 +304,6 @@ var DropdownField = (function () {
     						elUL.scrollTo(0, 0);
     						elUL.children[index].classList.remove("active");
     						index = -1;
-    						elInput.value = originalText;
     					} else {
     						elUL.children[index].classList.remove("active");
     						index--;
@@ -316,7 +331,6 @@ var DropdownField = (function () {
     					} else if (index === selectionLength - 1) {
     						elUL.children[index].classList.remove("active");
     						index = -1;
-    						elInput.value = originalText;
     					} else {
     						elUL.children[index].classList.remove("active");
     						index++;
@@ -328,44 +342,70 @@ var DropdownField = (function () {
     		} else if (e.keyCode === 13) {
     			// Enter
     			// Enter toggles showing the drop down
-    			if (selectionLength <= 1) {
-    				if (elInput.value === "") {
-    					// Nothing typed
-    					let matches = selectionFilter(
-    						"",
-    						dropDownOptions,
-    						searchModeNumber
-    					);
-
-    					matchlist = matches.map((cv) => `<li>${cv}</li>`).join("");
-    					elUL.innerHTML = matchlist;
-    					elUL.classList.add("isvisible");
-    					elUL.style.maxHeight = maxHeight + "px";
-    					elUL.scrollTo(0, 0);
-    				} else {
-    					elUL.classList.remove("isvisible");
-    				}
-    			} else {
+    			if (selectionLength >= 1) {
     				elUL.classList.toggle("isvisible");
-    				elUL.style.maxHeight = maxHeight + "px";
-    				elUL.scrollTo(0, 0);
     			}
+    			// if (selectionLength <= 1) {
+    			// 	if (elInput.value === "") {
+    			// 		// Nothing typed
+    			// 		let matches = selectionFilter(
+    			// 			"",
+    			// 			dropDownOptions,
+    			// 			searchModeNumber
+    			// 		)
+
+    			// 		matchlist = matches.map((cv) => `<li>${cv}</li>`).join("")
+    			// 		elUL.innerHTML = matchlist
+    			// 		elUL.classList.add("isvisible")
+    			// 		elUL.style.maxHeight = maxHeight + "px"
+    			// 		elUL.scrollTo(0, 0)
+    			// 	} else {
+    			// 		elUL.classList.remove("isvisible")
+    			// 	}
+    			// } else {
+    			// 	elUL.classList.toggle("isvisible")
+    			// 	elUL.style.maxHeight = maxHeight + "px"
+    			// 	elUL.scrollTo(0, 0)
+    			// }
     		} else if (e.keyCode === 27) {
     			// Escape
     			escape();
     		} else if (e.keyCode === 9) ; else {
     			// Characters have been typed, this is where it finds the results
 
-    			let results = "";
-    			let strSearch = elInput.value.trim();
+    			if (
+    				e.key.length === 1 ||
+    				e.key === "Backspace" ||
+    				e.key === "Delete" ||
+    				e.key === "Space"
+    			) {
+    				let results = "";
+    				let strSearch = elInput.value;
 
-    			if (!!firstXLettersOppositeSearchMode) {
-    				// If First x letters is a different mode
-    				if (strSearch.length <= firstXLettersOppositeSearchMode) {
-    					if (searchModeNumber === 0) {
-    						results = selectionFilter(strSearch, dropDownOptions, 1);
+    				elInput.dataset.filter = strSearch.toLowerCase();
+
+    				if (!!firstXLettersOppositeSearchMode) {
+    					// If First x letters is a different mode
+    					if (strSearch.length <= firstXLettersOppositeSearchMode) {
+    						if (searchModeNumber === 0) {
+    							results = selectionFilter(
+    								strSearch,
+    								dropDownOptions,
+    								1
+    							);
+    						} else {
+    							results = selectionFilter(
+    								strSearch,
+    								dropDownOptions,
+    								0
+    							);
+    						}
     					} else {
-    						results = selectionFilter(strSearch, dropDownOptions, 0);
+    						results = selectionFilter(
+    							strSearch,
+    							dropDownOptions,
+    							searchModeNumber
+    						);
     					}
     				} else {
     					results = selectionFilter(
@@ -374,80 +414,46 @@ var DropdownField = (function () {
     						searchModeNumber
     					);
     				}
-    			} else {
-    				results = selectionFilter(
-    					strSearch,
-    					dropDownOptions,
-    					searchModeNumber
-    				);
-    			}
 
-    			// This is mainly when the field gets focus from Shift+Tab, if there is only 1 item
-    			// in the drop down, don't show the drop down
-    			if (
-    				originalText === elInput.value.trim() &&
-    				results.length === 1 &&
-    				!eventkeyAZ09(e.keyCode)
-    			)
-    				return
+    				// Nothing typed in or nothing matching
+    				if (results.length === DD_LIST_SIZE) {
+    					matches = results.map((cv) =>
+    						dropdownSelectedString(cv, elInput.value.trim())
+    					);
 
-    			originalText = elInput.value.trim();
+    					matchlist = matches.map((cv) => `<li>${cv}</li>`).join("");
 
-    			// Nothing typed in or nothing matching
-    			if (results.length === DD_LIST_SIZE) {
-    				matches = results.map((cv) =>
-    					dropdownSelectedString(cv, elInput.value.trim())
-    				);
+    					elUL.classList.add("isvisible");
+    					elUL.style.maxHeight = maxHeight + "px";
+    					elUL.scrollTo(0, 0);
+    					elUL.innerHTML = matchlist;
+    				} else if (results.length === 0) {
+    					matches = [];
+    					elUL.classList.remove("isvisible");
+    					for (let i = 0, len = elUL.children.length; i < len; i++) {
+    						elUL.children[i] && elUL.children[i].remove();
+    					}
+    				} else {
+    					// Letters typed are bold
+    					matches = results.map((cv) =>
+    						dropdownSelectedString(cv, elInput.value.trim())
+    					);
 
-    				matchlist = matches.map((cv) => `<li>${cv}</li>`).join("");
+    					matchlist = matches.map((cv) => `<li>${cv}</li>`).join("");
 
-    				elUL.classList.add("isvisible");
-    				elUL.style.maxHeight = maxHeight + "px";
-    				elUL.scrollTo(0, 0);
-    				elUL.innerHTML = matchlist;
-    			} else if (results.length === 0) {
-    				matches = [];
-    				elUL.classList.remove("isvisible");
-    				for (let i = 0, len = elUL.children.length; i < len; i++) {
-    					elUL.children[i] && elUL.children[i].remove();
+    					elUL.classList.add("isvisible");
+    					elUL.style.maxHeight = maxHeight + "px";
+    					elUL.scrollTo(0, 0);
+    					elUL.innerHTML = matchlist;
     				}
-    			} else {
-    				// Letters typed are bold
-    				matches = results.map((cv) =>
-    					dropdownSelectedString(cv, elInput.value.trim())
-    				);
-
-    				matchlist = matches.map((cv) => `<li>${cv}</li>`).join("");
-
-    				elUL.classList.add("isvisible");
-    				elUL.style.maxHeight = maxHeight + "px";
-    				elUL.scrollTo(0, 0);
-    				elUL.innerHTML = matchlist;
     			}
     		}
-    	}
-
-    	function listClose() {
-    		elUL.classList.remove("isvisible");
     	}
 
     	function escape() {
     		// Press Esc and it goes back to what was originally typed. Field focus stays.
-    		listClose();
-    		elInput.value = originalText;
-
-    		if (
-    			!dropDownOptions
-    				.map((x) => x.toLowerCase())
-    				.includes(elInput.value.trim().toLowerCase())
-    		) {
-    			elInput.value = originalText;
-    		} else {
-    			const dd = dropDownOptions
-    				.map((x) => x.toLowerCase())
-    				.findIndex((cv) => cv === elInput.value.trim().toLowerCase());
-    			elInput.value = dropDownOptions[dd];
-    		}
+    		// listClose()
+    		elInput.value = elInput.dataset.filter;
     	}
 
     	function onBlur(e) {
@@ -486,12 +492,13 @@ var DropdownField = (function () {
     		elInput.removeEventListener("blur", onBlur);
 
     		elUL.classList.remove("isvisible");
+
+    		elInput.dataset.filter = "";
     	}
 
     	function onMouseDown(e) {
     		if (e.target.tagName === "LI") {
     			elInput.value = e.target.innerText;
-    			originalText = e.target.innerText;
     		}
     	}
 
