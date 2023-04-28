@@ -33,8 +33,7 @@
 .inputarrow .arrow {
   position: absolute;
   right: 5px;
-  top: 8px;
-  /* top: calc(42px - 25px)/2; */
+  top: 8.5px;
   width: 25px;
   height: 25px;
   border-radius: 50%;
@@ -77,7 +76,7 @@
   padding-left: 12px;
 }
 
-.ddfield .ddlist li.active {
+.ddfield .ddlist li.selected {
   background-color: #ddf;
 }
 

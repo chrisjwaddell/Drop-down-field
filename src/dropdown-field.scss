@@ -1,6 +1,7 @@
 $dd-width: 250px;
 $dd-font-size: 15px;
 $dd-border-radius: 16px;
+$dd-input-height: 42px;
 
 .ddfield {
 	position: relative;
@@ -22,7 +23,7 @@ $dd-border-radius: 16px;
 }
 
 .ddfield input {
-	height: 42px;
+	height: $dd-input-height;
 	width: $dd-width;
 	padding: 5px 12px;
 	font-size: $dd-font-size;
@@ -38,8 +39,8 @@ $dd-border-radius: 16px;
 .inputarrow .arrow {
 	position: absolute;
 	right: 5px;
-	top: 8px;
-	/* top: calc(42px - 25px)/2; */
+	// top: 8px;
+	top: calc(calc($dd-input-height - 25px) / 2);
 	width: 25px;
 	height: 25px;
 	border-radius: 50%;
@@ -82,7 +83,7 @@ $dd-border-radius: 16px;
 	padding-left: 12px;
 }
 
-.ddfield .ddlist li.active {
+.ddfield .ddlist li.selected {
 	background-color: #ddf;
 }
 

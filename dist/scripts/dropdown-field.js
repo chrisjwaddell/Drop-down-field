@@ -1,521 +1,563 @@
 var DropdownField = (function () {
-    'use strict';
+	'use strict';
 
-    function appendChild(el, child) {
-        return el.appendChild(child)
-    }
+	function appendChild(el, child) {
+		return el.appendChild(child)
+	}
 
-    function createElementAtt(parent, element, cls, att, text) {
-        const el = document.createElement(element);
-        // debugger
+	function createElementAtt(parent, element, cls, att, text) {
+		const el = document.createElement(element);
+		// debugger
 
-        if (text) {
-            el.textContent = text;
-        }
+		if (text) {
+			el.textContent = text;
+		}
 
-        cls.forEach((item) => {
-            el.classList.add(item);
-        });
+		cls.forEach((item) => {
+			el.classList.add(item);
+		});
 
-        att.forEach((i) => {
-            el.setAttribute(i[0], i[1]);
-        });
+		att.forEach((i) => {
+			el.setAttribute(i[0], i[1]);
+		});
 
-        return (parent && appendChild(parent, el)) || el
-    }
+		return (parent && appendChild(parent, el)) || el
+	}
 
-    function eventkeyAZ09(keycode) {
-        // this stops any key that is not a-z, A-Z, 0-9
-        // Use with eventkeyEditing
+	// Return the child of the UL with selected class in it
+	function listFindSelectedIndex(parentUL, selectclass, listLength) {
+		for (let i = 0; i < listLength; i++) {
+			if (parentUL.children[i].classList.contains(selectclass)) {
+				return i
+			}
+		}
+		return -1
+	}
 
-        // Usage:
-        // elAddText.addEventListener("keydown", e => {
-        //   if (eventkeyAZ09(e.keyCode) === false) {
-        //     e.preventDefault()
-        //   }
-        // })
+	// Return index with a certain value in a UL
+	function listItemValueIndex(parentUL, itemValue) {
+		for (let i = 0; i < parentUL.children.length; i++) {
+			if (parentUL.children[i].textContent === itemValue) {
+				return i
+			}
+		}
+		return -1
+	}
 
-        if ((keycode >= 65) && (keycode <= 90)) {
-            return true
-        }
-        if (((keycode >= 48) && (keycode <= 57)) || ((keycode >= 96) && (keycode <= 105))) {
-            return true
-        }
-        return false
-    }
+	const objectLength = (obj) => Object.entries(obj).length;
 
-    function DropdownField(
-    	ULSelector,
-    	fieldLabel,
-    	placeholder,
-    	tabindex,
-    	ID,
-    	dropDownOptions,
-    	opts
-    ) {
-    	let settingDefaults = {
-    		maxLines: 10,
-    		searchMode: 1,
-    		firstXLettersOppositeSearchMode: 0,
-    		showDropdownArrow: false,
-    	};
+	function DropdownField(
+		ULSelector,
+		fieldLabel,
+		placeholder,
+		tabindex,
+		ID,
+		dropDownOptions,
+		opts
+	) {
+		const settingDefaults = {
+			maxLines: 10,
+			searchMode: 1,
+			firstXLettersOppositeSearchMode: 0,
+			showDropdownArrow: false,
+		};
 
-    	const settings = opts || {};
+		const settings = opts || {};
 
-    	const maxLines = settings.maxLines ?? settingDefaults.maxLines;
-    	let searchModeNumber = 1;
-    	if (settings.searchMode) {
-    		if (settings.searchMode.toLowerCase() === "starts with") {
-    			searchModeNumber = 0;
-    		} else {
-    			searchModeNumber = 1;
-    		}
-    	} else {
-    		searchModeNumber = 0;
-    	}
-    	const firstXLettersOppositeSearchMode =
-    		settings.firstXLettersOppositeSearchMode ??
-    		settingDefaults.firstXLettersOppositeSearchMode;
+		const maxLines = settings.maxLines ?? settingDefaults.maxLines;
+		let searchModeNumber = 1;
+		if (settings.searchMode) {
+			if (settings.searchMode.toLowerCase() === "starts with") {
+				searchModeNumber = 0;
+			} else {
+				searchModeNumber = 1;
+			}
+		} else {
+			searchModeNumber = 0;
+		}
+		const firstXLettersOppositeSearchMode =
+			settings.firstXLettersOppositeSearchMode ??
+			settingDefaults.firstXLettersOppositeSearchMode;
 
-    	const showDropdownArrow =
-    		settings.showDropdownArrow ?? settingDefaults.showDropdownArrow;
+		const showDropdownArrow =
+			settings.showDropdownArrow ?? settingDefaults.showDropdownArrow;
 
-    	const objectLength = (obj) => Object.entries(obj).length;
+		let selectionLength;
+		let maxHeight;
+		let lineHeight;
+		let scrollAt;
 
-    	let selectionLength;
-    	let originalText;
-    	let maxHeight;
-    	let lineHeight;
-    	let scrollAt;
+		function render(
+			ULSelector,
+			fieldLabel,
+			placeholder,
+			tabindex,
+			ID,
+			dropDownOptions
+		) {
+			const elOuter = document.querySelector(ULSelector);
+			const elField = createElementAtt(
+				elOuter,
+				"div",
+				["ddfield"],
+				[["ID", ID]],
+				""
+			);
+			createElementAtt(elField, "label", [], [], fieldLabel);
+			const elInputArrow = createElementAtt(
+				elField,
+				"div",
+				["inputarrow"],
+				[],
+				""
+			);
+			const elInput = createElementAtt(
+				elInputArrow,
+				"input",
+				[],
+				[
+					["type", "text"],
+					["placeholder", placeholder],
+					["aria-autocomplete", "both"],
+					["autocapitalize", "none"],
+					["autocomplete", "off"],
+					["autocorrect", "off"],
+					["spellcheck", "false"],
+					["tabindex", tabindex],
+					["value", ""],
+				],
+				""
+			);
 
-    	function render(
-    		ULSelector,
-    		fieldLabel,
-    		placeholder,
-    		tabindex,
-    		ID,
-    		dropDownOptions
-    	) {
-    		const elOuter = document.querySelector(ULSelector);
-    		const elField = createElementAtt(
-    			elOuter,
-    			"div",
-    			["ddfield"],
-    			[["ID", ID]],
-    			""
-    		);
-    		createElementAtt(elField, "label", [], [], fieldLabel);
-    		const elInputArrow = createElementAtt(
-    			elField,
-    			"div",
-    			["inputarrow"],
-    			[],
-    			""
-    		);
-    		let elInput = createElementAtt(
-    			elInputArrow,
-    			"input",
-    			[],
-    			[
-    				["type", "text"],
-    				["placeholder", placeholder],
-    				["aria-autocomplete", "both"],
-    				["autocapitalize", "none"],
-    				["autocomplete", "off"],
-    				["autocorrect", "off"],
-    				["spellcheck", "false"],
-    				["tabindex", tabindex],
-    				["value", ""],
-    			],
-    			""
-    		);
+			elInput.dataset.filter = "";
 
-    		// Drop down arrow
-    		if (showDropdownArrow) {
-    			elInput.style.padding = "5px 30px 5px 12px";
+			// Drop down arrow
+			if (showDropdownArrow) {
+				elInput.style.padding = "5px 30px 5px 12px";
 
-    			let elArrow = createElementAtt(
-    				elInputArrow,
-    				"div",
-    				["arrow"],
-    				[],
-    				""
-    			);
+				const elArrow = createElementAtt(
+					elInputArrow,
+					"div",
+					["arrow"],
+					[],
+					""
+				);
 
-    			const xmlns = "http://www.w3.org/2000/svg";
-    			let elSVG = document.createElementNS(xmlns, "svg");
-    			elSVG.setAttributeNS(null, "viewBox", "0 0 100 100");
-    			elSVG.setAttributeNS(null, "width", "100");
-    			elSVG.setAttributeNS(null, "height", "100");
+				const xmlns = "http://www.w3.org/2000/svg";
+				const elSVG = document.createElementNS(xmlns, "svg");
+				elSVG.setAttributeNS(null, "viewBox", "0 0 100 100");
+				elSVG.setAttributeNS(null, "width", "100");
+				elSVG.setAttributeNS(null, "height", "100");
 
-    			let elLine1 = document.createElementNS(xmlns, "line");
-    			elLine1.setAttribute("x1", 20);
-    			elLine1.setAttribute("y1", 35);
-    			elLine1.setAttribute("x2", 50);
-    			elLine1.setAttribute("y2", 65);
-    			elSVG.appendChild(elLine1);
-    			let elLine2 = document.createElementNS(xmlns, "line");
-    			elLine2.setAttribute("x1", 50);
-    			elLine2.setAttribute("y1", 65);
-    			elLine2.setAttribute("x2", 80);
-    			elLine2.setAttribute("y2", 35);
-    			elSVG.appendChild(elLine2);
+				const elLine1 = document.createElementNS(xmlns, "line");
+				elLine1.setAttribute("x1", 20);
+				elLine1.setAttribute("y1", 35);
+				elLine1.setAttribute("x2", 50);
+				elLine1.setAttribute("y2", 65);
+				elSVG.appendChild(elLine1);
+				const elLine2 = document.createElementNS(xmlns, "line");
+				elLine2.setAttribute("x1", 50);
+				elLine2.setAttribute("y1", 65);
+				elLine2.setAttribute("x2", 80);
+				elLine2.setAttribute("y2", 35);
+				elSVG.appendChild(elLine2);
 
-    			elArrow.appendChild(elSVG);
-    			// elArrow.appendChild(elSVG)
-    		}
+				elArrow.appendChild(elSVG);
+				// elArrow.appendChild(elSVG)
+			}
 
-    		let elUL = createElementAtt(elField, "ul", ["ddlist"], [], "");
+			const elUL = createElementAtt(elField, "ul", ["ddlist"], [], "");
 
-    		// Number of lines to display
-    		// Work out height of a line and multiply for height of box
-    		let elULTemp = createElementAtt(
-    			document.querySelector("#" + ID + ".ddfield"),
-    			"ul",
-    			["ddlist", "isvisible"],
-    			[],
-    			""
-    		);
+			// Number of lines to display
+			// Work out height of a line and multiply for height of box
+			const elULTemp = createElementAtt(
+				document.querySelector("#" + ID + ".ddfield"),
+				"ul",
+				["ddlist", "isvisible"],
+				[],
+				""
+			);
 
-    		elULTemp.style.visibility = "hidden";
-    		let elLI = createElementAtt(elULTemp, "li", [], [], "li");
-    		elLI.textContent = "abc";
+			elULTemp.style.visibility = "hidden";
+			const elLI = createElementAtt(elULTemp, "li", [], [], "li");
+			elLI.textContent = "abc";
 
-    		lineHeight = elLI.clientHeight;
-    		elULTemp.remove();
+			lineHeight = elLI.clientHeight;
+			elULTemp.remove();
 
-    		maxHeight = lineHeight * maxLines;
-    		elUL.style.maxHeight = maxHeight + "px";
+			maxHeight = lineHeight * maxLines;
+			elUL.style.maxHeight = maxHeight + "px";
 
-    		scrollAt =
-    			maxHeight - lineHeight * 4 > 0 ? maxHeight - lineHeight * 4 : 0;
-    	}
+			scrollAt =
+				maxHeight - lineHeight * 4 > 0 ? maxHeight - lineHeight * 4 : 0;
+		}
 
-    	render(ULSelector, fieldLabel, placeholder, tabindex, ID);
+		render(ULSelector, fieldLabel, placeholder, tabindex, ID);
 
-    	let elInput = document.querySelector("#" + ID + " input");
-    	document.querySelector("#" + ID + " .inputarrow");
-    	let elUL = document.querySelector("#" + ID + " ul");
+		let elInput = document.querySelector("#" + ID + " input");
+		document.querySelector("#" + ID + " .inputarrow");
+		let elUL = document.querySelector("#" + ID + " ul");
 
-    	document.addEventListener("DOMContentLoaded", function () {
-    		elInput.addEventListener("focus", onFocus);
+		document.addEventListener("DOMContentLoaded", function () {
+			elInput.addEventListener("focus", onFocus);
 
-    		if (showDropdownArrow) {
-    			document
-    				.querySelector("#" + ID + " .arrow")
-    				.addEventListener("click", onClick);
-    		}
-    	});
+			if (showDropdownArrow) {
+				document
+					.querySelector("#" + ID + " .arrow")
+					.addEventListener("click", onClick);
+			}
+		});
 
-    	function selectionActive() {
-    		for (let i = 0; i < selectionLength; i++) {
-    			if (elUL.children[i].classList.value === "active") {
-    				return i
-    			}
-    		}
-    		return -1
-    	}
+		// Return search results
+		// searchMode - 0 - anywhere in, 1 - starts with str
+		function selectionFilter(str, dropDownOptions, searchMode) {
+			let regex;
 
-    	// Return search results
-    	// searchMode - 0 - anywhere in, 1 - starts with str
-    	function selectionFilter(str, dropDownOptions, searchMode) {
-    		let regex;
+			searchMode
+				? (regex = new RegExp(`.*${str}.*`, "gi"))
+				: (regex = new RegExp(`^${str}.*`, "gi"));
+			return dropDownOptions.filter((cv) => cv.match(regex))
+		}
 
-    		searchMode
-    			? (regex = new RegExp(`.*${str}.*`, "gi"))
-    			: (regex = new RegExp(`^${str}.*`, "gi"));
-    		return dropDownOptions.filter((cv) => cv.match(regex))
-    	}
-
-    	function dropdownSelectedString(selectionLine, searchString) {
-    		const fieldString = new RegExp(`${searchString}`, "i");
-    		const startPos = selectionLine.search(fieldString);
-    		if (startPos === -1 || searchString.length === 0) {
-    			return selectionLine
-    		}
-    		return `${selectionLine.slice(
+		function dropdownSelectedString(selectionLine, searchString) {
+			const fieldString = new RegExp(`${searchString}`, "i");
+			const startPos = selectionLine.search(fieldString);
+			if (startPos === -1 || searchString.length === 0) {
+				return selectionLine
+			}
+			return `${selectionLine.slice(
 			0,
 			startPos
 		)}<strong>${selectionLine.slice(
 			startPos,
 			startPos + searchString.length
 		)}</strong>${selectionLine.slice(startPos + searchString.length)}`
-    	}
+		}
 
-    	// For each field, focus and blur events are always on
-    	// As soon as the field gets focus, keyup event fires
-    	function onFocus(e) {
-    		originalText = elInput.value.trim();
-    		elInput.addEventListener("keyup", onKeyUp);
-    		elInput.addEventListener("blur", onBlur);
+		// For each field, focus and blur events are always on
+		// As soon as the field gets focus, keyup event fires
+		function onFocus(e) {
+			elInput.dataset.filter = "";
+			elInput.addEventListener("keyup", onKeyUp);
+			elInput.addEventListener("blur", onBlur);
 
-    		elUL.addEventListener("mousemove", onMouseMove);
-    		elUL.addEventListener("mousedown", onMouseDown);
-    	}
+			elUL.addEventListener("mousemove", onMouseMove);
+			elUL.addEventListener("mousedown", onMouseDown);
 
-    	function onKeyUp(e) {
-    		const DD_LIST_SIZE = objectLength(dropDownOptions);
-    		let matches;
-    		let matchlist;
+			// Search filter is clear so show all in the list
+			const matches = selectionFilter("", dropDownOptions, searchModeNumber);
 
-    		selectionLength = elUL.children.length;
-    		let index = selectionActive();
+			const matchlist = matches.map((cv) => `<li>${cv}</li>`).join("");
+			elUL.innerHTML = matchlist;
+			// elUL.classList.add("isvisible")
+			elUL.style.maxHeight = maxHeight + "px";
+			// elUL.scrollTo(0, 0)
 
-    		if (e.keyCode === 38) {
-    			// Up arrow
-    			if (selectionLength > 0) {
-    				// Arrows work only when the list is showing
-    				if (elUL.classList.contains("isvisible")) {
-    					if (elUL.children[index]) {
-    						if (elUL.children[index].offsetTop < lineHeight * 2) {
-    							let ulTop = elUL.scrollTop;
-    							if (ulTop - lineHeight * 3 < 0) {
-    								elUL.scrollTo(0, ulTop - lineHeight);
-    							} else {
-    								elUL.scrollTo(0, ulTop - lineHeight);
-    							}
-    						}
-    					}
+			if (elInput.value) {
+				// const index = itemMatch(elInput.value)
+				const index = listItemValueIndex(elUL, elInput.value);
 
-    					if (index === -1) {
-    						elUL.scrollTo(0, elUL.scrollHeight - maxHeight);
-    						index = selectionLength - 1;
-    						elUL.children[index].classList.add("active");
-    						elInput.value = elUL.children[index].textContent;
-    					} else if (index === 0) {
-    						elUL.scrollTo(0, 0);
-    						elUL.children[index].classList.remove("active");
-    						index = -1;
-    						elInput.value = originalText;
-    					} else {
-    						elUL.children[index].classList.remove("active");
-    						index--;
-    						elUL.children[index].classList.add("active");
-    						elInput.value = elUL.children[index].textContent;
-    					}
-    				}
-    			}
-    		} else if (e.keyCode === 40) {
-    			// Down arrow
-    			if (selectionLength > 0) {
-    				// Arrows work only when the list is showing
-    				if (elUL.children[index]) {
-    					if (elUL.children[index].offsetTop > scrollAt) {
-    						let ulTop = elUL.scrollTop;
-    						elUL.scrollTo(0, ulTop + lineHeight);
-    					}
-    				}
-    				if (elUL.classList.contains("isvisible")) {
-    					if (index === -1) {
-    						elUL.scrollTo(0, 0);
-    						index++;
-    						elUL.children[index].classList.add("active");
-    						elInput.value = elUL.children[index].textContent;
-    					} else if (index === selectionLength - 1) {
-    						elUL.children[index].classList.remove("active");
-    						index = -1;
-    						elInput.value = originalText;
-    					} else {
-    						elUL.children[index].classList.remove("active");
-    						index++;
-    						elUL.children[index].classList.add("active");
-    						elInput.value = elUL.children[index].textContent;
-    					}
-    				}
-    			}
-    		} else if (e.keyCode === 13) {
-    			// Enter
-    			// Enter toggles showing the drop down
-    			if (selectionLength <= 1) {
-    				elUL.classList.remove("isvisible");
-    			} else {
-    				elUL.classList.toggle("isvisible");
-    				elUL.style.maxHeight = maxHeight + "px";
-    				elUL.scrollTo(0, 0);
-    			}
-    		} else if (e.keyCode === 27) {
-    			// Escape
-    			escape();
-    		} else if (e.keyCode === 9) ; else {
-    			// Characters have been typed, this is where it finds the results
+				if (index !== -1) {
+					elUL.children[index].classList.add("selected");
 
-    			let results = "";
-    			let strSearch = elInput.value.trim();
+					if (elUL.children[index]) {
+						if (elUL.children[index].offsetTop < lineHeight * 2) {
+							const ulTop = elUL.scrollTop;
+							if (ulTop - lineHeight * 3 < 0) {
+								elUL.scrollTo(0, ulTop - lineHeight);
+							} else {
+								elUL.scrollTo(0, ulTop - lineHeight);
+							}
+						}
+					}
+				}
+			}
+		}
 
-    			if (!!firstXLettersOppositeSearchMode) {
-    				// If First x letters is a different mode
-    				if (strSearch.length <= firstXLettersOppositeSearchMode) {
-    					if (searchModeNumber === 0) {
-    						results = selectionFilter(strSearch, dropDownOptions, 1);
-    					} else {
-    						results = selectionFilter(strSearch, dropDownOptions, 0);
-    					}
-    				} else {
-    					results = selectionFilter(
-    						strSearch,
-    						dropDownOptions,
-    						searchModeNumber
-    					);
-    				}
-    			} else {
-    				results = selectionFilter(
-    					strSearch,
-    					dropDownOptions,
-    					searchModeNumber
-    				);
-    			}
+		function onKeyUp(e) {
+			const DD_LIST_SIZE = objectLength(dropDownOptions);
+			let matches;
+			let matchlist;
 
-    			// This is mainly when the field gets focus from Shift+Tab, if there is only 1 item
-    			// in the drop down, don't show the drop down
-    			if (
-    				originalText === elInput.value.trim() &&
-    				results.length === 1 &&
-    				!eventkeyAZ09(e.keyCode)
-    			)
-    				return
+			selectionLength = elUL.children.length;
+			let index = listFindSelectedIndex(elUL, "selected", selectionLength);
 
-    			originalText = elInput.value.trim();
+			if (e.keyCode === 38) {
+				// Up arrow
+				if (selectionLength > 0) {
+					// Arrows work only when the list is showing
+					if (elUL.classList.contains("isvisible")) {
+						if (elUL.children[index]) {
+							if (elUL.children[index].offsetTop < lineHeight * 2) {
+								const ulTop = elUL.scrollTop;
+								if (ulTop - lineHeight * 3 < 0) {
+									elUL.scrollTo(0, ulTop - lineHeight);
+								} else {
+									elUL.scrollTo(0, ulTop - lineHeight);
+								}
+							}
+						}
 
-    			// Nothing typed in or nothing matching
-    			if (results.length === DD_LIST_SIZE || results.length === 0) {
-    				matches = [];
-    				elUL.classList.remove("isvisible");
-    				for (let i = 0, len = elUL.children.length; i < len; i++) {
-    					elUL.children[i] && elUL.children[i].remove();
-    				}
-    			} else {
-    				// Letters typed are bold
-    				matches = results.map((cv) =>
-    					dropdownSelectedString(cv, elInput.value.trim())
-    				);
+						if (index === -1) {
+							elUL.scrollTo(0, elUL.scrollHeight - maxHeight);
+							index = selectionLength - 1;
+							elUL.children[index].classList.add("selected");
+							elInput.value = elUL.children[index].textContent;
+						} else if (index === 0) {
+							elUL.scrollTo(0, 0);
+							elUL.children[index].classList.remove("selected");
+							index = -1;
+						} else {
+							elUL.children[index].classList.remove("selected");
+							index--;
+							elUL.children[index].classList.add("selected");
+							elInput.value = elUL.children[index].textContent;
+						}
+					}
+				}
+			} else if (e.keyCode === 40) {
+				// Down arrow
+				if (selectionLength > 0) {
+					// Arrows work only when the list is showing
+					if (elUL.children[index]) {
+						if (elUL.children[index].offsetTop > scrollAt) {
+							const ulTop = elUL.scrollTop;
+							elUL.scrollTo(0, ulTop + lineHeight);
+						}
+					}
+					if (elUL.classList.contains("isvisible")) {
+						if (index === -1) {
+							elUL.scrollTo(0, 0);
+							index++;
+							elUL.children[index].classList.add("selected");
+							elInput.value = elUL.children[index].textContent;
+						} else if (index === selectionLength - 1) {
+							elUL.children[index].classList.remove("selected");
+							index = -1;
+						} else {
+							elUL.children[index].classList.remove("selected");
+							index++;
+							elUL.children[index].classList.add("selected");
+							elInput.value = elUL.children[index].textContent;
+						}
+					}
+				}
+			} else if (e.keyCode === 13) {
+				// Enter
+				// Enter toggles showing the drop down
+				if (selectionLength >= 1) {
+					elUL.classList.toggle("isvisible");
+				}
+				// if (selectionLength <= 1) {
+				// 	if (elInput.value === "") {
+				// 		// Nothing typed
+				// 		let matches = selectionFilter(
+				// 			"",
+				// 			dropDownOptions,
+				// 			searchModeNumber
+				// 		)
 
-    				matchlist = matches.map((cv) => `<li>${cv}</li>`).join("");
+				// 		matchlist = matches.map((cv) => `<li>${cv}</li>`).join("")
+				// 		elUL.innerHTML = matchlist
+				// 		elUL.classList.add("isvisible")
+				// 		elUL.style.maxHeight = maxHeight + "px"
+				// 		elUL.scrollTo(0, 0)
+				// 	} else {
+				// 		elUL.classList.remove("isvisible")
+				// 	}
+				// } else {
+				// 	elUL.classList.toggle("isvisible")
+				// 	elUL.style.maxHeight = maxHeight + "px"
+				// 	elUL.scrollTo(0, 0)
+				// }
+			} else if (e.keyCode === 27) {
+				// Escape
+				escape();
+			} else if (e.keyCode === 9) ; else {
+				// Characters have been typed, this is where it finds the results
 
-    				elUL.classList.add("isvisible");
-    				elUL.style.maxHeight = maxHeight + "px";
-    				elUL.scrollTo(0, 0);
-    				elUL.innerHTML = matchlist;
-    			}
-    		}
-    	}
+				if (
+					e.key.length === 1 ||
+					e.key === "Backspace" ||
+					e.key === "Delete" ||
+					e.key === "Space"
+				) {
+					let results = "";
+					const strSearch = elInput.value;
 
-    	function listClose() {
-    		elUL.classList.remove("isvisible");
-    	}
+					elInput.dataset.filter = strSearch.toLowerCase();
 
-    	function escape() {
-    		// Press Esc and it goes back to what was originally typed. Field focus stays.
-    		listClose();
-    		elInput.value = originalText;
+					if (firstXLettersOppositeSearchMode) {
+						// If First x letters is a different mode
+						if (strSearch.length <= firstXLettersOppositeSearchMode) {
+							if (searchModeNumber === 0) {
+								results = selectionFilter(
+									strSearch,
+									dropDownOptions,
+									1
+								);
+							} else {
+								results = selectionFilter(
+									strSearch,
+									dropDownOptions,
+									0
+								);
+							}
+						} else {
+							results = selectionFilter(
+								strSearch,
+								dropDownOptions,
+								searchModeNumber
+							);
+						}
+					} else {
+						results = selectionFilter(
+							strSearch,
+							dropDownOptions,
+							searchModeNumber
+						);
+					}
 
-    		if (
-    			!dropDownOptions
-    				.map((x) => x.toLowerCase())
-    				.includes(elInput.value.trim().toLowerCase())
-    		) {
-    			elInput.value = originalText;
-    		} else {
-    			const dd = dropDownOptions
-    				.map((x) => x.toLowerCase())
-    				.findIndex((cv) => cv === elInput.value.trim().toLowerCase());
-    			elInput.value = dropDownOptions[dd];
-    		}
-    	}
+					// Nothing typed in or nothing matching
+					if (results.length === DD_LIST_SIZE) {
+						matches = results.map((cv) =>
+							dropdownSelectedString(cv, elInput.value.trim())
+						);
 
-    	function onBlur(e) {
-    		/*
-    		 * Before leaving the field, check if what's in the input is
-    		 * in the drop down list
-    		 */
+						matchlist = matches.map((cv) => `<li>${cv}</li>`).join("");
 
-    		/* Selecting an item from drop down using the mouse click activates
-    		 * mousedown on elUL and then input blur event. But the input box
-    		 * gets the focus again so we don't want to run this function if there
-    		 * was a selection with a mouseclick.
-    		 */
-    		let arr = [];
+						elUL.classList.add("isvisible");
+						elUL.style.maxHeight = maxHeight + "px";
+						elUL.scrollTo(0, 0);
+						elUL.innerHTML = matchlist;
+					} else if (results.length === 0) {
+						matches = [];
+						elUL.classList.remove("isvisible");
+						for (let i = 0, len = elUL.children.length; i < len; i++) {
+							elUL.children[i] && elUL.children[i].remove();
+						}
+					} else {
+						// Letters typed are bold
+						matches = results.map((cv) =>
+							dropdownSelectedString(cv, elInput.value.trim())
+						);
 
-    		arr = [...elUL.children];
+						matchlist = matches.map((cv) => `<li>${cv}</li>`).join("");
 
-    		if (arr.length === 1) {
-    			if (
-    				elInput.value.trim() !== arr[0].textContent &&
-    				elInput.value.trim().toLowerCase() ===
-    					arr[0].textContent.toLowerCase()
-    			) {
-    				elInput.value = arr[0].textContent;
-    			}
-    		}
+						elUL.classList.add("isvisible");
+						elUL.style.maxHeight = maxHeight + "px";
+						elUL.scrollTo(0, 0);
+						elUL.innerHTML = matchlist;
+					}
+				}
+			}
+		}
 
-    		if (!dropDownOptions.includes(elInput.value.trim())) {
-    			elInput.value = "";
-    		}
+		function escape() {
+			// Press Esc and it goes back to what was originally typed. Field focus stays.
+			// closeDropdown()
+			elInput.value = elInput.dataset.filter;
+		}
 
-    		elUL.removeEventListener("mousedown", onMouseDown);
-    		elUL.removeEventListener("mousemove", onMouseMove);
+		function onBlur(e) {
+			/*
+			 * Before leaving the field, check if what's in the input is
+			 * in the drop down list
+			 */
 
-    		elInput.removeEventListener("keyup", onKeyUp);
-    		elInput.removeEventListener("blur", onBlur);
+			/* Selecting an item from drop down using the mouse click activates
+			 * mousedown on elUL and then input blur event. But the input box
+			 * gets the focus again so we don't want to run this function if there
+			 * was a selection with a mouseclick.
+			 */
+			let arr = [];
 
-    		elUL.classList.remove("isvisible");
-    	}
+			arr = [...elUL.children];
 
-    	function onMouseDown(e) {
-    		if (e.target.tagName === "LI") {
-    			elInput.value = e.target.innerText;
-    			originalText = e.target.innerText;
-    		}
-    	}
+			if (arr.length === 1) {
+				if (
+					elInput.value.trim() !== arr[0].textContent &&
+					elInput.value.trim().toLowerCase() ===
+						arr[0].textContent.toLowerCase()
+				) {
+					elInput.value = arr[0].textContent;
+				}
+			}
 
-    	function onMouseMove() {
-    		let selectionHover = "";
-    		let index = -1;
-    		if (elUL.children[0]) {
-    			selectionHover =
-    				document.querySelector(".ddlist li:hover") == null
-    					? ""
-    					: document.querySelector(".ddlist li:hover").textContent;
-    			for (let i = 0; i < elUL.children.length; i++) {
-    				elUL.children[i].classList.remove("active");
-    				if (
-    					selectionHover !== "" &&
-    					selectionHover === elUL.children[i].textContent
-    				) {
-    					if (index !== -1)
-    						elUL.children[index].classList.remove("active");
-    					index = i;
-    					elUL.children[index].classList.add("active");
-    				}
-    			}
-    		}
-    	}
+			if (!dropDownOptions.includes(elInput.value.trim())) {
+				elInput.value = "";
+			}
 
-    	function onClick(e) {
-    		elUL = document.querySelector("#" + ID + " ul");
+			elUL.removeEventListener("mousedown", onMouseDown);
+			elUL.removeEventListener("mousemove", onMouseMove);
 
-    		if (!elUL.value) {
-    			let matches = selectionFilter("", dropDownOptions, 0);
-    			let matchlist = matches.map((cv) => `<li>${cv}</li>`).join("");
-    			elUL.innerHTML = matchlist;
-    		}
+			elInput.removeEventListener("keyup", onKeyUp);
+			elInput.removeEventListener("blur", onBlur);
 
-    		let i;
-    		for (i = 0; i < elUL.children.length; i++) {
-    			if (elUL.children[i].textContent === elInput.value) {
-    				elUL.children[i].classList.add("active");
-    				break
-    			}
-    		}
+			elUL.classList.remove("isvisible");
 
-    		if (i === elUL.children.length) elUL.scrollTo(0, 0);
+			elInput.dataset.filter = "";
+		}
 
-    		elUL.classList.toggle("isvisible");
+		function onMouseDown(e) {
+			if (e.target.tagName === "LI") {
+				elInput.value = e.target.innerText;
+				// originalText = e.target.innerText
+			} else if (e.target.tagName === "STRONG") {
+				elInput.value = e.target.parentElement.innerText;
+				// originalText = e.target.parentElement.innerText
+			}
+		}
 
-    		elInput = document.querySelector("#" + ID + " input");
-    		elInput.focus();
-    	}
-    }
+		function onMouseMove() {
+			let selectionHover = "";
+			let index = -1;
+			if (elUL.children[0]) {
+				selectionHover =
+					document.querySelector(".ddlist li:hover") == null
+						? ""
+						: document.querySelector(".ddlist li:hover").textContent;
+				for (let i = 0; i < elUL.children.length; i++) {
+					elUL.children[i].classList.remove("selected");
+					if (
+						selectionHover !== "" &&
+						selectionHover === elUL.children[i].textContent
+					) {
+						if (index !== -1)
+							elUL.children[index].classList.remove("selected");
+						index = i;
+						elUL.children[index].classList.add("selected");
+					}
+				}
+			}
+		}
 
-    return DropdownField;
+		function onClick(e) {
+			elUL = document.querySelector("#" + ID + " ul");
+
+			if (!elUL.value) {
+				const matches = selectionFilter("", dropDownOptions, 0);
+				const matchlist = matches.map((cv) => `<li>${cv}</li>`).join("");
+				elUL.innerHTML = matchlist;
+			}
+
+			let i;
+			for (i = 0; i < elUL.children.length; i++) {
+				if (elUL.children[i].textContent === elInput.value) {
+					elUL.children[i].classList.add("selected");
+					break
+				}
+			}
+
+			if (i === elUL.children.length) elUL.scrollTo(0, 0);
+
+			elUL.classList.toggle("isvisible");
+
+			elInput = document.querySelector("#" + ID + " input");
+			elInput.focus();
+		}
+	}
+
+	return DropdownField;
 
 })();
