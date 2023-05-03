@@ -37,6 +37,8 @@
   width: 25px;
   height: 25px;
   border-radius: 50%;
+  padding: 0;
+  background: radial-gradient(circle at 2px 2px, #eeeeee, #ccc);
   background-color: #eeeeee;
   border: 1px solid #aaaaaa;
 }
@@ -46,6 +48,7 @@
   height: 100%;
   stroke-width: 6px;
   stroke: #000000;
+  pointer-events: none;
 }
 
 .ddfield ul.ddlist {
@@ -76,8 +79,12 @@
   padding-left: 12px;
 }
 
+.ddfield .ddlist li:hover {
+  background-color: #efefff;
+}
+
 .ddfield .ddlist li.selected {
-  background-color: #ddf;
+  background-color: #ccf;
 }
 
 .isvisible {

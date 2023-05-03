@@ -210,7 +210,7 @@ DropdownField(
 		maxLines: 10,
 		searchMode: "starts with",
 		firstXLettersOppositeSearchMode: 2,
-		// showDropdownArrow: true,
+		showDropdownArrow: true,
 	}
 )
 
@@ -220,3 +220,32 @@ DropdownField(".container .outer", "Name", "Name", 3, "dd2", dropDownOptions, {
 	firstXLettersOppositeSearchMode: 2,
 	showDropdownArrow: true,
 })
+
+document.addEventListener("click", onClickDoc)
+
+function onClickDoc(e) {
+	const arrInput = Array.from(document.querySelectorAll(".ddfield input"))
+	// arrInput.forEach((cv) => console.log(cv))
+
+	const index = arrInput.findIndex((cv) => cv === e.target)
+
+	if (index === -1) {
+		if (
+			!e.target.classList.contains("arrow") &&
+			e.target.tagName !== "BUTTON"
+		) {
+			arrInput.forEach((cv) => {
+				cv.parentNode.parentNode.dataset.mode = ""
+			})
+			// } else {
+			// Arrow clicked
+		}
+	} else {
+		const ID = arrInput[index].id
+		const elUL = document.querySelector(".ddfield ul")
+
+		arrInput.forEach((cv, i) => {
+			if (i !== index) cv.parentNode.parentNode.dataset.mode = ""
+		})
+	}
+}
