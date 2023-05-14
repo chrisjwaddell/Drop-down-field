@@ -1,39 +1,35 @@
-This drop down search text field is similar to the Google.com search box. It's
-ideal for choosing from a list of options greater than 50 but less than 500.
+# Drop Down Field
 
-Drop down search field is a drop down field where the user types and the
-selections appear automatically as you type. Drop down options are supplied from
-an array. It almost like the Google.com search bar. It is designed for
-usability. You can hover over an option, use arrows and the text field updates
-automatically. If you press escape, the text field goes back to what you typed.
-There is no drop down arrow.
+This drop down field is a filterable drop down field list with various options.
+As the user types, the drop down list is filtered to match what the user types.
+You have options over how filtering is done.
 
-If you type in less than three characters, it looks for those characters in the
-first part of the drop down options. If you type in three or more characters, it
-looks for those consecutive three characters in any part of the drop down items.
+There is an autocomplete option making it fast to use. You have the option of
+whether you want an arrow for the drop down. If you press escape, the text field
+goes back to what you typed or what was originally in the field as you entered
+it.
 
-Esc - removes drop down options list and the text field removes what was
-selected from the drop down box and shows just what was typed in
+## Filtering options
 
-Enter - toggles the drop down options to display them or not.
+It matches characters to the options regardless of upper or lower case. You can
+filter by what each item in the list starts with or by anywhere in the item
+string. You can start filtering only when there are more than 2 characters. See
+below for further options.
 
-Field lost focus - If what is in the text field doesn't match any drop down
-option, the text field is made blank when it loses focus.
+## Keys and General behaviour of the field
 
-If what is typed in is less than three characters, the drop down list shows all
-options that begin with that text. If you type in "c", it shows all options
-beginning with "c", if you type in "ca" it shows all options beginning with
-"ca". If what is typed in to the text box is three characters or more, it shows
-all the drop down options that have those three consecutive characters anywhere
-in its string.
+When the field focus is lost, if what is in the text field doesn't match any
+drop down option, the text field is either set to it's original field value when
+you entered the field or the field is made blank.
 
-It matches letters to the options regardless of upper or lower case.
+Esc - Makes the drop down list disappear and if anything was typed and then an
+item has been selected from the list, it goes back to what was typed and if not,
+it goes back to what was originally in the field as you entered it.
 
-dropDownList.js has all the options. It is assumed these options are in correct
-format, trimmed with no spaces at the start or end of each option.
+Enter - toggles the drop down list to display it or not.
 
-Possible improvements If there are more than 20 options, a scroll bar should be
-put in the drop down options.
+Arrow keys - For going up or down the list. The drop down list doesn't have to
+be visible to go through the list.
 
 | Property                             | Value                       | Description                                                                                                                                                                                                                                                                                                                    |
 | ------------------------------------ | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -49,6 +45,19 @@ put in the drop down options.
 | `enterToggleDropdown`                | _true_ or _false_           | Pressing Enter on the keyboard toggles the drop down list to appear or disappear.                                                                                                                                                                                                                                              |
 | `arrowKeysNoDropdown`                | _true_ or _false_           | If no dropdown appears: 0 - do nothing; 1 - open drop down; 2 - don't show drop down, go up or down the list. This feature is good for sequential data in the list whn the user knows the order of the list such as numbers, alphabetic order of a short list. Default - 0. This setting is independent of typingOpenDropdown. |
 | `autocomplete`                       | _true_ or _false_           | Suggests the first item in the list according to the filter settings. Tab out of the field with nothing selected and it will choose the first item                                                                                                                                                                             |
-| `cssClassList`                       | Array of CSS class names    | returns the props you should Adds these classes to the container of the drop down. This CSS should be hierarchically placed after dropdown-field.css                                                                                                                                                                           |
+| `cssClassList`                       | Array of CSS class names    | Adds these classes to the container of the drop down. This CSS should be hierarchically placed after dropdown-field.css                                                                                                                                                                                                        |
 
 Autocomplete kills the Escape fallback to original value feature.
+
+# Drop down field styling
+
+You can add CSS classes to the drop down field or you can use Javascript in your
+own way to style the drop down fields. _cssClassList_ takes an array of classes
+eg _[ "field1", "ma3"]_
+
+The CSS should be placed after dropdown-field.css. Some CSS variables for drop
+down field styling are:
+`.field2 { --dd-width: 200px; --dd-font-size: 12px; --dd-border-radius: 8px; --dd-input-height: 35px; }`
+
+Attributes in the DOM origin - The field value when the field was originally
+entered. filter - What was typed in to the field.
