@@ -35,19 +35,21 @@ format, trimmed with no spaces at the start or end of each option.
 Possible improvements If there are more than 20 options, a scroll bar should be
 put in the drop down options.
 
-| property                             | description                                                                                    |
-| ------------------------------------ | ---------------------------------------------------------------------------------------------- |
-| `maxLines`                           | returns the props you should apply to any menu toggle button element you render.               |
-| `searchMode`                         | returns the props you should apply to the `input` element that you render.                     |
-| `firstXCharactersOppositeSearchMode` | returns the props you should apply to any menu item elements you render.                       |
-| `ignoreFirstXCharacters`             | returns the props you should apply to the `label` element that you render.                     |
-| `showDropdownArrow`                  | returns the props you should apply to the `ul` element (or root of your menu) that you render. |
-| `noFiltering`                        | returns the props you should apply to the `ul` element (or root of your menu) that you render. |
-| `onFocusOpenDropdown`                | returns the props you should apply to the root element that you render. It can be optional.    |
-| `onClickToggleDropdown`              | returns the props you should apply to the root element that you render. It can be optional.    |
-| `typingOpenDropdown`                 | returns the props you should apply to the root element that you render. It can be optional.    |
-| `enterToggleDropdown`                | returns the props you should apply to the root element that you render. It can be optional.    |
-| `arrowKeysNoDropdown`                | returns the props you should apply to the root element that you render. It can be optional.    |
-| `autocomplete`                       | returns the props you should apply to the root element that you render. It can be optional.    |
-| `onFocusOpenDropdown`                | returns the props you should apply to the root element that you render. It can be optional.    |
-| `cssClassList`                       | returns the props you should apply to the root element that you render. It can be optional.    |
+| property                             | description                                                                                                                                         |
+| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `maxLines`                           | returns the props you should apply to any menu toggle button element you render.                                                                    |
+| `searchMode`                         | returns the props you should apply to the `input` element that you render.                                                                          |
+| `firstXCharactersOppositeSearchMode` | returns the props you should apply to any menu item elements you render.                                                                            |
+| `ignoreFirstXCharacters`             | returns the props you should apply to the `label` element that you render.                                                                          |
+| `showDropdownArrow`                  | returns the props you should apply to the `ul` element (or root of your menu) that you render.                                                      |
+| `noFiltering`                        | returns the props you should apply to the `ul` element (or root of your menu) that you render.                                                      |
+| `onFocusOpenDropdown`                | returns the props you should apply to the root element that you render. It can be optional.                                                         |
+| `onClickToggleDropdown`              | returns the props you should apply to the root element that you render. It can be optional.                                                         |
+| `typingOpenDropdown`                 | returns the props you should apply to the root element that you render. It can be optional.                                                         |
+| `enterToggleDropdown`                | returns the props you should apply to the root element that you render. It can be optional.                                                         |
+| `arrowKeysNoDropdown`                | returns the props you should apply to the root element that you render. It can be optional.                                                         |
+| `autocomplete`                       | Suggests the first item in the list according to the filter settings. Tab out of the field with nothing selected and it will choose the first item. |
+| `onFocusOpenDropdown`                | returns the props you should apply to the root element that you render. It can be optional.                                                         |
+| `cssClassList`                       | returns the props you should apply to the root element that you render. It can be optional.                                                         |
+
+Autocomplete kills the Escape fallback to original value feature.
