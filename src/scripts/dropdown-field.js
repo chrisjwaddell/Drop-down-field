@@ -836,7 +836,6 @@ export default function DropdownField(
 
 			if (indexSelected !== -1) {
 				listSelectWithIndex(indexSelected)
-				// elUL.children[indexSelected].classList.add("selected")
 			}
 		}
 
