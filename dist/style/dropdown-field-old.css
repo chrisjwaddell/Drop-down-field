@@ -1,11 +1,13 @@
-$dd-width: 250px;
-$dd-font-size: 15px;
-$dd-border-radius: 16px;
-$dd-input-height: 42px;
+:root {
+	--dd-width: 250px;
+	--dd-font-size: 15px;
+	--dd-border-radius: 16px;
+	--dd-input-height: 42px;
+}
 
 .ddfield {
 	position: relative;
-	width: $dd-width;
+	width: var(---width);
 	height: 100%;
 	margin: 0 auto;
 	font-size: 15px;
@@ -23,30 +25,30 @@ $dd-input-height: 42px;
 }
 
 .ddfield input {
-	height: $dd-input-height;
-	width: $dd-width;
+	height: var(--dd-input-height);
+	width: var(--dd-width);
 	padding: 5px 12px;
-	font-size: $dd-font-size;
-	border-radius: $dd-border-radius;
+	font-size: var(--dd-font-size);
+	border-radius: var(--dd-border-radius);
 	box-sizing: border-box;
 }
 
 .inputarrow {
 	position: relative;
-	width: $dd-width;
+	width: var(--dd-width);
 }
 
 .inputarrow .arrow {
 	position: absolute;
 	right: 5px;
-	// top: 8px;
-	top: calc(calc($dd-input-height - 25px) / 2);
+	top: 8px;
+	top: calc((var(--dd-input-height) - 25px) / 2);
 	width: 25px;
 	height: 25px;
 	border-radius: 50%;
 	padding: 0;
-	background: radial-gradient(circle at 2px 2px, #eeeeee, #ccc);
 	background-color: #eeeeee;
+	background: radial-gradient(circle at 2px 2px, #eeeeee, #ccc);
 	border: 1px solid #aaaaaa;
 }
 
@@ -63,7 +65,6 @@ $dd-input-height: 42px;
 	position: absolute;
 	top: 60px;
 	left: -10px;
-	width: 250px;
 	width: 100%;
 	max-width: 325px;
 	max-height: 275px;
@@ -79,10 +80,10 @@ $dd-input-height: 42px;
 .ddfield .ddlist {
 	list-style-type: none;
 	padding: 0;
+	cursor: default;
 }
 
 .ddfield .ddlist li {
-	/* font-size: 18px; */
 	padding-left: 12px;
 }
 
@@ -97,3 +98,37 @@ $dd-input-height: 42px;
 .isvisible {
 	display: block !important;
 }
+
+.autocomplete {
+	position: absolute;
+	display: none;
+	width: 140px;
+	height: 25px;
+	top: 25px;
+	right: -30px;
+	padding: 2px 2px 2px 7px;
+	color: #ffffff;
+	font-size: 14px;
+	opacity: 80%;
+	border-radius: 7px;
+	background-color: #2581c3;
+	transform: translate(-20%, -120%);
+	-webkit-transform: translate(-20%, -120%);
+	-ms-transform: translate(-20%, -120%);
+}
+
+.autocomplete:before {
+	content: "";
+	position: absolute;
+	width: 0;
+	height: 0;
+	top: 20px;
+	right: 125px;
+	opacity: 80%;
+	border: 15px solid transparent;
+	border-top-color: #2581c3;
+	border-bottom: 0;
+	border-left: 0;
+}
+
+/*# sourceMappingURL=dropdown-field.css.map */

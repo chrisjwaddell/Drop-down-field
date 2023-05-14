@@ -1,0 +1,13 @@
+.field1 {
+	--dd-width: 250px;
+	--dd-font-size: 15px;
+	--dd-border-radius: 16px;
+	--dd-input-height: 42px;
+}
+
+.field2 {
+	--dd-width: 200px;
+	--dd-font-size: 12px;
+	--dd-border-radius: 8px;
+	--dd-input-height: 35px;
+}

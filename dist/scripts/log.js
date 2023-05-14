@@ -12,7 +12,7 @@ const log = (function () {
 	// ^SETTINGS
 	// Put your log type settings in here
 	// Font color, font size
-	const logLevelList = [
+	const logTypeList = [
 		{
 			logType: "info",
 			description: "Information",
@@ -29,21 +29,21 @@ const log = (function () {
 		{
 			logType: "function",
 			description:
-				"Helps to put this at the start of a function to see the function flow.",
+				"It helps to put this at the start of a function to see the function flow.",
 			color: "#000259",
 			size: 22,
 		},
 		{
 			logType: "error",
 			description: "For errors",
-			color: "#d22b2a",
+			color: "#f22b2a",
 			size: 17,
 		},
 		{
 			logType: "new",
 			description: "Working on code temporarily, fix and move on",
-			color: "#551aaa",
-			size: 17,
+			color: "#4499bb",
+			size: 18,
 		},
 		{
 			logType: "watch",
@@ -54,7 +54,7 @@ const log = (function () {
 		{
 			logType: "red",
 			description: "Make the console log message red",
-			color: "#961a16",
+			color: "#ff1a16",
 			size: 15,
 		},
 		{
@@ -71,6 +71,8 @@ const log = (function () {
 		},
 	]
 
+	// Return CSS code given color and size
+	// logType function uses this
 	function logCSS(c, size) {
 		let fs
 		try {
@@ -83,7 +85,7 @@ const log = (function () {
 	}
 
 	function logTypeFind(lType) {
-		return logLevelList.find((logLevel) => logLevel.logType === lType)
+		return logTypeList.find((logLevel) => logLevel.logType === lType)
 	}
 
 	function logType(lType) {
@@ -91,6 +93,8 @@ const log = (function () {
 		return logobj ? logCSS(logobj.color, logobj.size) : logCSS()
 	}
 
+	// Automatically gets the function name of the function the console log
+	// is in. It doesn't work in strict mode
 	function fnName(...args) {
 		let logFnName = ""
 		try {
