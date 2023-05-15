@@ -783,14 +783,16 @@ export default function DropdownField(
 					)
 				}
 
+				console.log("results.length - " + results.length)
+
 				// Nothing typed in or nothing matching
 				if (results.length === DD_LIST_SIZE) {
 					matchlist = results.map((cv) => `<li>${cv}</li>`).join("")
 
 					elUL.classList.add("isvisible")
 					elUL.style.maxHeight = maxHeight + "px"
-					elUL.scrollTo(0, 0)
 					elUL.innerHTML = matchlist
+					elUL.scrollTo(0, 0)
 				} else if (results.length === 0) {
 					matches = []
 					elUL.innerHTML = ""
@@ -804,6 +806,7 @@ export default function DropdownField(
 					)
 					matchlist = matches.map((cv) => `<li>${cv}</li>`).join("")
 					elUL.innerHTML = matchlist
+					elUL.scrollTo(0, 0)
 
 					if (elAutocomplete) autocomplete()
 				}

@@ -218,7 +218,7 @@ DropdownField(
 		typingOpenDropdown: false,
 		enterToggleDropdown: true,
 		arrowKeysNoDropdown: 0,
-		autocomplete: true,
+		autocomplete: false,
 	}
 )
 
@@ -234,7 +234,7 @@ DropdownField(".container .outer", "Name", "Name", 3, "dd2", dropDownOptions2, {
 	onClickToggleDropdown: false,
 	typingOpenDropdown: false,
 	enterToggleDropdown: true,
-	autocomplete: true,
+	autocomplete: false,
 })
 
 document.addEventListener("DOMContentLoaded", function () {
