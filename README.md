@@ -56,14 +56,14 @@ eg _[ "field1", "ma3"]_
 
 The CSS should be placed after dropdown-field.css. Some CSS variables for drop
 down field styling are:\
-``
-.field1 {\
-    --dd-width: 200px;\
-    --dd-font-size: 12px;\
-    --dd-border-radius: 8px;\
-    --dd-input-height: 35px;\
+```
+.field1 {
+    --dd-width: 200px;
+    --dd-font-size: 12px;
+    --dd-border-radius: 8px;
+    --dd-input-height: 35px;
 }
-``
+```
 
 ## Attributes in the DOM
 origin - The field value when the field was originally entered.\
