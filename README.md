@@ -25,6 +25,8 @@ Enter - toggles the drop down list to display it or not.
 Arrow keys - For going up or down the list. The drop down list doesn't have to
 be visible to go through the list.
 
+## Options
+
 | Property                             | Value                       | Description                                                                                                                                                                                                                                                                                                                    |
 | ------------------------------------ | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `maxLines`                           | Integer - below 12 is ideal | How many lines will show in the drop down, the size of the drop down list. Suggestion - less than 12 otherwise the whole list won't fit on the webpage.                                                                                                                                                                        |
@@ -48,8 +50,8 @@ You can add CSS classes to the drop down field or you can use Javascript in your
 own way to style the drop down fields. _cssClassList_ takes an array of classes
 eg _[ "field1", "ma3"]_
 
-The CSS should be placed after dropdown-field.css. Some CSS variables for drop
-down field styling are:\
+The CSS should be placed after dropdown-field.css in the CSS hierarchy. Some CSS variables for drop
+down field styling are:
 ```
 .field1 {
     --dd-width: 200px;
