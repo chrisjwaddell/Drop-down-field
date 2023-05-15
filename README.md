@@ -1,5 +1,4 @@
 # Drop Down Field
-
 This drop down field is a filterable drop down field list with various options.
 As the user types, the drop down list is filtered to match what the user types.
 You have options over how filtering is done.
@@ -10,21 +9,16 @@ goes back to what you typed or what was originally in the field as you entered
 it.
 
 ## Filtering options
-
 It matches characters to the options regardless of upper or lower case. You can
 filter by what each item in the list starts with or by anywhere in the item
-string. You can start filtering only when there are more than 2 characters. See
-below for further options.
+string. You can start filtering only when there are more than 2 characters. Anything typed goes into the data-filter attribute. See below for further options.
 
 ## Keys and General behaviour of the field
-
 When the field focus is lost, if what is in the text field doesn't match any
 drop down option, the text field is either set to it's original field value when
 you entered the field or the field is made blank.
 
-Esc - Makes the drop down list disappear and if anything was typed and then an
-item has been selected from the list, it goes back to what was typed and if not,
-it goes back to what was originally in the field as you entered it.
+Esc - It takes the user back to what was typed, the filter. So if they select an item from the drop down list, this will be undone and it will go back to what they typed. Or it will take them back to what was originally in the field when they entered it. It also closes the drop down list.
 
 Enter - toggles the drop down list to display it or not.
 
