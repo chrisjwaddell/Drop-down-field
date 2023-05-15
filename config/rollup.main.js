@@ -1,5 +1,4 @@
 export default {
-	// input: "src/scripts/dropdown-field.js",
 	input: "src/scripts/dropdown-field.js",
 	output: [
 		{
