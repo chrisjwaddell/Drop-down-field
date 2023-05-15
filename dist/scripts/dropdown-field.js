@@ -556,15 +556,7 @@ var DropdownField = (function () {
 
 			// Add events
 			elInput.addEventListener("click", onClickInput, false);
-			elInput.addEventListener("keydown", (e) => {
-				if (e.key === "Tab") {
-					if (elAutocomplete) {
-						if (elAutocomplete.classList.contains("isvisible")) {
-							elInput.value = elAutocomplete.textContent;
-						}
-					}
-				}
-			});
+			elInput.addEventListener("keydown", onKeyDownInput);
 			elInput.addEventListener("keyup", onKeyUpInput);
 			elInput.addEventListener("blur", onBlurInput);
 
@@ -641,15 +633,16 @@ var DropdownField = (function () {
 
 			closeDropdown();
 
-			if (entry !== "listclick" && entry !== "stay") {
-				elInput.removeEventListener("click", onClickInput, false);
-				elInput.removeEventListener("keyup", onKeyUpInput);
-				elInput.removeEventListener("blur", onBlurInput);
+			// if (entry !== "listclick" && entry !== "stay") {
+			elInput.removeEventListener("click", onClickInput, false);
+			elInput.removeEventListener("keydown", onKeyDownInput);
+			elInput.removeEventListener("keyup", onKeyUpInput);
+			elInput.removeEventListener("blur", onBlurInput);
 
-				// elUL.removeEventListener("mousedown", onMouseDownUL, true)
+			// elUL.removeEventListener("mousedown", onMouseDownUL, true)
 
-				if (elAutocomplete) elAutocomplete.classList.remove("isvisible");
-			}
+			if (elAutocomplete) elAutocomplete.classList.remove("isvisible");
+			// }
 
 			control = "input";
 			setMode(entry, control, lastDDMode);
@@ -676,6 +669,16 @@ var DropdownField = (function () {
 			}
 
 			setMode(entry, control, lastDDMode);
+		}
+
+		function onKeyDownInput(e) {
+			if (e.key === "Tab") {
+				if (elAutocomplete) {
+					if (elAutocomplete.classList.contains("isvisible")) {
+						elInput.value = elAutocomplete.textContent;
+					}
+				}
+			}
 		}
 
 		function onKeyUpInput(e) {
@@ -812,8 +815,6 @@ var DropdownField = (function () {
 							strSearch,
 							dropDownOptions);
 					}
-
-					console.log("results.length - " + results.length);
 
 					// Nothing typed in or nothing matching
 					if (results.length === DD_LIST_SIZE) {
