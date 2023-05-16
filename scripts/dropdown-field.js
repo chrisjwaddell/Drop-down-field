@@ -78,7 +78,8 @@ var DropdownField = (function () {
 
 		const maxLines = settings.maxLines ?? settingDefaults.maxLines;
 		let searchModeNumber = 1;
-		if (settings.searchMode) {
+		if (typeof settings.searchMode !== "undefined" || settings.searchMode) {
+			// if (settings.searchMode) {
 			if (settings.searchMode.toLowerCase() === "starts with") {
 				searchModeNumber = 0;
 			} else {
@@ -182,14 +183,10 @@ var DropdownField = (function () {
 			// elDDContainer.dataset.filter = ""
 
 			// Drop down arrow
-			console.log(settings.showDropdownArrow);
-			// console.log(tyepof settings.showDropdownArrow)
-			// console.log(tyepof settings.showDropdownArrow === "undefined")
 			if (
 				typeof settings.showDropdownArrow === "undefined" ||
 				settings.showDropdownArrow === true
 			) {
-				console.log("1");
 				elInput.style.padding = "5px 30px 5px 12px";
 
 				const elArrow = createElementAtt(
@@ -836,7 +833,8 @@ var DropdownField = (function () {
 						elUL.innerHTML = "";
 						elUL.classList.remove("isvisible");
 
-						elAutocomplete.classList.remove("isvisible");
+						if (elAutocomplete)
+							elAutocomplete.classList.remove("isvisible");
 					} else {
 						// Letters have been typed, they are shown as bold
 						matches = results.map((cv) =>
@@ -953,7 +951,9 @@ var DropdownField = (function () {
 			if (entry === "" || entry === "enter") {
 				if (origin) {
 					elInput.value = origin;
-					if (elAutocomplete) elAutocomplete.classList.remove("isvisible");
+					if (elAutocomplete) {
+						elAutocomplete.classList.remove("isvisible");
+					}
 				}
 			} else {
 				// If no value in, put filter value in if there is one
