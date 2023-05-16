@@ -182,7 +182,14 @@ var DropdownField = (function () {
 			// elDDContainer.dataset.filter = ""
 
 			// Drop down arrow
-			if (settings.showDropdownArrow) {
+			console.log(settings.showDropdownArrow);
+			// console.log(tyepof settings.showDropdownArrow)
+			// console.log(tyepof settings.showDropdownArrow === "undefined")
+			if (
+				typeof settings.showDropdownArrow === "undefined" ||
+				settings.showDropdownArrow === true
+			) {
+				console.log("1");
 				elInput.style.padding = "5px 30px 5px 12px";
 
 				const elArrow = createElementAtt(

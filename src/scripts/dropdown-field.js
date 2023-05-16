@@ -30,7 +30,8 @@ export default function DropdownField(
 
 	const maxLines = settings.maxLines ?? settingDefaults.maxLines
 	let searchModeNumber = 1
-	if (settings.searchMode) {
+	if (typeof settings.searchMode === "undefined" || settings.searchMode) {
+		// if (settings.searchMode) {
 		if (settings.searchMode.toLowerCase() === "starts with") {
 			searchModeNumber = 0
 		} else {
@@ -135,7 +136,10 @@ export default function DropdownField(
 		// elDDContainer.dataset.filter = ""
 
 		// Drop down arrow
-		if (settings.showDropdownArrow) {
+		if (
+			typeof settings.showDropdownArrow === "undefined" ||
+			settings.showDropdownArrow === true
+		) {
 			elInput.style.padding = "5px 30px 5px 12px"
 
 			const elArrow = createElementAtt(

@@ -4,7 +4,6 @@
 	"main": "dist/app.js",
 	"type": "module",
 	"scripts": {
-		"build-css": "sass --watch src/dropdown-field.scss:dist/style/dropdown-field.css",
 		"lint": "eslint *.js",
 		"build-prod": "rollup -c config/rollup.main.js",
 		"build-prod2": "webpack --config webpack.config-prod.js"

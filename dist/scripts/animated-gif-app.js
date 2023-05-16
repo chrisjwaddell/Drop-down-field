@@ -201,31 +201,16 @@ const dropDownOptions2 = ["Matthew", "Mark", "Luke", "John", "Mary", "Pauline"]
 
 DropdownField(
 	".container .outer",
-	"Country of birth",
-	"Country of birth",
+	"Country",
+	"Country",
 	2,
-	"dd1",
+	"dda",
 	dropDownOptions,
 	{
 		maxLines: 10,
 		cssClassList: ["field1"],
 	}
 )
-
-DropdownField(".container .outer", "Name", "Name", 3, "dd2", dropDownOptions2, {
-	maxLines: 14,
-	cssClassList: ["field2"],
-	searchMode: "starts with",
-	firstXCharactersOppositeSearchMode: 2,
-	ignoreFirstXCharacters: 1,
-	noFiltering: true,
-	showDropdownArrow: true,
-	onFocusOpenDropdown: true,
-	onClickToggleDropdown: false,
-	typingOpenDropdown: false,
-	enterToggleDropdown: true,
-	autocomplete: false,
-})
 
 document.addEventListener("DOMContentLoaded", function () {
 	document.addEventListener("focus", onFocusDoc, true)

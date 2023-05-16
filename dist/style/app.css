@@ -11,3 +11,20 @@
 	--dd-border-radius: 8px;
 	--dd-input-height: 35px;
 }
+
+.field3 {
+	--dd-width: 200px;
+	--dd-font-size: 14px;
+	--dd-border-radius: 10px;
+	--dd-input-height: 36px;
+}
+
+button,
+button svg,
+svg {
+	background-color: #ffffff !important;
+	border-width: 0 !important;
+	border-style: none !important;
+	border-color: none !important;
+	border-color: #ffffff !important;
+}
