@@ -71,6 +71,7 @@
 	z-index: 1000;
 	margin: 10px 10px;
 	padding-top: 2px;
+	text-align: left;
 	overflow-x: auto;
 	overflow-y: auto;
 	background-color: #fff;
