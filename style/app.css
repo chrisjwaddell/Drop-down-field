@@ -19,6 +19,13 @@
 	--dd-input-height: 36px;
 }
 
+.time-field {
+	--dd-width: 120px;
+	--dd-font-size: 15px;
+	--dd-border-radius: 8px;
+	--dd-input-height: 36px;
+}
+
 /* button,
 button svg,
 svg {

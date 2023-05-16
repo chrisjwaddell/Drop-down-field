@@ -324,13 +324,34 @@ DropdownField(
 	".examples>.example-container:nth-of-type(8)>div>div",
 	"Month",
 	"Month",
-	7,
-	"dd7",
+	8,
+	"dd8",
 	monthList,
 	{
 		maxLines: 10,
 		cssClassList: ["field3"],
+		onFocusOpenDropdown: false,
 		typingOpenDropdown: false,
-		arrowKeysNoDropdown: false,
+		arrowKeysNoDropdown: 2,
+		autocomplete: true,
+		enterToggleDropdown: false,
+	}
+)
+
+DropdownField(
+	".examples>.example-container:nth-of-type(9)>div>div",
+	"Start Time",
+	"Start TIme",
+	9,
+	"dd9",
+	monthList,
+	{
+		maxLines: 5,
+		cssClassList: ["time-field"],
+		onFocusOpenDropdown: false,
+		typingOpenDropdown: false,
+		arrowKeysNoDropdown: 2,
+		autocomplete: true,
+		enterToggleDropdown: false,
 	}
 )

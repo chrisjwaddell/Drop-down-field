@@ -108,7 +108,7 @@
         }
 
         .example-container h3 {
-            margin: 10px 0;
+            margin: 10px 0 2px;
         }
 
         .example-container img {
@@ -153,9 +153,11 @@
 
         .example-container--line1 div:nth-of-type(2),
         .example-container--line2 div:nth-of-type(2) {
+            /* .example-container--line1 div:nth-of-type(2) { */
             padding-left: 30px;
             padding-right: 30px;
         }
+
 
 
         .example-container--line1 div,
@@ -175,8 +177,17 @@
             height: 500px;
         }
 
+        .example-container p {
+            margin: 4px 0;
+        }
 
-        @media screen and (max-width: 950px) {
+        .example-container pre {
+            width: 400px;
+            margin: 20px auto;
+        }
+
+
+        @media screen and (max-width: 1050px) {
             .example-container--line1 {
                 height: 500px;
             }
@@ -503,10 +514,19 @@ DropdownField(
                     </div>
                     <div>
                         <h3>Notes</h3>
-                        <p>When typing into the field, the drop down field, the drop down list shows by default. This
-                            can be turned off. If it's turned off, other options may show the drop down
-                            list but that would be after entering the field, such as on typing, on pressing Enter.</p>
-                        <p>Option for this - <i>typingOpenDropdown: false, arrowKeysNoDropdown: false,</i></p>
+                        <p style="font-size: 14px">In this example, we are using a month list to show how powerful these
+                            options can be. A
+                            number of options are used together to get this easy to use Month list field. WIth
+                            arrrow key options, you have three options which make arrow keys very nice to use in
+                            selecting from a drop down list. You can have the option of not showing the drop down, this
+                            is ideal when you know the list
+                            order for something like month list or numbers. Arrow keys can be used to go up or down the
+                            list without even looking
+                            at the drop down list. It can make it faster to use. You can use this option together with
+                            autocomplete.</p>
+                        <p style="font-size: 14px">Option for this - <i>onFocusOpenDropdown: false,typingOpenDropdown:
+                                false,arrowKeysNoDropdown: 2,autocomplete: true,enterToggleDropdown:
+                                false</i></p>
                     </div>
                 </div>
                 <div class="example-container--line2">
@@ -527,11 +547,64 @@ DropdownField(
     {
         maxLines: 10,
         cssClassList: ["field1"],
+        onFocusOpenDropdown: false,
         typingOpenDropdown: false,
-        arrowKeysNoDropdown: false,
+        arrowKeysNoDropdown: 2,
+        autocomplete: true,
+        enterToggleDropdown: false
     }
 )
                                                                                                 </code></pre>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="example-container">
+                <h2>CSS class added for styling</h2>
+                <div class="example-container--line1">
+                    <div>
+                    </div>
+                    <div>
+                        <h3>Notes</h3>
+                        <p>This is a time list selector. The time list is every 15 minutes. The field width can be
+                            adjusted. Using the up arrow
+                            loops through the list to get to PM straight away. If I want <i>10:15 PM</i>, I would type
+                            in <i>10</i> and ↑, ↑ and tab out of the field. Autocomplete is very handy here. A class is
+                            used for the width and height
+                            of the field. </p>
+                        <p>Option for this - <i>maxLines: 6,cssClassList: ["time-field"],onFocusOpenDropdown:
+                                false,typingOpenDropdown: false,arrowKeysNoDropdown: 2,autocomplete:
+                                true,enterToggleDropdown: true</i></p>
+                    </div>
+                </div>
+                <div class="example-container--line2">
+                    <div>
+                        <h3>See it in action</h3>
+                        <img src="./img/09.gif">
+                    </div>
+                    <div>
+                        <h3>Code</h3>
+                        <pre> <code>
+DropdownField(
+    ".example-container>div>div",
+    "Start Time",
+    "Start Time",
+    9,
+    dd9",
+    timeList,
+    {
+        maxLines: 5,
+        cssClassList: ["field1"],
+        onFocusOpenDropdown: false,
+        typingOpenDropdown: false,
+        arrowKeysNoDropdown: 2,
+        autocomplete: true,
+        enterToggleDropdown: false
+    }
+)
+                                                                                                            </code></pre>
                     </div>
                 </div>
             </div>

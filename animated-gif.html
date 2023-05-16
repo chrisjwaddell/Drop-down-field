@@ -96,8 +96,10 @@
             <p>Key pressed:</p>
             <div></div>
         </div>
-        <p>Settings applied:</p>
-        <p><i>enterToggleDropdown: false, onClickToggleDropdown: false</i></p>
+        <!-- <p>Settings applied:</p>
+        <p><i>maxLines: 6,cssClassList: ["time-field"],onFocusOpenDropdown:
+                false,typingOpenDropdown: false,arrowKeysNoDropdown: 2,autocomplete:
+                true,enterToggleDropdown: true</i></p> -->
         <div class="outer">
 
         </div>
@@ -445,19 +447,19 @@
 
     DropdownField(
         ".container .outer",
-        "Month",
-        "Month",
+        "Start Time",
+        "Start Time",
         2,
         "dda",
-        monthList,
+        timeList,
         {
-            maxLines: 10,
-            cssClassList: ["field1"],
+            maxLines: 6,
+            cssClassList: ["time-field"],
             onFocusOpenDropdown: false,
             typingOpenDropdown: false,
-            arrowKeysNoDropdown: true,
+            arrowKeysNoDropdown: 2,
             autocomplete: true,
-            enterToggleDropdown: false
+            enterToggleDropdown: true
         }
     )
 
