@@ -30,7 +30,7 @@ export default function DropdownField(
 
 	const maxLines = settings.maxLines ?? settingDefaults.maxLines
 	let searchModeNumber = 1
-	if (typeof settings.searchMode === "undefined" || settings.searchMode) {
+	if (typeof settings.searchMode !== "undefined" || settings.searchMode) {
 		// if (settings.searchMode) {
 		if (settings.searchMode.toLowerCase() === "starts with") {
 			searchModeNumber = 0
@@ -803,7 +803,8 @@ export default function DropdownField(
 					elUL.innerHTML = ""
 					elUL.classList.remove("isvisible")
 
-					elAutocomplete.classList.remove("isvisible")
+					if (elAutocomplete)
+						elAutocomplete.classList.remove("isvisible")
 				} else {
 					// Letters have been typed, they are shown as bold
 					matches = results.map((cv) =>
@@ -920,7 +921,9 @@ export default function DropdownField(
 		if (entry === "" || entry === "enter") {
 			if (origin) {
 				elInput.value = origin
-				if (elAutocomplete) elAutocomplete.classList.remove("isvisible")
+				if (elAutocomplete) {
+					elAutocomplete.classList.remove("isvisible")
+				}
 			}
 		} else {
 			// If no value in, put filter value in if there is one

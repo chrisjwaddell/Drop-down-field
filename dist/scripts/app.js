@@ -212,13 +212,13 @@ DropdownField(
 	}
 )
 
-DropdownField(".container .outer", "Name", "Name", 3, "dd2", dropDownOptions2, {
+DropdownField(".container .outer", "Name", "Name", 3, "dd2", dropDownOptions, {
 	maxLines: 14,
 	cssClassList: ["field2"],
-	searchMode: "starts with",
-	firstXCharactersOppositeSearchMode: 2,
+	searchMode: "anywhere in",
+	// firstXCharactersOppositeSearchMode: 2,
 	ignoreFirstXCharacters: 1,
-	noFiltering: true,
+	// noFiltering: true,
 	showDropdownArrow: true,
 	onFocusOpenDropdown: true,
 	onClickToggleDropdown: false,

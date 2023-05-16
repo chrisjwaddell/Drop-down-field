@@ -222,7 +222,6 @@ DropdownField(
 
 DropdownField(".container .outer", "Name", "Name", 3, "dd2", dropDownOptions, {
 	maxLines: 12,
-	searchMode: "starts with",
 	firstXLettersOppositeSearchMode: 2,
 	showDropdownArrow: true,
 })
