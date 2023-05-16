@@ -30,7 +30,8 @@ export default function DropdownField(
 
 	const maxLines = settings.maxLines ?? settingDefaults.maxLines
 	let searchModeNumber = 1
-	if (settings.searchMode) {
+	if (typeof settings.searchMode !== "undefined" || settings.searchMode) {
+		// if (settings.searchMode) {
 		if (settings.searchMode.toLowerCase() === "starts with") {
 			searchModeNumber = 0
 		} else {
@@ -135,7 +136,10 @@ export default function DropdownField(
 		// elDDContainer.dataset.filter = ""
 
 		// Drop down arrow
-		if (settings.showDropdownArrow) {
+		if (
+			typeof settings.showDropdownArrow === "undefined" ||
+			settings.showDropdownArrow === true
+		) {
 			elInput.style.padding = "5px 30px 5px 12px"
 
 			const elArrow = createElementAtt(
@@ -513,15 +517,7 @@ export default function DropdownField(
 
 		// Add events
 		elInput.addEventListener("click", onClickInput, false)
-		elInput.addEventListener("keydown", (e) => {
-			if (e.key === "Tab") {
-				if (elAutocomplete) {
-					if (elAutocomplete.classList.contains("isvisible")) {
-						elInput.value = elAutocomplete.textContent
-					}
-				}
-			}
-		})
+		elInput.addEventListener("keydown", onKeyDownInput)
 		elInput.addEventListener("keyup", onKeyUpInput)
 		elInput.addEventListener("blur", onBlurInput)
 
@@ -600,15 +596,16 @@ export default function DropdownField(
 
 		closeDropdown()
 
-		if (entry !== "listclick" && entry !== "stay") {
-			elInput.removeEventListener("click", onClickInput, false)
-			elInput.removeEventListener("keyup", onKeyUpInput)
-			elInput.removeEventListener("blur", onBlurInput)
+		// if (entry !== "listclick" && entry !== "stay") {
+		elInput.removeEventListener("click", onClickInput, false)
+		elInput.removeEventListener("keydown", onKeyDownInput)
+		elInput.removeEventListener("keyup", onKeyUpInput)
+		elInput.removeEventListener("blur", onBlurInput)
 
-			// elUL.removeEventListener("mousedown", onMouseDownUL, true)
+		// elUL.removeEventListener("mousedown", onMouseDownUL, true)
 
-			if (elAutocomplete) elAutocomplete.classList.remove("isvisible")
-		}
+		if (elAutocomplete) elAutocomplete.classList.remove("isvisible")
+		// }
 
 		control = "input"
 		setMode(entry, control, lastDDMode)
@@ -640,6 +637,16 @@ export default function DropdownField(
 		}
 
 		setMode(entry, control, lastDDMode)
+	}
+
+	function onKeyDownInput(e) {
+		if (e.key === "Tab") {
+			if (elAutocomplete) {
+				if (elAutocomplete.classList.contains("isvisible")) {
+					elInput.value = elAutocomplete.textContent
+				}
+			}
+		}
 	}
 
 	function onKeyUpInput(e) {
@@ -789,14 +796,15 @@ export default function DropdownField(
 
 					elUL.classList.add("isvisible")
 					elUL.style.maxHeight = maxHeight + "px"
-					elUL.scrollTo(0, 0)
 					elUL.innerHTML = matchlist
+					elUL.scrollTo(0, 0)
 				} else if (results.length === 0) {
 					matches = []
 					elUL.innerHTML = ""
 					elUL.classList.remove("isvisible")
 
-					elAutocomplete.classList.remove("isvisible")
+					if (elAutocomplete)
+						elAutocomplete.classList.remove("isvisible")
 				} else {
 					// Letters have been typed, they are shown as bold
 					matches = results.map((cv) =>
@@ -804,6 +812,7 @@ export default function DropdownField(
 					)
 					matchlist = matches.map((cv) => `<li>${cv}</li>`).join("")
 					elUL.innerHTML = matchlist
+					elUL.scrollTo(0, 0)
 
 					if (elAutocomplete) autocomplete()
 				}
@@ -912,7 +921,9 @@ export default function DropdownField(
 		if (entry === "" || entry === "enter") {
 			if (origin) {
 				elInput.value = origin
-				if (elAutocomplete) elAutocomplete.classList.remove("isvisible")
+				if (elAutocomplete) {
+					elAutocomplete.classList.remove("isvisible")
+				}
 			}
 		} else {
 			// If no value in, put filter value in if there is one
