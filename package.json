@@ -6,8 +6,10 @@
 	"scripts": {
 		"build-css": "copyfiles -u 2 src/style/dropdown-field.css dist/style",
 		"lint": "eslint *.js",
-		"build-prod": "rollup -c config/rollup.main.js",
-		"build-prod2": "webpack --config webpack.config-prod.js"
+		"build-prod2": "webpack --config webpack.config-prod.js",
+		"build-dd": "rollup -c config/rollup.main.js",
+		"build-append": "concat-cli -f src/scripts/dropdown-field-final.js src/scripts/doc.js -o ./dist/scripts/dropdown-field.js",
+		"build-prod": "npm run build-dd && npm run build-append"
 	},
 	"keywords": [],
 	"author": "Chris Waddell",
