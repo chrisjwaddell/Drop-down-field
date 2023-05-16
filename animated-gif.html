@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="" />
     <title>Drop Down Search List</title>
     <style>
@@ -47,9 +48,18 @@
             margin-top: 50px;
         }
 
+        .container p {
+            text-align: center;
+            margin: 0;
+        }
+
+        .container p:first-of-type {
+            font-weight: 500;
+        }
+
         .outer {
             display: flex;
-            margin: 50px auto;
+            margin: 30px auto;
         }
 
 
@@ -86,6 +96,8 @@
             <p>Key pressed:</p>
             <div></div>
         </div>
+        <p>Settings applied:</p>
+        <p><i>autocomplete: true</i></p>
         <div class="outer">
 
         </div>
@@ -319,6 +331,7 @@
         {
             maxLines: 10,
             cssClassList: ["field1"],
+            autocomplete: true
         }
     )
 

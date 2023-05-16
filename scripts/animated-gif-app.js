@@ -211,22 +211,12 @@ DropdownField(
 	".example-container>div>div",
 	"Country",
 	"Country",
-	2,
+	1,
 	"dd1",
 	dropDownOptions,
 	{
 		maxLines: 10,
 		cssClassList: ["field3"],
-		searchMode: "starts with",
-		ignoreFirstXCharacters: 0,
-		noFiltering: false,
-		showDropdownArrow: true,
-		onFocusOpenDropdown: true,
-		onClickToggleDropdown: true,
-		typingOpenDropdown: true,
-		enterToggleDropdown: true,
-		arrowKeysNoDropdown: 0,
-		autocomplete: true,
 	}
 )
 
@@ -240,16 +230,7 @@ DropdownField(
 	{
 		maxLines: 10,
 		cssClassList: ["field3"],
-		searchMode: "starts with",
-		ignoreFirstXCharacters: 0,
-		noFiltering: false,
-		showDropdownArrow: true,
-		onFocusOpenDropdown: true,
-		onClickToggleDropdown: true,
-		typingOpenDropdown: true,
-		enterToggleDropdown: true,
-		arrowKeysNoDropdown: 0,
-		autocomplete: true,
+		searchMode: "",
 	}
 )
 
@@ -257,21 +238,26 @@ DropdownField(
 	".examples>.example-container:nth-of-type(3)>div>div",
 	"Country",
 	"Country",
-	2,
+	3,
 	"dd3",
 	dropDownOptions,
 	{
 		maxLines: 10,
 		cssClassList: ["field3"],
-		searchMode: "starts with",
-		ignoreFirstXCharacters: 0,
-		noFiltering: false,
-		showDropdownArrow: true,
-		onFocusOpenDropdown: true,
-		onClickToggleDropdown: true,
-		typingOpenDropdown: true,
-		enterToggleDropdown: true,
-		arrowKeysNoDropdown: 0,
+		ignoreFirstXCharacters: 2,
+	}
+)
+
+DropdownField(
+	".examples>.example-container:nth-of-type(4)>div>div",
+	"Country",
+	"Country",
+	4,
+	"dd4",
+	dropDownOptions,
+	{
+		maxLines: 10,
+		cssClassList: ["field3"],
 		autocomplete: true,
 	}
 )

@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="" />
     <title>Drop Down Search List</title>
     <style>
@@ -29,7 +30,13 @@
 
         body {
             margin: 0;
-            background-color: #ffffff;
+            background-color: #22aadd;
+        }
+
+        h1 {
+            text-align: center;
+            /* color: #aa8800; */
+            /* color: #885500; */
         }
 
         .isvisible {
@@ -39,12 +46,9 @@
         .container {
             width: 100%;
             max-width: 1400px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 50px auto;
             padding-left: 30px;
             padding-right: 30px;
-
-            margin-top: 50px;
         }
 
         .outer {
@@ -53,11 +57,10 @@
         }
 
 
-        .ddfield__examples {
-            /* display: flex; */
-            margin: 10px auto;
+        .examples .example-container .ddfield {
+            height: 80px;
+            margin-top: 60px;
         }
-
 
         /* CODE */
         pre {
@@ -101,6 +104,15 @@
             margin-top: 20px;
             text-align: center;
             border: 2px solid #111111;
+            background-color: #ffffff;
+        }
+
+        .example-container h3 {
+            margin: 10px 0;
+        }
+
+        .example-container img {
+            height: 450px;
         }
 
 
@@ -116,7 +128,7 @@
         }
 
         .example-container--line2 {
-            height: 350px;
+            height: 500px;
         }
 
         .example-container--line1>div,
@@ -139,18 +151,51 @@
             border-right-width: 1px;
         }
 
-
-
-        .example-container--line1 div {
-            flex: 1 1 400px;
-            /* flex: 1; */
+        .example-container--line1 div:nth-of-type(2),
+        .example-container--line2 div:nth-of-type(2) {
+            padding-left: 30px;
+            padding-right: 30px;
         }
 
 
+        .example-container--line1 div,
         .example-container--line2 div {
-            flex: 0 0 400px;
+            flex: 1 1 400px;
             flex: 1;
+            flex: 0 0 400px;
             /* height: 400px; */
+            flex: 400px;
+        }
+
+        .example-container--line1 div {
+            height: 250px;
+        }
+
+        .example-container--line2 div {
+            height: 500px;
+        }
+
+
+        @media screen and (max-width: 950px) {
+            .example-container--line1 {
+                height: 500px;
+            }
+
+            .example-container--line2 {
+                height: 1000px;
+            }
+
+            .example-container--line1 div:nth-of-type(1),
+            .example-container--line2 div:nth-of-type(1) {
+                border-right-width: 0px;
+            }
+
+            .example-container--line1 div:nth-of-type(2),
+            .example-container--line2 div:nth-of-type(1) {
+                border-bottom: 1px solid #bbbbbb;
+                border-top-width: 0px;
+            }
+
         }
     </style>
     <link rel="stylesheet" href="./style/dropdown-field.css" />
@@ -169,13 +214,18 @@
                     </div>
                     <div>
                         <h3>Notes</h3>
-                        <p>here are some notes</p>
+                        <p>These are the default drop down options. On getting focus, the drop down list appears. It
+                            filters on what you type. If you exit the
+                            field with a value in the field that doesn't exist in the list, the field value will return
+                            to the original value that was in the list when you entered it, or it will change to a blank
+                            value.</p>
+                        <p>Pressing Escape returns the field the the original value.</p>
                     </div>
                 </div>
                 <div class="example-container--line2">
                     <div>
                         <h3>See it in action</h3>
-                        <img src="./img/dd1.jpg">
+                        <img src="./img/01.gif">
                     </div>
                     <div>
                         <h3>Code</h3>
@@ -184,7 +234,7 @@ DropdownField(
     ".example-container>div>div",
     "Country",
     "Country",
-    2,
+    1,
     "dd1",
     dropDownOptions,
     {
@@ -198,41 +248,26 @@ DropdownField(
             </div>
 
             <div class="example-container">
-                <h2>Standard drop down</h2>
+                <h2>Search anywhere in the string of each list item</h2>
                 <div class="example-container--line1">
                     <div>
                     </div>
                     <div>
                         <h3>Notes</h3>
-                        <p>here are some notes</p>
+                        <p>In this common example of a country list, typing in <i>au</i> filters on <i>au</i> in any
+                            part of the string of the
+                            given list. Down and up arrow keys on the list work of course. Enter or the mouse can be
+                            used to select an item.
+                            Escape takes you back to the filter but if the value in the field doesn't match anything in
+                            the list, the field goes
+                            back to the original value.</p>
+                        <p>Option for this - <i>searchMode: ""</i></p>
                     </div>
                 </div>
                 <div class="example-container--line2">
                     <div>
                         <h3>See it in action</h3>
-                        <img src="./img/dd1.jpg">
-                    </div>
-                    <div>
-                        <h3>Code</h3>
-                        <p>here is some code</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="example-container">
-                <h2>Standard drop down</h2>
-                <div class="example-container--line1">
-                    <div>
-                    </div>
-                    <div>
-                        <h3>Notes</h3>
-                        <p>here are some notes</p>
-                    </div>
-                </div>
-                <div class="example-container--line2">
-                    <div>
-                        <h3>See it in action</h3>
-                        <img src="./img/dd1.jpg">
+                        <img src="./img/02.gif">
                     </div>
                     <div>
                         <h3>Code</h3>
@@ -247,12 +282,92 @@ DropdownField(
     {
         maxLines: 10,
         cssClassList: ["field1"],
+        searchMode: ""
     }
 )
                         </code></pre>
                     </div>
                 </div>
             </div>
+
+            <div class="example-container">
+                <h2>Filtering starts after a certain amount of characters</h2>
+                <div class="example-container--line1">
+                    <div>
+                    </div>
+                    <div>
+                        <h3>Notes</h3>
+                        <p>After typing in <i>ch</i> nothing has been filtered. It starts filtering on the 3rd
+                            character.</p>
+                        <p>Option for this - <i>ignoreFirstXCharacters: 2</i></p>
+                    </div>
+                </div>
+                <div class="example-container--line2">
+                    <div>
+                        <h3>See it in action</h3>
+                        <img src="./img/03.gif">
+                    </div>
+                    <div>
+                        <h3>Code</h3>
+                        <pre> <code>
+DropdownField(
+    ".example-container>div>div",
+    "Country",
+    "Country",
+    3,
+    "dd3",
+    dropDownOptions,
+    {
+        maxLines: 10,
+        cssClassList: ["field1"],
+        ignoreFirstXCharacters: 2
+    }
+)
+                                    </code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="example-container">
+                <h2>Autocomplete</h2>
+                <div class="example-container--line1">
+                    <div>
+                    </div>
+                    <div>
+                        <h3>Notes</h3>
+                        <p>After typing in each letter, the blue bubble above the field suggests the first item in the
+                            filtered list. After typing in <i>au</i>, it suggests <i>Australia</i>. If you tab out of
+                            the field, it becomes the value of the field saving you time and allowing you to use the
+                            field faster.</p>
+                        <p>Option for this - <i>autocomplete: true</i></p>
+                    </div>
+                </div>
+                <div class="example-container--line2">
+                    <div>
+                        <h3>See it in action</h3>
+                        <img src="./img/04.gif">
+                    </div>
+                    <div>
+                        <h3>Code</h3>
+                        <pre> <code>
+DropdownField(
+    ".example-container>div>div",
+    "Country",
+    "Country",
+    4,
+    "dd4",
+    dropDownOptions,
+    {
+        maxLines: 10,
+        cssClassList: ["field1"],
+        autocomplete: true
+    }
+)
+                                                </code></pre>
+                    </div>
+                </div>
+            </div>
+
 
         </div>
     </div>
