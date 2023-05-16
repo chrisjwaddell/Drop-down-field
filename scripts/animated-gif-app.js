@@ -341,10 +341,10 @@ DropdownField(
 DropdownField(
 	".examples>.example-container:nth-of-type(9)>div>div",
 	"Start Time",
-	"Start TIme",
+	"Start Time",
 	9,
 	"dd9",
-	monthList,
+	timeList,
 	{
 		maxLines: 5,
 		cssClassList: ["time-field"],
