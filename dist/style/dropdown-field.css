@@ -100,7 +100,7 @@
 	display: block !important;
 }
 
-.autocomplete {
+.ddfield .autocomplete {
 	position: absolute;
 	display: none;
 	width: 140px;
@@ -118,7 +118,7 @@
 	-ms-transform: translate(-20%, -120%);
 }
 
-.autocomplete:before {
+.ddfield .autocomplete:before {
 	content: "";
 	position: absolute;
 	width: 0;
