@@ -321,12 +321,6 @@ const timeList = [
 
 const dropDownOptions2 = ["Matthew", "Mark", "Luke", "John", "Mary", "Pauline"]
 
-const elKeyBubble = document.querySelector(".keypressed div")
-document.addEventListener("keyup", function (e) {
-	console.log(e.key)
-	elKeyBubble.textContent = e.key
-})
-
 // const elDDFlex = document.querySelectorAll(".ddfield__examples .ddfield__flex div:first-child")
 
 DropdownField(
