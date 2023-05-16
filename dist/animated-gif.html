@@ -195,6 +195,7 @@
 
 
         <div class="examples">
+            <h1>Drop down field examples with different options</h1>
             <div class="example-container">
                 <h2>Standard drop down</h2>
                 <div class="example-container--line1">
@@ -269,7 +270,20 @@ DropdownField(
                     </div>
                     <div>
                         <h3>Code</h3>
-                        <p>here is some code</p>
+                        <pre> <code>
+DropdownField(
+    ".example-container>div>div",
+    "Country",
+    "Country",
+    2,
+    "dd2",
+    dropDownOptions,
+    {
+        maxLines: 10,
+        cssClassList: ["field1"],
+    }
+)
+                        </code></pre>
                     </div>
                 </div>
             </div>
