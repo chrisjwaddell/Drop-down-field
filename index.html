@@ -254,7 +254,6 @@ DropdownField(
                 </div>
             </div>
 
-
         </div>
     </div>
 </body>
@@ -263,83 +262,6 @@ DropdownField(
 <script src="./scripts/animated-gif-app.js"></script>
 
 <script>
-    const elKeyBubble = document.querySelector(".keypressed div")
-    document.addEventListener("keyup", function (e) {
-        console.log(e.key)
-        elKeyBubble.textContent = e.key
-    })
-
-
-    // const elDDFlex = document.querySelectorAll(".ddfield__examples .ddfield__flex div:first-child")
-
-    DropdownField(
-        ".example-container>div>div",
-        "Country",
-        "Country",
-        2,
-        "dd1",
-        dropDownOptions,
-        {
-            maxLines: 10,
-            cssClassList: ["field3"],
-            searchMode: "starts with",
-            ignoreFirstXCharacters: 0,
-            noFiltering: false,
-            showDropdownArrow: true,
-            onFocusOpenDropdown: true,
-            onClickToggleDropdown: true,
-            typingOpenDropdown: true,
-            enterToggleDropdown: true,
-            arrowKeysNoDropdown: 0,
-            autocomplete: true,
-        }
-    )
-
-    DropdownField(
-        ".examples>.example-container:nth-of-type(2)>div>div",
-        "Country",
-        "Country",
-        2,
-        "dd2",
-        dropDownOptions,
-        {
-            maxLines: 10,
-            cssClassList: ["field3"],
-            searchMode: "starts with",
-            ignoreFirstXCharacters: 0,
-            noFiltering: false,
-            showDropdownArrow: true,
-            onFocusOpenDropdown: true,
-            onClickToggleDropdown: true,
-            typingOpenDropdown: true,
-            enterToggleDropdown: true,
-            arrowKeysNoDropdown: 0,
-            autocomplete: true,
-        }
-    )
-
-    DropdownField(
-        ".examples>.example-container:nth-of-type(3)>div>div",
-        "Country",
-        "Country",
-        2,
-        "dd3",
-        dropDownOptions,
-        {
-            maxLines: 10,
-            cssClassList: ["field3"],
-            searchMode: "starts with",
-            ignoreFirstXCharacters: 0,
-            noFiltering: false,
-            showDropdownArrow: true,
-            onFocusOpenDropdown: true,
-            onClickToggleDropdown: true,
-            typingOpenDropdown: true,
-            enterToggleDropdown: true,
-            arrowKeysNoDropdown: 0,
-            autocomplete: true,
-        }
-    )
 </script>
 
 
