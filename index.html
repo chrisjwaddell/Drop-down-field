@@ -368,6 +368,174 @@ DropdownField(
                 </div>
             </div>
 
+            <div class="example-container">
+                <h2>List size and drop down arrow</h2>
+                <div class="example-container--line1">
+                    <div>
+                    </div>
+                    <div>
+                        <h3>Notes</h3>
+                        <p>The arrow on the right of the field by default is displayed but you can turn it off. Enter
+                            can be used to toggle the
+                            list to display or make it disappear. The number of lines can be what you want but it is
+                            suggested you don't choose more
+                            than 12, otherwise it doesn't fit on webpages especially when the drop down is on a page
+                            that's scrolled down and the
+                            field is near the bottom of the page. Here we are choosing five lines to display in the
+                            list.</p>
+                        <p>Option for this - <i>maxLines: 5, showDropdownArrow: false</i></p>
+                    </div>
+                </div>
+                <div class="example-container--line2">
+                    <div>
+                        <h3>See it in action</h3>
+                        <img src="./img/05.gif">
+                    </div>
+                    <div>
+                        <h3>Code</h3>
+                        <pre> <code>
+DropdownField(
+    ".example-container>div>div",
+    "Country",
+    "Country",
+    5,
+    "dd5",
+    dropDownOptions,
+    {
+        cssClassList: ["field1"],
+        maxLines: 5,
+        showDropdownArrow: false
+    }
+)
+                                                            </code></pre>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="example-container">
+                <h2>Toggle drop down list with Enter key and mouse click</h2>
+                <div class="example-container--line1">
+                    <div>
+                    </div>
+                    <div>
+                        <h3>Notes</h3>
+                        <p>When pressing the Enter key, by default, it toggles the drop down list, mouse click as well
+                            toggles the drop down list by default, you can turn this off.</p>
+                        <p>Option for this - <i>enterToggleDropdown: false, onClickToggleDropdown: false</i></p>
+                    </div>
+                </div>
+                <div class="example-container--line2">
+                    <div>
+                        <h3>See it in action</h3>
+                        <img src="./img/06.gif">
+                    </div>
+                    <div>
+                        <h3>Code</h3>
+                        <pre> <code>
+DropdownField(
+    ".example-container>div>div",
+    Country",
+    Country",
+    6,
+    dd6",
+    dropDownOptions,
+    {
+        maxLines: 10,
+        cssClassList: ["field1"],
+        enterToggleDropdown: false,
+        onClickToggleDropdown: false
+    }
+)
+                                                                        </code></pre>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="example-container">
+                <h2>On field focus, don't show drop down list</h2>
+                <div class="example-container--line1">
+                    <div>
+                    </div>
+                    <div>
+                        <h3>Notes</h3>
+                        <p>On entering the drop down field, (either by tab or by mouse click), the drop down list shows
+                            by default. This can be turned off. If it's turned off, other options may show the drop down
+                            list but that would be after entering the field, such as on typing, on pressing Enter.</p>
+                        <p>Option for this - <i>onFocusOpenDropdown: false</i></p>
+                    </div>
+                </div>
+                <div class="example-container--line2">
+                    <div>
+                        <h3>See it in action</h3>
+                        <img src="./img/07.gif">
+                    </div>
+                    <div>
+                        <h3>Code</h3>
+                        <pre> <code>
+DropdownField(
+    ".example-container>div>div",
+    Country",
+    Country",
+    7,
+    dd7",
+    dropDownOptions,
+    {
+        maxLines: 10,
+        cssClassList: ["field1"],
+        onFocusOpenDropdown: false
+    }
+)
+                                                                                    </code></pre>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="example-container">
+                <h2>On typing, don't show drop down list</h2>
+                <div class="example-container--line1">
+                    <div>
+                    </div>
+                    <div>
+                        <h3>Notes</h3>
+                        <p>When typing into the field, the drop down field, the drop down list shows by default. This
+                            can be turned off. If it's turned off, other options may show the drop down
+                            list but that would be after entering the field, such as on typing, on pressing Enter.</p>
+                        <p>Option for this - <i>typingOpenDropdown: false, arrowKeysNoDropdown: false,</i></p>
+                    </div>
+                </div>
+                <div class="example-container--line2">
+                    <div>
+                        <h3>See it in action</h3>
+                        <img src="./img/08.gif">
+                    </div>
+                    <div>
+                        <h3>Code</h3>
+                        <pre> <code>
+DropdownField(
+    ".example-container>div>div",
+    Country",
+    Country",
+    8,
+    dd8",
+    monthList,
+    {
+        maxLines: 10,
+        cssClassList: ["field1"],
+        typingOpenDropdown: false,
+        arrowKeysNoDropdown: false,
+    }
+)
+                                                                                                </code></pre>
+                    </div>
+                </div>
+            </div>
+
 
         </div>
     </div>

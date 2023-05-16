@@ -197,6 +197,21 @@ const dropDownOptions = [
 	"Zimbabwe",
 ]
 
+const monthList = [
+	"January",
+	"February",
+	"March",
+	"April",
+	"May",
+	"June",
+	"July",
+	"August",
+	"September",
+	"October",
+	"November",
+	"December",
+]
+
 const dropDownOptions2 = ["Matthew", "Mark", "Luke", "John", "Mary", "Pauline"]
 
 const elKeyBubble = document.querySelector(".keypressed div")
@@ -259,5 +274,63 @@ DropdownField(
 		maxLines: 10,
 		cssClassList: ["field3"],
 		autocomplete: true,
+	}
+)
+
+DropdownField(
+	".examples>.example-container:nth-of-type(5)>div>div",
+	"Country",
+	"Country",
+	5,
+	"dd5",
+	dropDownOptions,
+	{
+		cssClassList: ["field3"],
+		maxLines: 5,
+		showDropdownArrow: false,
+	}
+)
+
+DropdownField(
+	".examples>.example-container:nth-of-type(6)>div>div",
+	"Country",
+	"Country",
+	6,
+	"dd6",
+	dropDownOptions,
+	{
+		maxLines: 10,
+		cssClassList: ["field3"],
+		enterToggleDropdown: false,
+		onClickToggleDropdown: false,
+	}
+)
+
+DropdownField(
+	".examples>.example-container:nth-of-type(7)>div>div",
+	"Country",
+	"Country",
+	7,
+	"dd7",
+	dropDownOptions,
+	{
+		maxLines: 10,
+		cssClassList: ["field3"],
+		onFocusOpenDropdown: false,
+	}
+)
+
+DropdownField(
+	".examples>.example-container:nth-of-type(8)>div>div",
+	"Month",
+	"Month",
+	7,
+	"dd7",
+	monthList,
+	{
+		maxLines: 10,
+		cssClassList: ["field3"],
+		typingOpenDropdown: false,
+		arrowKeysNoDropdown: false,
 	}
 )
