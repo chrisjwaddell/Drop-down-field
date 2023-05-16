@@ -199,19 +199,6 @@ const dropDownOptions = [
 
 const dropDownOptions2 = ["Matthew", "Mark", "Luke", "John", "Mary", "Pauline"]
 
-DropdownField(
-	".container .outer",
-	"Country",
-	"Country",
-	2,
-	"dda",
-	dropDownOptions,
-	{
-		maxLines: 10,
-		cssClassList: ["field1"],
-	}
-)
-
 document.addEventListener("DOMContentLoaded", function () {
 	document.addEventListener("focus", onFocusDoc, true)
 	document.addEventListener("focus", onFocusClickDoc, true)

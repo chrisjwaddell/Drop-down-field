@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="" />
+    <title>Drop Down Search List</title>
+    <style>
+        html {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        *,
+        *:before,
+        *:after {
+            -webkit-box-sizing: inherit;
+            -moz-box-sizing: inherit;
+            box-sizing: inherit;
+        }
+
+        html {
+            font-family: sans-serif;
+            -ms-text-size-adjust: 100%;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            margin: 0;
+            background-color: #ffffff;
+        }
+
+        .isvisible {
+            display: block !important;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 30px;
+            padding-right: 30px;
+
+            margin-top: 50px;
+        }
+
+        .outer {
+            display: flex;
+            margin: 50px auto;
+        }
+
+
+        .keypressed {
+            margin: 70px auto 7px auto;
+            text-align: center;
+        }
+
+        .keypressed p {
+            margin: 4px;
+        }
+
+        .keypressed div {
+            width: 110px;
+            height: 30px;
+            margin: 0px auto 20px auto;
+            padding: 6px 2px 2px 2px;
+            color: #000000;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            /* opacity: 80%; */
+            border-radius: 7px;
+            background-color: #ffec00;
+        }
+    </style>
+    <link rel="stylesheet" href="./style/dropdown-field.css" />
+    <link rel="stylesheet" href="./style/app.css" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="keypressed">
+            <p>Key pressed:</p>
+            <div></div>
+        </div>
+        <div class="outer">
+
+        </div>
+
+
+    </div>
+</body>
+
+<!-- <script type="text/javascript" src="https://cdn.rawgit.com/chrisjwaddell/console-log-plus/main/log.js"></script> -->
+<script src="./scripts/dropdown-field.js"></script>
+<script src="./scripts/animated-gif-app.js"></script>
+
+<script>
+    const elKeyBubble = document.querySelector(".keypressed div")
+    document.addEventListener("keyup", function (e) {
+        console.log(e.key)
+        elKeyBubble.textContent = e.key
+    })
+
+
+    // const elDDFlex = document.querySelectorAll(".ddfield__examples .ddfield__flex div:first-child")
+
+    DropdownField(
+        ".container .outer",
+        "Country",
+        "Country",
+        2,
+        "dda",
+        dropDownOptions,
+        {
+            maxLines: 10,
+            cssClassList: ["field1"],
+        }
+    )
+
+</script>
+
+
+</html>
