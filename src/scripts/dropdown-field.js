@@ -794,7 +794,7 @@ export default function DropdownField(
 				if (results.length === DD_LIST_SIZE) {
 					matchlist = results.map((cv) => `<li>${cv}</li>`).join("")
 
-					elUL.classList.add("isvisible")
+					// elUL.classList.add("isvisible")
 					elUL.style.maxHeight = maxHeight + "px"
 					elUL.innerHTML = matchlist
 					elUL.scrollTo(0, 0)
