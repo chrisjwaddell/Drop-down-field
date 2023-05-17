@@ -201,8 +201,8 @@ const dropDownOptions2 = ["Matthew", "Mark", "Luke", "John", "Mary", "Pauline"]
 
 DropdownField(
 	".container .outer",
-	"Country of birth",
-	"Country of birth",
+	"Country",
+	"Country",
 	2,
 	"dd1",
 	dropDownOptions,
@@ -210,11 +210,7 @@ DropdownField(
 		maxLines: 10,
 		cssClassList: ["field1"],
 		searchMode: "",
-		onFocusOpenDropdown: false,
-		typingOpenDropdown: false,
-		arrowKeysNoDropdown: true,
 		autocomplete: true,
-		enterToggleDropdown: false,
 	}
 )
 
