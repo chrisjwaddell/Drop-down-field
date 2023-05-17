@@ -5,10 +5,26 @@ You have options over how filtering is done.
 
 ![](https://github.com/chrisjwaddell/Drop-down-field/blob/main/img/country.gif)
 
-There is an autocomplete option making it fast to use. You have the option of
-whether you want an arrow for the drop down. If you press escape, the text field
+There is an autocomplete option making it fast to use. You have the option of whether you want an arrow for the drop down. If you press escape, the text field
 goes back to what you typed or what was originally in the field as you entered
 it.
+
+
+## How to use
+``
+DropdownField(
+    ".example-container>div>div",
+    "Country",
+    "Country",
+    2,
+    "dd1",
+    dropDownOptions,
+    {
+        maxLines: 10,
+        cssClassList: ["field1"],
+    }
+)
+``
 
 ## Filtering options
 It matches characters to the options regardless of upper or lower case. You can
