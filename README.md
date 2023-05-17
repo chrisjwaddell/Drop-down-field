@@ -2,13 +2,63 @@
 This drop down field is a filterable drop down field list with various options.
 As the user types, the drop down list is filtered to match what the user types.
 You have options over how filtering is done.
+This drop down field is a one column list. And one selection only.
 
 ![](https://github.com/chrisjwaddell/Drop-down-field/blob/main/img/country.gif)
 
-There is an autocomplete option making it fast to use. You have the option of
-whether you want an arrow for the drop down. If you press escape, the text field
-goes back to what you typed or what was originally in the field as you entered
-it.
+There is an autocomplete option making it fast to use. You have the option of whether you want an arrow for the drop down. If you press escape, the text field
+goes back to what you typed or what was originally in the field as you entered it.
+
+
+[Dropdown field Examples](https://chrisjwaddell.github.io/Drop-down-field/)
+
+
+Filterable drop downs are in many cases better than your standard drop down box, it filters and you can easily choose by using up and down arrow and letters.
+
+
+## How to use
+
+``
+DropdownField(target, Field name, Placeholder, tabindex, ID, List, Options)
+``
+
+target - where the drop down field gets placed.\
+Field name\
+Placeholder\
+tabindex\
+ID - The ID that will be placed in the HTML. It must have a unique ID.\
+List - This is an array of items to appear in the list.\
+Options - an object withe the option names appearing below.
+
+
+Add these lines the head of your HTML:
+```
+<link rel="stylesheet" href="https://raw.githubusercontent.com/chrisjwaddell/Drop-down-field/develop/dist/style/dropdown-field.css">
+
+<scripts src="https://raw.githubusercontent.com/chrisjwaddell/Drop-down-field/develop/dist/scripts/dropdown-field.js">
+
+```
+
+
+Add each drop down like this:
+
+```
+DropdownField(
+    ".container",
+    "Country",
+    "Country",
+    2,
+    "dd1",
+    dropDownOptions,
+    {
+        maxLines: 10,
+        // options go here
+    }
+)
+```
+
+
+
 
 ## Filtering options
 It matches characters to the options regardless of upper or lower case. You can
@@ -41,7 +91,7 @@ be visible to go through the list.
 | `onClickToggleDropdown`              | _true_ or _false_           | Clicking on the field makes the drop down list appear. The default is _false_.                                                                                                                                                                                                                                                                          |
 | `typingOpenDropdown`                 | _true_ or _false_           | Any typing on the keyboard will automatically make the drop down list appear. The default is _true_.                                                                                                                                                                                                                                                 |
 | `enterToggleDropdown`                | _true_ or _false_           | Pressing Enter on the keyboard toggles the drop down list to appear or disappear. The default is _true_.                                                                                                                                                                                                                                             |
-| `arrowKeysNoDropdown`                | _0_, _1_ or _2_           | If no dropdown appears: 0 - do nothing; 1 - open drop down; 2 - don't show drop down, go up or down the list. This feature is good for sequential data in the list whn the user knows the order of the list such as numbers, alphabetic order of a short list. Default - _0_. This setting is independent of typingOpenDropdown. |
+| `arrowKeysNoDropdown`                | _0_, _1_ or _2_           | If no dropdown appears: 0 - do nothing; 1 - open drop down; 2 - don't show drop down, go up or down the list. This feature is good for sequential data in the list when the user knows the order of the list such as numbers, alphabetic order of a short list. Default - _0_. This setting is independent of typingOpenDropdown. |
 | `autocomplete`                       | _true_ or _false_           | Suggests the first item in the list according to the filter settings. If the user tab out of the field with nothing selected and it will choose the first item. It works regardless of whether the list is showing or not. The default is _false_.                                                                                                                                                                             |
 | `cssClassList`                       | Array of CSS class names    | Adds these classes to the container of the drop down. This CSS should be hierarchically placed after dropdown-field.css                                                                                                                                                                                                        |
 
@@ -66,3 +116,16 @@ down field styling are:
 ## Attributes in the DOM
 origin - The field value when the field was originally entered.\
 filter - What was typed in to the field.
+
+
+
+
+## Other things
+
+This drop down list is for a finite number of options. It's best to keep the list no more than say 200 or 300.
+
+The list must contain all unique items.
+
+List item can't have special characters
+^ $    . * ?    ! : |    + - =    \ /    ( ) [ ] { }
+
