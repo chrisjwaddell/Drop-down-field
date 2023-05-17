@@ -11,9 +11,14 @@ it.
 
 
 ## How to use
+
 ``
+DropdownField(target, Field name, Placeholder, tabindex, ID, List, Options)
+``
+
+```
 DropdownField(
-    ".example-container>div>div",
+    ".container",
     "Country",
     "Country",
     2,
@@ -21,10 +26,21 @@ DropdownField(
     dropDownOptions,
     {
         maxLines: 10,
-        cssClassList: ["field1"],
+        // options go here
     }
 )
-``
+```
+
+target - where the drop down field gets placed
+Field name
+Placeholder
+tabindex
+ID - The ID that will be placed in the HTML. It must have a unique ID.
+List - This is an array of items to appear in the list.
+Options - an object withe the option names appearing below.
+
+
+
 
 ## Filtering options
 It matches characters to the options regardless of upper or lower case. You can
