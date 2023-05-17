@@ -738,6 +738,14 @@ export default function DropdownField(
 					elDDContainer.dataset.mode =
 						elUL.classList.contains("isvisible")
 				}
+			} else {
+				// If enterToggleDropdown is false
+				// Enter can't open a drop down but it can close it
+				if (elUL.classList.contains("isvisible")) {
+					closeDropdown()
+					lastDDMode = false
+					elDDContainer.dataset.mode = false
+				}
 			}
 		} else if (e.keyCode === 27) {
 			// Escape
@@ -798,6 +806,11 @@ export default function DropdownField(
 					elUL.style.maxHeight = maxHeight + "px"
 					elUL.innerHTML = matchlist
 					elUL.scrollTo(0, 0)
+
+					if (elInput.value.trim.length === 0) {
+						if (elAutocomplete)
+							elAutocomplete.classList.remove("isvisible")
+					}
 				} else if (results.length === 0) {
 					matches = []
 					elUL.innerHTML = ""
