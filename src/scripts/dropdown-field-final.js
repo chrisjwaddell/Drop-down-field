@@ -822,10 +822,11 @@ var DropdownField = (function () {
 					// tab or shift tab to field
 					// don't include tab as a typing key
 					if (
-						keyCodes[e.keyCode] !== "tab" &&
-						keyCodes[e.keyCode] !== "escape" &&
-						keyCodes[e.keyCode] !== "shift" &&
-						!(e.shiftKey && e.key === "Tab")
+						(keyCodes[e.keyCode] !== "tab" &&
+							keyCodes[e.keyCode] !== "escape" &&
+							keyCodes[e.keyCode] !== "shift" &&
+							!(e.shiftKey && e.key === "Tab")) ||
+						e.keyCode === 229
 					) {
 						if (typingOpenDropdown) {
 							if (!lastDDMode) {
@@ -835,7 +836,11 @@ var DropdownField = (function () {
 						}
 					}
 
-					if (isPrintableKeyCode(e.keyCode) || e.keyCode === "Delete") {
+					if (
+						isPrintableKeyCode(e.keyCode) ||
+						e.keyCode === "Delete" ||
+						e.keyCode === 229
+					) {
 						// if (
 						// 	e.key.length === 1 ||
 						// 	keyCodes[e.keyCode] === "backspace" ||
