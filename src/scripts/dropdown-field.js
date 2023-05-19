@@ -667,7 +667,7 @@ export default function DropdownField(
 	}
 
 	function onKeyDownInput(e) {
-		if (keyCodes[event.keyCode] === "tab") {
+		if (keyCodes[e.keyCode] === "tab") {
 			if (elAutocomplete) {
 				if (elAutocomplete.classList.contains("isvisible")) {
 					elInput.value = elAutocomplete.textContent
