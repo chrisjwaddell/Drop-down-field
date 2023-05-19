@@ -207,9 +207,9 @@ DropdownField(
 	"dd1",
 	dropDownOptions,
 	{
-		maxLines: 6,
+		maxLines: 12,
 		cssClassList: ["field1"],
-		searchMode: "",
+		searchMode: "starts with",
 		autocomplete: true,
 	}
 )
