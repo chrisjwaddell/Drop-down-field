@@ -19,7 +19,14 @@
 	--dd-input-height: 36px;
 }
 
-.field2 .inputarrow .arrow {
+.time-field {
+	--dd-width: 120px;
+	--dd-font-size: 15px;
+	--dd-border-radius: 8px;
+	--dd-input-height: 36px;
+}
+
+/* .time-field .inputarrow .arrow {
 	background-image: unset;
 	border-width: 0;
-}
+} */
