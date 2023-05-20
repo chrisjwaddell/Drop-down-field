@@ -26,12 +26,7 @@
 	--dd-input-height: 36px;
 }
 
-/* button,
-button svg,
-svg {
-	background-color: #ffffff !important;
-	border-width: 0 !important;
-	border-style: none !important;
-	border-color: none !important;
-	border-color: #ffffff !important;
-} */
+.time-field .inputarrow .arrow {
+	background-image: unset;
+	border-width: 0;
+}
