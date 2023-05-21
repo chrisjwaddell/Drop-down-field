@@ -235,27 +235,42 @@
 
         @media screen and (max-width: 550px) {
             .example-container--line1 {
-                height: 800px;
-                width: 100%;
-            }
-
-            .example-container--line2 {
-                height: 1000px;
+                height: 625px;
                 width: 100%;
             }
 
             .example-container--line1>div {
+                height: 225px;
+                width: 100%;
+            }
+
+            .example-container--line1 div:nth-of-type(2) {
                 height: 400px;
                 width: 100%;
             }
 
+            .example-container--line2 {
+                height: 800px;
+                width: 100%;
+            }
+
+
             .example-container--line2>div {
-                height: 500px;
+                height: 400px;
+                width: 100%;
+            }
+
+            .example-container--line2 div:nth-of-type(2) {
+                height: 400px;
                 width: 100%;
             }
 
             .example-container img {
                 height: 80%;
+            }
+
+            .example-container--line2 pre {
+                width: auto;
             }
 
         }
