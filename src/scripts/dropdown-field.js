@@ -328,59 +328,63 @@ export default function DropdownField(
 		currentSelection,
 		listLength
 	) {
+		function oldNewSelection(oldIndex, newIndex) {
+			if (oldIndex === -1) {
+				if (list.childNodes[newIndex]) {
+					list.childNodes[newIndex].classList.add(selectClass)
+					return list.childNodes[newIndex].textContent
+				} else {
+					return null
+				}
+			} else {
+				if (list.childNodes[oldIndex] && list.childNodes[newIndex]) {
+					list.childNodes[oldIndex].classList.remove(selectClass)
+					list.childNodes[newIndex].classList.add(selectClass)
+					return list.childNodes[newIndex].textContent
+				} else {
+					return null
+				}
+			}
+		}
+
 		if (listLength > 0) {
 			if (currentSelection === -1) {
 				if (down) {
-					list.childNodes[0].classList.add(selectClass)
-					return list.childNodes[0].textContent
+					return oldNewSelection(-1, 0)
 				} else {
-					list.childNodes[listLength - 1].classList.add(selectClass)
-					return list.childNodes[listLength - 1].textContent
+					return oldNewSelection(-1, listLength - 1)
 				}
 			} else if (list.childNodes[currentSelection]) {
 				if (currentSelection === 0) {
-					list.childNodes[0].classList.remove(selectClass)
 					if (down) {
-						list.childNodes[1].classList.add(selectClass)
-						return list.childNodes[1].textContent
+						return oldNewSelection(0, 1)
 					} else {
-						list.childNodes[listLength - 1].classList.add(
-							selectClass
-						)
-						return list.childNodes[listLength - 1].textContent
+						return oldNewSelection(0, listLength - 1)
 					}
 				} else if (currentSelection === listLength - 1) {
-					list.childNodes[currentSelection].classList.remove(
-						selectClass
-					)
 					if (down) {
-						list.childNodes[0].classList.add(selectClass)
-						return list.childNodes[0].textContent
+						return oldNewSelection(currentSelection, 0)
 					} else {
-						list.childNodes[currentSelection - 1].classList.add(
-							selectClass
+						return oldNewSelection(
+							currentSelection,
+							currentSelection - 1
 						)
-						return list.childNodes[currentSelection - 1].textContent
 					}
 				} else {
-					list.childNodes[currentSelection].classList.remove(
-						selectClass
-					)
 					if (down) {
-						list.childNodes[currentSelection + 1].classList.add(
-							selectClass
+						return oldNewSelection(
+							currentSelection,
+							currentSelection + 1
 						)
-						return list.childNodes[currentSelection + 1].textContent
 					} else {
-						list.childNodes[currentSelection - 1].classList.add(
-							selectClass
+						return oldNewSelection(
+							currentSelection,
+							currentSelection - 1
 						)
-						return list.childNodes[currentSelection - 1].textContent
 					}
 				}
 			}
 		} else {
-			return null
 		}
 	}
 
