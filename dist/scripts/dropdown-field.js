@@ -1056,8 +1056,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	document.addEventListener("click", onFocusClickDoc, true)
 })
 
-const findOptions = (item) => dropDownOptions.includes(item)
-
 // On leaving the field, if the value doesn't match anything in
 // the list, make the field blank or go back to the original
 // value or if autocomplete enabled, pick the first item in the list
@@ -1096,17 +1094,6 @@ function onFocusClickDoc(e) {
 				arrInput[lastDDIndex].parentNode.parentNode.dataset.mode = ""
 				arrInput[lastDDIndex].parentNode.parentNode.dataset.filter = ""
 			}
-		}
-	}
-
-	function resetElement(el) {
-		if (el.parentNode.parentNode.dataset.mode.slice(0, 9) !== "listclick") {
-			el.parentNode.parentNode.dataset.origin = ""
-			el.parentNode.parentNode.dataset.mode = ""
-			el.parentNode.parentNode.dataset.filter = ""
-		} else {
-			el.parentNode.parentNode.dataset.mode = "listclick;input;true;false"
-			el.focus()
 		}
 	}
 
