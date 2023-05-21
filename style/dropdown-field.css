@@ -68,12 +68,12 @@
 	display: none;
 	position: absolute;
 	top: 60px;
-	left: -10px;
+	/* left: -10px; */
 	width: 100%;
 	max-width: 325px;
 	max-height: 275px;
+	margin: 8px auto;
 	z-index: 1000;
-	margin: 10px 10px;
 	padding-top: 2px;
 	text-align: left;
 	overflow-x: auto;
