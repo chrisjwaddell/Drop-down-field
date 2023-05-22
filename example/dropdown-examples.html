@@ -20,8 +20,8 @@
 
         .container {
             width: 100%;
-            padding-right: $o-container-padding;
-            padding-left: $o-container-padding;
+            padding-right: 20px;
+            padding-left: 20px;
             margin-right: auto;
             margin-left: auto;
         }
@@ -65,20 +65,32 @@
 
 <body>
 
-    <div class="container o-layout--center">
-        <h1>Dropdown field examples</h1>
-        <div class="o-flex x--center y--center x--around o-flex-wrap">
-            <div class="example1 example">
+    <div class="container">
+        <div class="container o-layout--center">
+            <h1>Dropdown field examples</h1>
+            <div class="o-flex x--center y--center x--around o-flex-wrap">
+                <div class="example1 example">
+                    <p>The settings in thist field has an autocomplete which chooses the first filtered option in the
+                        list so when you tab out of the field, the autocomplete item is chosen. If you type in "M" and
+                        tab out, it chooses "March". Use the arrow keys or the arrow button to choose. Or type in the
+                        first few letters. The drop down doesn't appear unless you click the arrow button. This makes it
+                        faster and ideal to select when the list is small and well known.</p>
+                </div>
+                <div class="example2 example">
+                    <p>The Enter key can be used to toggle the drop down list on or off. Type in the first few
+                        characters to
+                        limit the selection. Up arrow can take you to the bottom of the list. This makes it very fast to
+                        select especially when the list is in a known order.</p>
+                </div>
+                <div class="example3 example">
 
+                    <p>For a larger list such as a Country list, filtering is set to after 1 character is typed. Use the
+                        arrow keys or the arrow button to choose. Or type in the first few letters. THe autocomplete
+                        option is on here so that it's fast to select.</p>
+                </div>
             </div>
-            <div class="example2 example">
 
-            </div>
-            <div class="example3 example">
-
-            </div>
         </div>
-
     </div>
 
 
