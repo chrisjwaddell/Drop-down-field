@@ -1,0 +1,139 @@
+/* .o-flex
+.o-flex.x--center/left/right/between/around/evenly
+.o-flex.y--center/top/bottom/stretch/baseline
+.o-flex.xy--center
+
+.o-flex--1, 2, 3, 4
+
+.o-flex-row/column/row-reverse/column-reverse
+
+.o-flex-wrap/nowrap/wrap-reverse */
+
+.o-layout--center {
+	text-align: center;
+}
+.o-layout--center > .o-layout__item {
+	text-align: left;
+}
+
+.o-center-x {
+	margin: 0 auto;
+	text-align: center;
+}
+
+.o-layout--stretch {
+	display: flex;
+	flex-wrap: wrap;
+}
+.o-layout--stretch > .o-layout__item {
+	display: flex;
+}
+.o-layout--stretch.o-layout--center {
+	justify-content: center;
+}
+.o-layout--stretch.o-layout--right {
+	justify-content: flex-end;
+}
+.o-layout--stretch.o-layout--left {
+	justify-content: flex-start;
+}
+
+.o-flex {
+	display: flex;
+}
+.o-flex.x--center {
+	justify-content: center;
+}
+.o-flex.x--left {
+	justify-content: flex-start;
+}
+.o-flex.x--right {
+	justify-content: flex-end;
+}
+.o-flex.x--between {
+	justify-content: space-between;
+}
+.o-flex.x--around {
+	justify-content: space-around;
+}
+.o-flex.x--evenly {
+	justify-content: space-evenly;
+}
+.o-flex.y--center {
+	align-items: center;
+}
+.o-flex.y--top {
+	align-items: flex-start;
+}
+.o-flex.y--bottom {
+	align-items: flex-end;
+}
+.o-flex.y--stretch {
+	align-items: stretch;
+}
+.o-flex.y--baseline {
+	align-items: baseline;
+}
+.o-flex.xy--center {
+	justify-content: center;
+	align-items: center;
+}
+
+.o-flex--1 {
+	flex: 1;
+}
+
+.o-flex--2 {
+	flex: 2;
+}
+
+.o-flex--3 {
+	flex: 3;
+}
+
+.o-flex--4 {
+	flex: 4;
+}
+
+.o-flex-row {
+	-webkit-box-orient: horizontal !important;
+	-webkit-box-direction: normal !important;
+	-ms-flex-direction: row !important;
+	flex-direction: row !important;
+}
+
+.o-flex-column {
+	-webkit-box-orient: vertical !important;
+	-webkit-box-direction: normal !important;
+	-ms-flex-direction: column !important;
+	flex-direction: column !important;
+}
+
+.o-flex-row-reverse {
+	-webkit-box-orient: horizontal !important;
+	-webkit-box-direction: reverse !important;
+	-ms-flex-direction: row-reverse !important;
+	flex-direction: row-reverse !important;
+}
+
+.o-flex-column-reverse {
+	-webkit-box-orient: vertical !important;
+	-webkit-box-direction: reverse !important;
+	-ms-flex-direction: column-reverse !important;
+	flex-direction: column-reverse !important;
+}
+
+.o-flex-wrap {
+	-ms-flex-wrap: wrap !important;
+	flex-wrap: wrap !important;
+}
+
+.o-flex-nowrap {
+	-ms-flex-wrap: nowrap !important;
+	flex-wrap: nowrap !important;
+}
+
+.o-flex-wrap-reverse {
+	-ms-flex-wrap: wrap-reverse !important;
+	flex-wrap: wrap-reverse !important;
+}
