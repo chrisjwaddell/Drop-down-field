@@ -33,9 +33,9 @@ Options - an object withe the option names appearing below.
 
 Add these lines the head of your HTML:
 ```
-<link rel="stylesheet" href="https://raw.githubusercontent.com/chrisjwaddell/Drop-down-field/develop/dist/style/dropdown-field.css">
+<link rel="stylesheet" href="https://cdn.rawgit.com/chrisjwaddell/Drop-down-field/develop/dist/style/dropdown-field.css">
 
-<scripts src="https://raw.githubusercontent.com/chrisjwaddell/Drop-down-field/develop/dist/scripts/dropdown-field.js">
+<scripts src="https://cdn.rawgit.com/chrisjwaddell/Drop-down-field/develop/dist/scripts/dropdown-field.js">
 
 ```
 
