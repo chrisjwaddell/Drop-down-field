@@ -9,8 +9,8 @@ This drop down field is a one column list. And one selection only.
 There is an autocomplete option making it fast to use. You have the option of whether you want an arrow for the drop down. If you press escape, the text field
 goes back to what you typed or what was originally in the field as you entered it.
 
-
-[Dropdown field Examples](https://chrisjwaddell.github.io/Drop-down-field/)
+[Three Drop down examples](https://chrisjwaddell.github.io/Drop-down-field/example/dropdown-examples.html)\
+[Dropdown field Examples with code and descriptions](https://chrisjwaddell.github.io/Drop-down-field/)
 
 
 Filterable drop downs are in many cases better than your standard drop down box, it filters and you can easily choose by using up and down arrow and letters.
