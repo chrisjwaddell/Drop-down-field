@@ -372,59 +372,62 @@ var DropdownField = (function () {
 			currentSelection,
 			listLength
 		) {
+			function oldNewSelection(oldIndex, newIndex) {
+				if (oldIndex === -1) {
+					if (list.childNodes[newIndex]) {
+						list.childNodes[newIndex].classList.add(selectClass);
+						return list.childNodes[newIndex].textContent
+					} else {
+						return null
+					}
+				} else {
+					if (list.childNodes[oldIndex] && list.childNodes[newIndex]) {
+						list.childNodes[oldIndex].classList.remove(selectClass);
+						list.childNodes[newIndex].classList.add(selectClass);
+						return list.childNodes[newIndex].textContent
+					} else {
+						return null
+					}
+				}
+			}
+
 			if (listLength > 0) {
 				if (currentSelection === -1) {
 					if (down) {
-						list.childNodes[0].classList.add(selectClass);
-						return list.childNodes[0].textContent
+						return oldNewSelection(-1, 0)
 					} else {
-						list.childNodes[listLength - 1].classList.add(selectClass);
-						return list.childNodes[listLength - 1].textContent
+						return oldNewSelection(-1, listLength - 1)
 					}
 				} else if (list.childNodes[currentSelection]) {
 					if (currentSelection === 0) {
-						list.childNodes[0].classList.remove(selectClass);
 						if (down) {
-							list.childNodes[1].classList.add(selectClass);
-							return list.childNodes[1].textContent
+							return oldNewSelection(0, 1)
 						} else {
-							list.childNodes[listLength - 1].classList.add(
-								selectClass
-							);
-							return list.childNodes[listLength - 1].textContent
+							return oldNewSelection(0, listLength - 1)
 						}
 					} else if (currentSelection === listLength - 1) {
-						list.childNodes[currentSelection].classList.remove(
-							selectClass
-						);
 						if (down) {
-							list.childNodes[0].classList.add(selectClass);
-							return list.childNodes[0].textContent
+							return oldNewSelection(currentSelection, 0)
 						} else {
-							list.childNodes[currentSelection - 1].classList.add(
-								selectClass
-							);
-							return list.childNodes[currentSelection - 1].textContent
+							return oldNewSelection(
+								currentSelection,
+								currentSelection - 1
+							)
 						}
 					} else {
-						list.childNodes[currentSelection].classList.remove(
-							selectClass
-						);
 						if (down) {
-							list.childNodes[currentSelection + 1].classList.add(
-								selectClass
-							);
-							return list.childNodes[currentSelection + 1].textContent
+							return oldNewSelection(
+								currentSelection,
+								currentSelection + 1
+							)
 						} else {
-							list.childNodes[currentSelection - 1].classList.add(
-								selectClass
-							);
-							return list.childNodes[currentSelection - 1].textContent
+							return oldNewSelection(
+								currentSelection,
+								currentSelection - 1
+							)
 						}
 					}
 				}
-			} else {
-				return null
 			}
 		}
 
@@ -675,8 +678,35 @@ var DropdownField = (function () {
 			setMode(entry, control, lastDDMode);
 		}
 
+		const keyCodes = {
+			8: "backspace",
+			9: "tab",
+			16: "shift",
+			13: "enter",
+			27: "escape",
+			32: "space",
+			38: "up",
+			46: "delete",
+			40: "down",
+		};
+
+		// e.key.length === 1 is similar to this
+		// I include Delete key, it's similar to backspace
+		// isPrintableKeyCode (e.keyCode) || e.keyCode === "Delete"
+		function isPrintableKeyCode(keyCode) {
+			return (
+				(keyCode > 47 && keyCode < 58) || // number keys
+				keyCode === 32 ||
+				keyCode === 8 || // spacebar or backspace
+				(keyCode > 64 && keyCode < 91) || // letter keys
+				(keyCode > 95 && keyCode < 112) || // numpad keys
+				(keyCode > 185 && keyCode < 193) || // ;=,-./` (in order)
+				(keyCode > 218 && keyCode < 223) // [\]' (in order)
+			)
+		}
+
 		function onKeyDownInput(e) {
-			if (e.key === "Tab") {
+			if (keyCodes[e.keyCode] === "tab") {
 				if (elAutocomplete) {
 					if (elAutocomplete.classList.contains("isvisible")) {
 						elInput.value = elAutocomplete.textContent;
@@ -696,157 +726,182 @@ var DropdownField = (function () {
 			selectionLength = elUL.children.length;
 			let index = listFindSelectedIndex(elUL, "selected", selectionLength);
 
-			if (e.keyCode === 38) {
-				// Up arrow
+			let ddVisible = elUL.classList.contains("isvisible");
 
-				let ddVisible = elUL.classList.contains("isvisible");
-				if (!ddVisible && arrowKeysNoDropdown !== 2) {
-					if (arrowKeysNoDropdown === 1) {
-						openDropdown();
-					}
-				} else {
-					let val = listSelectionChange(
-						elUL,
-						"selected",
-						false,
-						index,
-						selectionLength
-					);
-					if (val) {
-						elInput.value = val;
-						if (elAutocomplete)
-							elAutocomplete.classList.remove("isvisible");
-					}
-
-					if (ddVisible) {
-						listSelectionChangeScroll(
+			switch (keyCodes[e.keyCode]) {
+				case "up":
+					if (!ddVisible && arrowKeysNoDropdown !== 2) {
+						if (arrowKeysNoDropdown === 1) {
+							openDropdown();
+						}
+					} else {
+						let val = listSelectionChange(
 							elUL,
 							"selected",
 							false,
 							index,
-							selectionLength,
-							lineHeight,
-							maxHeight
+							selectionLength
 						);
-					}
-				}
-			} else if (e.keyCode === 40) {
-				// Down arrow
+						if (val) {
+							elInput.value = val;
+							if (elAutocomplete)
+								elAutocomplete.classList.remove("isvisible");
+						}
 
-				let ddVisible = elUL.classList.contains("isvisible");
-				if (!ddVisible && arrowKeysNoDropdown !== 2) {
-					if (arrowKeysNoDropdown === 1) {
-						openDropdown();
+						if (ddVisible) {
+							listSelectionChangeScroll(
+								elUL,
+								"selected",
+								false,
+								index,
+								selectionLength,
+								lineHeight,
+								maxHeight
+							);
+						}
 					}
-				} else {
-					let val = listSelectionChange(
-						elUL,
-						"selected",
-						true,
-						index,
-						selectionLength
-					);
-					if (val) {
-						elInput.value = val;
-						if (elAutocomplete)
-							elAutocomplete.classList.remove("isvisible");
-					}
+					break
 
-					if (ddVisible) {
-						listSelectionChangeScroll(
+				case "down":
+					if (!ddVisible && arrowKeysNoDropdown !== 2) {
+						if (arrowKeysNoDropdown === 1) {
+							openDropdown();
+						}
+					} else {
+						let val = listSelectionChange(
 							elUL,
 							"selected",
 							true,
 							index,
-							selectionLength,
-							lineHeight,
-							maxHeight
+							selectionLength
 						);
-					}
-				}
-			} else if (e.keyCode === 13) {
-				// Enter
-				if (enterToggleDropdown) {
-					// Enter toggles showing the drop down
-					if (selectionLength >= 1) {
-						toggleDropdown(lastDDMode);
-						lastDDMode = !lastDDMode;
-						elDDContainer.dataset.mode =
-							elUL.classList.contains("isvisible");
-					}
-				}
-			} else if (e.keyCode === 27) {
-				// Escape
-				escape();
-				lastDDMode = false;
-			} else if (e.keyCode === 9) ; else if (e.key === "Shift") ; else {
-				// Characters have been typed, this is where it finds the results
+						if (val) {
+							elInput.value = val;
+							if (elAutocomplete)
+								elAutocomplete.classList.remove("isvisible");
+						}
 
-				// tab or shift tab to field
-				// don't include tab as a typing key
-				if (
-					e.key !== "Tab" &&
-					e.key !== "Escape" &&
-					e.key !== "Shift" &&
-					!(e.shiftKey && e.key === "Tab")
-				) {
-					if (typingOpenDropdown) {
-						if (!lastDDMode) {
-							openDropdown();
-							lastDDMode = true;
+						if (ddVisible) {
+							listSelectionChangeScroll(
+								elUL,
+								"selected",
+								true,
+								index,
+								selectionLength,
+								lineHeight,
+								maxHeight
+							);
 						}
 					}
-				}
+					break
 
-				if (
-					e.key.length === 1 ||
-					e.key === "Backspace" ||
-					e.key === "Delete" ||
-					e.key === "Space"
-				) {
-					const strSearch = elInput.value;
+				case "enter":
+					if (enterToggleDropdown) {
+						// Enter toggles showing the drop down
+						if (selectionLength >= 1) {
+							toggleDropdown(lastDDMode);
+							lastDDMode = !lastDDMode;
+							elDDContainer.dataset.mode =
+								elUL.classList.contains("isvisible");
+						}
+					} else {
+						// If enterToggleDropdown is false
+						// Enter can't open a drop down but it can close it
+						if (elUL.classList.contains("isvisible")) {
+							closeDropdown();
+							lastDDMode = false;
+							elDDContainer.dataset.mode = false;
+						}
+					}
+					break
+				case "escape":
+					escape();
+					lastDDMode = false;
+					break
 
-					elDDContainer.dataset.filter = strSearch.toLowerCase();
+				default:
+					// Characters have been typed, this is where it finds the results
 
-					let results;
+					// tab or shift tab to field
+					// don't include tab as a typing key
 					if (
-						noFiltering ||
-						elInput.value.trim().length <= ignoreFirstXCharacters
+						(keyCodes[e.keyCode] !== "tab" &&
+							keyCodes[e.keyCode] !== "escape" &&
+							keyCodes[e.keyCode] !== "shift" &&
+							!(e.shiftKey && e.key === "Tab")) ||
+						e.keyCode === 229
 					) {
-						results = dropDownOptions;
-					} else {
-						results = selectionFilterWithOptions(
-							strSearch,
-							dropDownOptions);
+						if (typingOpenDropdown) {
+							if (!lastDDMode) {
+								openDropdown();
+								lastDDMode = true;
+							}
+						}
 					}
 
-					// Nothing typed in or nothing matching
-					if (results.length === DD_LIST_SIZE) {
-						matchlist = results.map((cv) => `<li>${cv}</li>`).join("");
+					if (
+						isPrintableKeyCode(e.keyCode) ||
+						e.keyCode === "Delete" ||
+						e.keyCode === 229
+					) {
+						// if (
+						// 	e.key.length === 1 ||
+						// 	keyCodes[e.keyCode] === "backspace" ||
+						// 	keyCodes[e.keyCode] === "delete" ||
+						// 	keyCodes[e.keyCode] === "space"
+						// ) {
+						const strSearch = elInput.value;
 
-						// elUL.classList.add("isvisible")
-						elUL.style.maxHeight = maxHeight + "px";
-						elUL.innerHTML = matchlist;
-						elUL.scrollTo(0, 0);
-					} else if (results.length === 0) {
-						matches = [];
-						elUL.innerHTML = "";
-						elUL.classList.remove("isvisible");
+						elDDContainer.dataset.filter = strSearch.toLowerCase();
 
-						if (elAutocomplete)
-							elAutocomplete.classList.remove("isvisible");
-					} else {
-						// Letters have been typed, they are shown as bold
-						matches = results.map((cv) =>
-							dropdownSelectedString(cv, elInput.value.trim())
-						);
-						matchlist = matches.map((cv) => `<li>${cv}</li>`).join("");
-						elUL.innerHTML = matchlist;
-						elUL.scrollTo(0, 0);
+						let results;
+						if (
+							noFiltering ||
+							elInput.value.trim().length <= ignoreFirstXCharacters
+						) {
+							results = dropDownOptions;
+						} else {
+							results = selectionFilterWithOptions(
+								strSearch,
+								dropDownOptions);
+						}
 
-						if (elAutocomplete) autocomplete();
+						// Nothing typed in or nothing matching
+						if (results.length === DD_LIST_SIZE) {
+							matchlist = results
+								.map((cv) => `<li>${cv}</li>`)
+								.join("");
+
+							// elUL.classList.add("isvisible")
+							elUL.style.maxHeight = maxHeight + "px";
+							elUL.innerHTML = matchlist;
+							elUL.scrollTo(0, 0);
+
+							if (elInput.value.trim.length === 0) {
+								if (elAutocomplete)
+									elAutocomplete.classList.remove("isvisible");
+							}
+						} else if (results.length === 0) {
+							matches = [];
+							elUL.innerHTML = "";
+							elUL.classList.remove("isvisible");
+
+							if (elAutocomplete)
+								elAutocomplete.classList.remove("isvisible");
+						} else {
+							// Letters have been typed, they are shown as bold
+							matches = results.map((cv) =>
+								dropdownSelectedString(cv, elInput.value.trim())
+							);
+							matchlist = matches
+								.map((cv) => `<li>${cv}</li>`)
+								.join("");
+							elUL.innerHTML = matchlist;
+							elUL.scrollTo(0, 0);
+
+							if (elAutocomplete) autocomplete();
+						}
 					}
-				}
 			}
 
 			entry = "stay";
