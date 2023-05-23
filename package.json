@@ -1,7 +1,7 @@
 {
 	"name": "drop-down-field",
-	"version": "1.0.0",
-	"main": "dist/app.js",
+	"version": "0.5.0",
+	"main": "dist/dropdown-field.js",
 	"type": "module",
 	"scripts": {
 		"build-css": "copyfiles -u 2 src/style/dropdown-field.css dist/style",
