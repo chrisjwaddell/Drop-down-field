@@ -3,7 +3,7 @@ import {listFindSelectedIndex, listItemValueIndex} from "./lib/dom-dropdown.js"
 import {objectLength} from "./lib/object.js"
 
 export default function DropdownField(
-	ULSelector,
+	target,
 	fieldLabel,
 	placeholder,
 	tabindex,
@@ -69,12 +69,12 @@ export default function DropdownField(
 	let lineHeight
 	let scrollAt
 
-	function render(ULSelector, fieldLabel, placeholder, tabindex, ID) {
-		const elOuter = document.querySelector(ULSelector)
+	function render(target, fieldLabel, placeholder, tabindex, ID) {
+		const elTarget = document.querySelector(target)
 		let elField
 		if (settings.cssClassList) {
 			elField = createElementAtt(
-				elOuter,
+				elTarget,
 				"div",
 				["ddfield"].concat(settings.cssClassList),
 				[
@@ -87,7 +87,7 @@ export default function DropdownField(
 			)
 		} else {
 			elField = createElementAtt(
-				elOuter,
+				elTarget,
 				"div",
 				["ddfield"],
 				[
@@ -201,7 +201,7 @@ export default function DropdownField(
 			maxHeight - lineHeight * 4 > 0 ? maxHeight - lineHeight * 4 : 0
 	}
 
-	render(ULSelector, fieldLabel, placeholder, tabindex, ID)
+	render(target, fieldLabel, placeholder, tabindex, ID)
 
 	const elDDContainer = document.querySelector("#" + ID)
 	const elInput = document.querySelector("#" + ID + " input")

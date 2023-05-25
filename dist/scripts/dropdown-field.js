@@ -51,12 +51,11 @@ var DropdownField = (function () {
 	const objectLength = (obj) => Object.entries(obj).length;
 
 	function DropdownField(
-		ULSelector,
+		target,
 		fieldLabel,
 		placeholder,
 		tabindex,
 		ID,
-		dropDownOptions,
 		opts
 	) {
 		// ^ SETTINGS
@@ -117,19 +116,12 @@ var DropdownField = (function () {
 		let maxHeight;
 		let lineHeight;
 
-		function render(
-			ULSelector,
-			fieldLabel,
-			placeholder,
-			tabindex,
-			ID,
-			dropDownOptions
-		) {
-			const elOuter = document.querySelector(ULSelector);
+		function render(target, fieldLabel, placeholder, tabindex, ID) {
+			const elTarget = document.querySelector(target);
 			let elField;
 			if (settings.cssClassList) {
 				elField = createElementAtt(
-					elOuter,
+					elTarget,
 					"div",
 					["ddfield"].concat(settings.cssClassList),
 					[
@@ -142,7 +134,7 @@ var DropdownField = (function () {
 				);
 			} else {
 				elField = createElementAtt(
-					elOuter,
+					elTarget,
 					"div",
 					["ddfield"],
 					[
@@ -253,7 +245,7 @@ var DropdownField = (function () {
 			elUL.style.maxHeight = maxHeight + "px";
 		}
 
-		render(ULSelector, fieldLabel, placeholder, tabindex, ID);
+		render(target, fieldLabel, placeholder, tabindex, ID);
 
 		const elDDContainer = document.querySelector("#" + ID);
 		const elInput = document.querySelector("#" + ID + " input");
@@ -261,18 +253,18 @@ var DropdownField = (function () {
 		const elUL = document.querySelector("#" + ID + " ul");
 		const elAutocomplete = document.querySelector("#" + ID + " .autocomplete");
 
-		// Return search results from dropDownOptions
+		// Return search results from dropdownLists[]
 		// matching str
 		// searchMode - 0 - anywhere in, 1 - starts with str
 		// Triggered by user typing and new focus into input field
 		// Triggered in onFocusInput and onKeyUpInput
-		function selectionFilter(str, dropDownOptions, searchMode) {
+		function selectionFilter(str, searchMode) {
 			let regex;
 
 			searchMode
 				? (regex = new RegExp(`.*${str}.*`, "gi"))
 				: (regex = new RegExp(`^${str}.*`, "gi"));
-			return dropDownOptions.filter((cv) => cv.match(regex))
+			return dropdownLists[tabindex].filter((cv) => cv.match(regex))
 		}
 
 		// Puts <strong> element around the search filter
@@ -292,34 +284,22 @@ var DropdownField = (function () {
 		)}</strong>${selectionLine.slice(startPos + searchString.length)}`
 		}
 
-		function selectionFilterWithOptions(
-			strSearch,
-			dropDownOptions,
-			searchMode
-		) {
+		function selectionFilterWithOptions(strSearch, searchMode) {
 			let results;
 
 			if (firstXCharactersOppositeSearchMode) {
 				// If First x letters is a different mode
 				if (strSearch.length <= firstXCharactersOppositeSearchMode) {
 					if (searchModeNumber === 0) {
-						results = selectionFilter(strSearch, dropDownOptions, 1);
+						results = selectionFilter(strSearch, 1);
 					} else {
-						results = selectionFilter(strSearch, dropDownOptions, 0);
+						results = selectionFilter(strSearch, 0);
 					}
 				} else {
-					results = selectionFilter(
-						strSearch,
-						dropDownOptions,
-						searchModeNumber
-					);
+					results = selectionFilter(strSearch, searchModeNumber);
 				}
 			} else {
-				results = selectionFilter(
-					strSearch,
-					dropDownOptions,
-					searchModeNumber
-				);
+				results = selectionFilter(strSearch, searchModeNumber);
 			}
 
 			return results
@@ -330,7 +310,7 @@ var DropdownField = (function () {
 		// It's made bold
 		// result is the list
 		function populateList(filter, results) {
-			const DD_LIST_SIZE = objectLength(dropDownOptions);
+			const DD_LIST_SIZE = objectLength(dropdownLists[tabindex]);
 
 			// Nothing typed in to filter
 			if (results.length === DD_LIST_SIZE) {
@@ -575,18 +555,11 @@ var DropdownField = (function () {
 				// filter and populate list
 				let results;
 				if (noFiltering || filter.length <= ignoreFirstXCharacters) {
-					results = dropDownOptions;
+					results = dropdownLists[tabindex];
 				} else {
-					results = selectionFilterWithOptions(
-						filter,
-						dropDownOptions);
+					results = selectionFilterWithOptions(filter);
 				}
 
-				// const results = selectionFilterWithOptions(
-				// 	filter,
-				// 	dropDownOptions,
-				// 	searchModeNumber
-				// )
 				populateList(filter, results);
 
 				if (elInput.value) {
@@ -597,7 +570,6 @@ var DropdownField = (function () {
 
 					if (indexSelected !== -1) {
 						listSelectWithIndex(indexSelected);
-						// elUL.children[indexSelected].classList.add("selected")
 					}
 				}
 
@@ -719,7 +691,7 @@ var DropdownField = (function () {
 			getAttributes();
 			let {entry, control, lastDDMode} = getMode();
 
-			const DD_LIST_SIZE = objectLength(dropDownOptions);
+			const DD_LIST_SIZE = objectLength(dropdownLists[tabindex]);
 			let matches;
 			let matchlist;
 
@@ -859,11 +831,10 @@ var DropdownField = (function () {
 							noFiltering ||
 							elInput.value.trim().length <= ignoreFirstXCharacters
 						) {
-							results = dropDownOptions;
+							results = dropdownLists[tabindex];
 						} else {
 							results = selectionFilterWithOptions(
-								strSearch,
-								dropDownOptions);
+								strSearch);
 						}
 
 						// Nothing typed in or nothing matching
@@ -1148,4 +1119,10 @@ function onFocusClickDoc(e) {
 				.querySelector(`#${ddContainer.id} .autocomplete`)
 				.classList.remove("isvisible")
 	}
+}
+
+const dropdownLists = []
+
+function dropdownListUpdate(list, ddTabindex) {
+	dropdownLists[ddTabindex] = list
 }
