@@ -8,7 +8,6 @@ export default function DropdownField(
 	placeholder,
 	tabindex,
 	ID,
-	dropDownOptions,
 	opts
 ) {
 	// ^ SETTINGS
@@ -70,14 +69,7 @@ export default function DropdownField(
 	let lineHeight
 	let scrollAt
 
-	function render(
-		ULSelector,
-		fieldLabel,
-		placeholder,
-		tabindex,
-		ID,
-		dropDownOptions
-	) {
+	function render(ULSelector, fieldLabel, placeholder, tabindex, ID) {
 		const elOuter = document.querySelector(ULSelector)
 		let elField
 		if (settings.cssClassList) {
@@ -217,18 +209,18 @@ export default function DropdownField(
 	const elUL = document.querySelector("#" + ID + " ul")
 	const elAutocomplete = document.querySelector("#" + ID + " .autocomplete")
 
-	// Return search results from dropDownOptions
+	// Return search results from dropdownLists[]
 	// matching str
 	// searchMode - 0 - anywhere in, 1 - starts with str
 	// Triggered by user typing and new focus into input field
 	// Triggered in onFocusInput and onKeyUpInput
-	function selectionFilter(str, dropDownOptions, searchMode) {
+	function selectionFilter(str, searchMode) {
 		let regex
 
 		searchMode
 			? (regex = new RegExp(`.*${str}.*`, "gi"))
 			: (regex = new RegExp(`^${str}.*`, "gi"))
-		return dropDownOptions.filter((cv) => cv.match(regex))
+		return dropdownLists[tabindex].filter((cv) => cv.match(regex))
 	}
 
 	// Puts <strong> element around the search filter
@@ -248,34 +240,22 @@ export default function DropdownField(
 		)}</strong>${selectionLine.slice(startPos + searchString.length)}`
 	}
 
-	function selectionFilterWithOptions(
-		strSearch,
-		dropDownOptions,
-		searchMode
-	) {
+	function selectionFilterWithOptions(strSearch, searchMode) {
 		let results
 
 		if (firstXCharactersOppositeSearchMode) {
 			// If First x letters is a different mode
 			if (strSearch.length <= firstXCharactersOppositeSearchMode) {
 				if (searchModeNumber === 0) {
-					results = selectionFilter(strSearch, dropDownOptions, 1)
+					results = selectionFilter(strSearch, 1)
 				} else {
-					results = selectionFilter(strSearch, dropDownOptions, 0)
+					results = selectionFilter(strSearch, 0)
 				}
 			} else {
-				results = selectionFilter(
-					strSearch,
-					dropDownOptions,
-					searchModeNumber
-				)
+				results = selectionFilter(strSearch, searchModeNumber)
 			}
 		} else {
-			results = selectionFilter(
-				strSearch,
-				dropDownOptions,
-				searchModeNumber
-			)
+			results = selectionFilter(strSearch, searchModeNumber)
 		}
 
 		return results
@@ -286,7 +266,7 @@ export default function DropdownField(
 	// It's made bold
 	// result is the list
 	function populateList(filter, results) {
-		const DD_LIST_SIZE = objectLength(dropDownOptions)
+		const DD_LIST_SIZE = objectLength(dropdownLists[tabindex])
 
 		// Nothing typed in to filter
 		if (results.length === DD_LIST_SIZE) {
@@ -533,20 +513,11 @@ export default function DropdownField(
 			// filter and populate list
 			let results
 			if (noFiltering || filter.length <= ignoreFirstXCharacters) {
-				results = dropDownOptions
+				results = dropdownLists[tabindex]
 			} else {
-				results = selectionFilterWithOptions(
-					filter,
-					dropDownOptions,
-					searchModeNumber
-				)
+				results = selectionFilterWithOptions(filter, searchModeNumber)
 			}
 
-			// const results = selectionFilterWithOptions(
-			// 	filter,
-			// 	dropDownOptions,
-			// 	searchModeNumber
-			// )
 			populateList(filter, results)
 
 			if (elInput.value) {
@@ -557,7 +528,6 @@ export default function DropdownField(
 
 				if (indexSelected !== -1) {
 					listSelectWithIndex(indexSelected)
-					// elUL.children[indexSelected].classList.add("selected")
 				}
 			}
 
@@ -684,7 +654,7 @@ export default function DropdownField(
 		let {origin, filter} = getAttributes()
 		let {entry, control, lastDDMode} = getMode()
 
-		const DD_LIST_SIZE = objectLength(dropDownOptions)
+		const DD_LIST_SIZE = objectLength(dropdownLists[tabindex])
 		let matches
 		let matchlist
 
@@ -824,11 +794,10 @@ export default function DropdownField(
 						noFiltering ||
 						elInput.value.trim().length <= ignoreFirstXCharacters
 					) {
-						results = dropDownOptions
+						results = dropdownLists[tabindex]
 					} else {
 						results = selectionFilterWithOptions(
 							strSearch,
-							dropDownOptions,
 							searchModeNumber
 						)
 					}
