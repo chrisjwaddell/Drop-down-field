@@ -21,6 +21,7 @@
 	display: block;
 	height: 25px;
 	font-size: 16px;
+	margin-left: 4px;
 	margin-left: 5px;
 }
 
@@ -33,12 +34,12 @@
 	box-sizing: border-box;
 }
 
-.inputarrow {
+.ddfield .inputarrow {
 	position: relative;
 	width: var(--dd-width);
 }
 
-.inputarrow .arrow {
+.ddfield .inputarrow .arrow {
 	position: absolute;
 	right: 5px;
 	top: 8px;
@@ -54,9 +55,15 @@
 		rgb(204, 204, 204)
 	);
 	border: 1px solid #aaaaaa;
+	cursor: pointer;
 }
 
-.inputarrow svg {
+.ddfield .inputarrow .arrow:focus {
+	border-width: 0;
+	outline-width: 0;
+}
+
+.ddfield .inputarrow svg {
 	width: 100%;
 	height: 100%;
 	stroke-width: 6px;
