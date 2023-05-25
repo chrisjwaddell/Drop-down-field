@@ -100,6 +100,6 @@ function onFocusClickDoc(e) {
 
 const dropdownLists = []
 
-function dropdownListUpdate(list, ddTabindex) {
+function dropdownListUpdate(ddTabindex, list) {
 	dropdownLists[ddTabindex] = list
 }

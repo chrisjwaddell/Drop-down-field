@@ -327,6 +327,7 @@ DropdownField(".example1", "Month", "Month", 1, "dd1", monthList, {
 	typingOpenDropdown: false,
 	arrowKeysNoDropdown: 2,
 	autocomplete: true,
+	autofocus: true,
 	// autocomplete: false,
 	enterToggleDropdown: false,
 })

@@ -199,13 +199,17 @@ const dropDownOptions = [
 
 const dropDownOptions2 = ["Matthew", "Mark", "Luke", "John", "Mary", "Pauline"]
 
+const countryTabindex = 2
+const nameTabindex = 1
+dropdownListUpdate(countryTabindex, dropDownOptions)
+dropdownListUpdate(nameTabindex, dropDownOptions2)
+
 DropdownField(
 	".container .outer",
 	"Country",
 	"Country",
-	2,
+	countryTabindex,
 	"dd1",
-	dropDownOptions,
 	{
 		maxLines: 12,
 		cssClassList: ["field1"],
@@ -214,7 +218,7 @@ DropdownField(
 	}
 )
 
-DropdownField(".container .outer", "Name", "Name", 3, "dd2", dropDownOptions, {
+DropdownField(".container .outer", "Name", "Name", nameTabindex, "dd2", {
 	maxLines: 14,
 	cssClassList: ["field2"],
 	searchMode: "anywhere in",
@@ -227,4 +231,5 @@ DropdownField(".container .outer", "Name", "Name", 3, "dd2", dropDownOptions, {
 	typingOpenDropdown: false,
 	enterToggleDropdown: true,
 	autocomplete: false,
+	autofocus: true,
 })

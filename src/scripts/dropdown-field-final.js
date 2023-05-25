@@ -154,23 +154,49 @@ var DropdownField = (function () {
 				[],
 				""
 			);
-			const elInput = createElementAtt(
-				elInputArrow,
-				"input",
-				[],
-				[
-					["type", "text"],
-					["placeholder", placeholder],
-					["aria-autocomplete", "both"],
-					["autocapitalize", "none"],
-					["autocomplete", "off"],
-					["autocorrect", "off"],
-					["spellcheck", "false"],
-					["tabindex", tabindex],
-					["value", ""],
-				],
-				""
-			);
+			let elInput;
+			if (
+				typeof settings.autofocus !== "undefined" &&
+				settings.autofocus !== null &&
+				settings.autofocus !== false
+			) {
+				elInput = createElementAtt(
+					elInputArrow,
+					"input",
+					[],
+					[
+						["type", "text"],
+						["placeholder", placeholder],
+						["aria-autocomplete", "both"],
+						["autocapitalize", "none"],
+						["autocomplete", "off"],
+						["autocorrect", "off"],
+						["spellcheck", "false"],
+						["tabindex", tabindex],
+						["autofocus", "true"],
+						["value", ""],
+					],
+					""
+				);
+			} else {
+				elInput = createElementAtt(
+					elInputArrow,
+					"input",
+					[],
+					[
+						["type", "text"],
+						["placeholder", placeholder],
+						["aria-autocomplete", "both"],
+						["autocapitalize", "none"],
+						["autocomplete", "off"],
+						["autocorrect", "off"],
+						["spellcheck", "false"],
+						["tabindex", tabindex],
+						["value", ""],
+					],
+					""
+				);
+			}
 
 			// elDDContainer.dataset.filter = ""
 
@@ -243,6 +269,14 @@ var DropdownField = (function () {
 
 			maxHeight = lineHeight * maxLines;
 			elUL.style.maxHeight = maxHeight + "px";
+
+			// Populate list if it has focus at the start
+			const matchlist = dropdownLists[tabindex]
+				.map((cv) => `<li>${cv}</li>`)
+				.join("");
+			elUL.style.maxHeight = maxHeight + "px";
+			elUL.scrollTo(0, 0);
+			elUL.innerHTML = matchlist;
 		}
 
 		render(target, fieldLabel, placeholder, tabindex, ID);
@@ -310,7 +344,12 @@ var DropdownField = (function () {
 		// It's made bold
 		// result is the list
 		function populateList(filter, results) {
-			const DD_LIST_SIZE = objectLength(dropdownLists[tabindex]);
+			let DD_LIST_SIZE;
+			if (dropdownLists[tabindex]) {
+				DD_LIST_SIZE = objectLength(dropdownLists[tabindex]);
+			} else {
+				DD_LIST_SIZE = 0;
+			}
 
 			// Nothing typed in to filter
 			if (results.length === DD_LIST_SIZE) {
