@@ -107,23 +107,45 @@ export default function DropdownField(
 			[],
 			""
 		)
-		const elInput = createElementAtt(
-			elInputArrow,
-			"input",
-			[],
-			[
-				["type", "text"],
-				["placeholder", placeholder],
-				["aria-autocomplete", "both"],
-				["autocapitalize", "none"],
-				["autocomplete", "off"],
-				["autocorrect", "off"],
-				["spellcheck", "false"],
-				["tabindex", tabindex],
-				["value", ""],
-			],
-			""
-		)
+		let elInput
+		if (settings.autofocus) {
+			elInput = createElementAtt(
+				elInputArrow,
+				"input",
+				[],
+				[
+					["type", "text"],
+					["placeholder", placeholder],
+					["aria-autocomplete", "both"],
+					["autocapitalize", "none"],
+					["autocomplete", "off"],
+					["autocorrect", "off"],
+					["spellcheck", "false"],
+					["tabindex", tabindex],
+					["value", ""],
+				],
+				""
+			)
+		} else {
+			elInput = createElementAtt(
+				elInputArrow,
+				"input",
+				[],
+				[
+					["type", "text"],
+					["placeholder", placeholder],
+					["aria-autocomplete", "both"],
+					["autocapitalize", "none"],
+					["autocomplete", "off"],
+					["autocorrect", "off"],
+					["spellcheck", "false"],
+					["tabindex", tabindex],
+					["autofocus", "true"],
+					["value", ""],
+				],
+				""
+			)
+		}
 
 		// elDDContainer.dataset.filter = ""
 
