@@ -115,6 +115,9 @@ var DropdownField = (function () {
 		const arrowKeysNoDropdown =
 			settings.arrowKeysNoDropdown ?? settingDefaults.arrowKeysNoDropdown;
 
+		const disableOnOpen =
+			settings.disableOnOpen ?? settingDefaults.disableOnOpen;
+
 		let selectionLength;
 		let maxHeight;
 		let lineHeight;
@@ -254,6 +257,13 @@ var DropdownField = (function () {
 
 			maxHeight = lineHeight * maxLines;
 			elUL.style.maxHeight = maxHeight + "px";
+
+			if (disableOnOpen) {
+				elUL.classList.remove("isvisible");
+				elUL.disabled = "true";
+				elInput.disabled = "true";
+				if (elArrow) elArrow.disabled = "true";
+			}
 		}
 
 		render(target, fieldLabel, placeholder, tabindex, ID);
@@ -547,7 +557,8 @@ var DropdownField = (function () {
 			}
 
 			window.addEventListener("load", function (e) {
-				document.querySelector(".autofocus").focus();
+				if (document.querySelector(".autofocus"))
+					document.querySelector(".autofocus").focus();
 			});
 		});
 
@@ -925,30 +936,35 @@ var DropdownField = (function () {
 		function openDropdown() {
 			elUL.addEventListener("mousedown", onMouseDownUL, false);
 
-			let indexSelected = -1;
-			if (elInput.value) {
-				indexSelected = listItemValueIndex(elUL, elInput.value);
+			if (!elInput.disabled) {
+				let indexSelected = -1;
+				if (elInput.value) {
+					indexSelected = listItemValueIndex(elUL, elInput.value);
 
-				if (indexSelected !== -1) {
-					listSelectWithIndex(indexSelected);
-				}
-			}
-
-			elUL.classList.add("isvisible");
-
-			if (indexSelected !== -1) {
-				// Scroll to the right position if needed
-				if (elUL.children[indexSelected]) {
-					if (elUL.children[indexSelected].offsetTop > lineHeight * 2) {
-						elUL.scrollTop;
-						elUL.scrollTo(
-							0,
-							elUL.children[indexSelected].offsetTop - lineHeight
-						);
+					if (indexSelected !== -1) {
+						listSelectWithIndex(indexSelected);
 					}
 				}
-			} else {
-				elUL.scrollTo(0, 0);
+
+				elUL.classList.add("isvisible");
+
+				if (indexSelected !== -1) {
+					// Scroll to the right position if needed
+					if (elUL.children[indexSelected]) {
+						if (
+							elUL.children[indexSelected].offsetTop >
+							lineHeight * 2
+						) {
+							elUL.scrollTop;
+							elUL.scrollTo(
+								0,
+								elUL.children[indexSelected].offsetTop - lineHeight
+							);
+						}
+					}
+				} else {
+					elUL.scrollTo(0, 0);
+				}
 			}
 		}
 
@@ -1058,9 +1074,23 @@ var DropdownField = (function () {
 			elUL.innerHTML = matchlist;
 		}
 
+		function enableList(enabled) {
+			if (enabled) {
+				elUL.removeAttribute("disabled");
+				elInput.removeAttribute("disabled");
+				elArrow.removeAttribute("disabled");
+			} else {
+				elUL.classList.remove("isvisible");
+				elUL.disabled = "true";
+				elInput.disabled = "true";
+				elArrow.disabled = "true";
+			}
+		}
+
 		return {
 			getList,
 			setList,
+			enableList,
 		}
 	}
 

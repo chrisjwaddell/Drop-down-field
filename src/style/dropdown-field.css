@@ -39,6 +39,11 @@
 	width: var(--dd-width);
 }
 
+.inputarrow [disabled],
+.inputarrow .arrow[disabled] {
+	cursor: progress;
+}
+
 .inputarrow .arrow {
 	position: absolute;
 	right: 5px;

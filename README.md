@@ -94,21 +94,29 @@ be visible to go through the list.
 | `arrowKeysNoDropdown`                | _0_, _1_ or _2_           | If no dropdown appears: 0 - do nothing; 1 - open drop down; 2 - don't show drop down, go up or down the list. This feature is good for sequential data in the list when the user knows the order of the list such as numbers, alphabetic order of a short list. Default - _0_. This setting is independent of typingOpenDropdown. |
 | `autocomplete`                       | _true_ or _false_           | Suggests the first item in the list according to the filter settings. If the user tab out of the field with nothing selected and it will choose the first item. It works regardless of whether the list is showing or not. The default is _false_.                                                                                                                                                                             |
 | `autofocus`                       | _true_ or _false_           | On page load, it can have focus.                                                                                                                                                                             |
+| `disableOnOpen`                       | Array of CSS class names    | Adds these classes to the container of the drop down. This CSS should be hierarchically placed after dropdown-field.css                                                                                                                                                                                                        |
 | `cssClassList`                       | Array of CSS class names    | Adds these classes to the container of the drop down. This CSS should be hierarchically placed after dropdown-field.css                                                                                                                                                                                                        |
 
+
 Autocomplete kills the Escape fallback to original value feature.
-\
-\
-\
-\## Methods
+<br>
+<br>
+<br>
+
+
+
+
+
+## Methods
 
 | Method                             | Description                                                                                                                                                                                                                                                                                                                    |
 | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `setList(list)`                            | This method can be used to set and change the full dropdown list. It can be really powerful for *onChange* events of other fields. An example would be, choosing a country, then another drop down showing the States of the country chosen, the fields are dependent on each other.                                                                                                                                                                       |                                                                                                                     |
 | `getList()`                            | Show the current (unfiltered) full list.                                                                                                                                                                       |                                                                                                                     |
+| `enableList(*boolean*)`                            | Enable or disable a dropdown field. It can be used with the *onChange* callback. On page load, use the *disableOnOpen* property to get the same effect on startup.                                                                                                                      |                                                                                                                     |
 
-
-
+<br>
+<br>
 
 
 ## Drop down field styling
@@ -142,4 +150,5 @@ The list must contain all unique items.
 
 List item can't have special characters
 ^ $    . * ?    ! : |    + - =    \ /    ( ) [ ] { }
+
 

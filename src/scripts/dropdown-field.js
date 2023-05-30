@@ -67,6 +67,9 @@ export default function DropdownField(
 	const arrowKeysNoDropdown =
 		settings.arrowKeysNoDropdown ?? settingDefaults.arrowKeysNoDropdown
 
+	const disableOnOpen =
+		settings.disableOnOpen ?? settingDefaults.disableOnOpen
+
 	let selectionLength
 	let maxHeight
 	let lineHeight
@@ -206,6 +209,13 @@ export default function DropdownField(
 
 		maxHeight = lineHeight * maxLines
 		elUL.style.maxHeight = maxHeight + "px"
+
+		if (disableOnOpen) {
+			elUL.classList.remove("isvisible")
+			elUL.disabled = "true"
+			elInput.disabled = "true"
+			if (elArrow) elArrow.disabled = "true"
+		}
 	}
 
 	render(target, fieldLabel, placeholder, tabindex, ID)
@@ -501,7 +511,8 @@ export default function DropdownField(
 		}
 
 		window.addEventListener("load", function (e) {
-			document.querySelector(".autofocus").focus()
+			if (document.querySelector(".autofocus"))
+				document.querySelector(".autofocus").focus()
 		})
 	})
 
@@ -1024,8 +1035,22 @@ export default function DropdownField(
 		elUL.innerHTML = matchlist
 	}
 
+	function enableList(enabled) {
+		if (enabled) {
+			elUL.removeAttribute("disabled")
+			elInput.removeAttribute("disabled")
+			elArrow.removeAttribute("disabled")
+		} else {
+			elUL.classList.remove("isvisible")
+			elUL.disabled = "true"
+			elInput.disabled = "true"
+			elArrow.disabled = "true"
+		}
+	}
+
 	return {
 		getList,
 		setList,
+		enableList,
 	}
 }
