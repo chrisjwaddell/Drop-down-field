@@ -197,28 +197,29 @@ const dropDownOptions = [
 	"Zimbabwe",
 ]
 
-const dropDownOptions2 = ["Matthew", "Mark", "Luke", "John", "Mary", "Pauline"]
+const nameList = ["Matthew", "Mark", "Luke", "John", "Mary", "Pauline"]
 
-const countryTabindex = 2
 const nameTabindex = 1
-dropdownListUpdate(countryTabindex, dropDownOptions)
-dropdownListUpdate(nameTabindex, dropDownOptions2)
+// dropdownListUpdate(countryTabindex, dropDownOptions)
+// dropdownListUpdate(nameTabindex, dropDownOptions2)
 
-DropdownField(
+const countryField = DropdownField(
 	".container .outer",
 	"Country",
 	"Country",
-	countryTabindex,
+	1,
 	"dd1",
 	{
 		maxLines: 12,
 		cssClassList: ["field1"],
-		searchMode: "starts with",
+		// searchMode: "starts with",
 		autocomplete: true,
 	}
 )
 
-DropdownField(".container .outer", "Name", "Name", nameTabindex, "dd2", {
+countryField.setList(dropDownOptions)
+
+const nameField = DropdownField(".container .outer", "Name", "Name", 2, "dd2", {
 	maxLines: 14,
 	cssClassList: ["field2"],
 	searchMode: "anywhere in",
@@ -233,3 +234,5 @@ DropdownField(".container .outer", "Name", "Name", nameTabindex, "dd2", {
 	autocomplete: false,
 	autofocus: true,
 })
+
+nameField.setList(nameList)

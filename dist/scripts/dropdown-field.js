@@ -58,6 +58,9 @@ var DropdownField = (function () {
 		ID,
 		opts
 	) {
+		// This keeps the full drop down list
+		let list = [];
+
 		// ^ SETTINGS
 		const settingDefaults = {
 			maxLines: 10,
@@ -201,13 +204,14 @@ var DropdownField = (function () {
 			// elDDContainer.dataset.filter = ""
 
 			// Drop down arrow
+			let elArrow;
 			if (
 				typeof settings.showDropdownArrow === "undefined" ||
 				settings.showDropdownArrow === true
 			) {
 				elInput.style.padding = "5px 30px 5px 12px";
 
-				const elArrow = createElementAtt(
+				elArrow = createElementAtt(
 					elInputArrow,
 					"button",
 					["arrow"],
@@ -235,7 +239,6 @@ var DropdownField = (function () {
 				elSVG.appendChild(elLine2);
 
 				elArrow.appendChild(elSVG);
-				// elArrow.appendChild(elSVG)
 			}
 
 			if (settings.autocomplete) {
@@ -269,14 +272,6 @@ var DropdownField = (function () {
 
 			maxHeight = lineHeight * maxLines;
 			elUL.style.maxHeight = maxHeight + "px";
-
-			// Populate list if it has focus at the start
-			const matchlist = dropdownLists[tabindex]
-				.map((cv) => `<li>${cv}</li>`)
-				.join("");
-			elUL.style.maxHeight = maxHeight + "px";
-			elUL.scrollTo(0, 0);
-			elUL.innerHTML = matchlist;
 		}
 
 		render(target, fieldLabel, placeholder, tabindex, ID);
@@ -287,7 +282,7 @@ var DropdownField = (function () {
 		const elUL = document.querySelector("#" + ID + " ul");
 		const elAutocomplete = document.querySelector("#" + ID + " .autocomplete");
 
-		// Return search results from dropdownLists[]
+		// Return search results from 'list'
 		// matching str
 		// searchMode - 0 - anywhere in, 1 - starts with str
 		// Triggered by user typing and new focus into input field
@@ -298,7 +293,7 @@ var DropdownField = (function () {
 			searchMode
 				? (regex = new RegExp(`.*${str}.*`, "gi"))
 				: (regex = new RegExp(`^${str}.*`, "gi"));
-			return dropdownLists[tabindex].filter((cv) => cv.match(regex))
+			return list.filter((cv) => cv.match(regex))
 		}
 
 		// Puts <strong> element around the search filter
@@ -345,8 +340,8 @@ var DropdownField = (function () {
 		// result is the list
 		function populateList(filter, results) {
 			let DD_LIST_SIZE;
-			if (dropdownLists[tabindex]) {
-				DD_LIST_SIZE = objectLength(dropdownLists[tabindex]);
+			if (list) {
+				DD_LIST_SIZE = objectLength(list);
 			} else {
 				DD_LIST_SIZE = 0;
 			}
@@ -594,17 +589,17 @@ var DropdownField = (function () {
 				// filter and populate list
 				let results;
 				if (noFiltering || filter.length <= ignoreFirstXCharacters) {
-					results = dropdownLists[tabindex];
+					results = list;
 				} else {
 					results = selectionFilterWithOptions(filter);
 				}
 
 				populateList(filter, results);
 
+				let indexSelected = -1;
 				if (elInput.value) {
 					elDDContainer.dataset.origin = elInput.value;
 
-					let indexSelected = -1;
 					indexSelected = listItemValueIndex(elUL, elInput.value);
 
 					if (indexSelected !== -1) {
@@ -617,6 +612,16 @@ var DropdownField = (function () {
 						openDropdown();
 						lastDDMode = true;
 					}
+				}
+
+				if (indexSelected !== -1) {
+					elUL.scrollTop;
+					elUL.scrollTo(
+						0,
+						elUL.children[indexSelected].offsetTop - lineHeight
+					);
+				} else {
+					elUL.scrollTo(0, 0);
 				}
 			}
 
@@ -730,7 +735,7 @@ var DropdownField = (function () {
 			getAttributes();
 			let {entry, control, lastDDMode} = getMode();
 
-			const DD_LIST_SIZE = objectLength(dropdownLists[tabindex]);
+			const DD_LIST_SIZE = objectLength(list);
 			let matches;
 			let matchlist;
 
@@ -870,7 +875,7 @@ var DropdownField = (function () {
 							noFiltering ||
 							elInput.value.trim().length <= ignoreFirstXCharacters
 						) {
-							results = dropdownLists[tabindex];
+							results = list;
 						} else {
 							results = selectionFilterWithOptions(
 								strSearch);
@@ -1053,6 +1058,23 @@ var DropdownField = (function () {
 				elAutocomplete.textContent = elUL.childNodes[0].textContent;
 				elUL.childNodes[0].classList.add("selected");
 			}
+		}
+
+		function getList() {
+			return list
+		}
+
+		function setList(ddList) {
+			list = ddList;
+			const matchlist = list.map((cv) => `<li>${cv}</li>`).join("");
+			elUL.style.maxHeight = maxHeight + "px";
+			elUL.scrollTo(0, 0);
+			elUL.innerHTML = matchlist;
+		}
+
+		return {
+			getList,
+			setList,
 		}
 	}
 

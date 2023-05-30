@@ -10,6 +10,9 @@ export default function DropdownField(
 	ID,
 	opts
 ) {
+	// This keeps the full drop down list
+	let list = []
+
 	// ^ SETTINGS
 	const settingDefaults = {
 		maxLines: 10,
@@ -67,7 +70,6 @@ export default function DropdownField(
 	let selectionLength
 	let maxHeight
 	let lineHeight
-	let scrollAt
 
 	function render(target, fieldLabel, placeholder, tabindex, ID) {
 		const elTarget = document.querySelector(target)
@@ -189,7 +191,6 @@ export default function DropdownField(
 			elSVG.appendChild(elLine2)
 
 			elArrow.appendChild(elSVG)
-			// elArrow.appendChild(elSVG)
 		}
 
 		if (settings.autocomplete) {
@@ -223,17 +224,6 @@ export default function DropdownField(
 
 		maxHeight = lineHeight * maxLines
 		elUL.style.maxHeight = maxHeight + "px"
-
-		scrollAt =
-			maxHeight - lineHeight * 4 > 0 ? maxHeight - lineHeight * 4 : 0
-
-		// Populate list if it has focus at the start
-		const matchlist = dropdownLists[tabindex]
-			.map((cv) => `<li>${cv}</li>`)
-			.join("")
-		elUL.style.maxHeight = maxHeight + "px"
-		elUL.scrollTo(0, 0)
-		elUL.innerHTML = matchlist
 	}
 
 	render(target, fieldLabel, placeholder, tabindex, ID)
@@ -244,7 +234,7 @@ export default function DropdownField(
 	const elUL = document.querySelector("#" + ID + " ul")
 	const elAutocomplete = document.querySelector("#" + ID + " .autocomplete")
 
-	// Return search results from dropdownLists[]
+	// Return search results from 'list'
 	// matching str
 	// searchMode - 0 - anywhere in, 1 - starts with str
 	// Triggered by user typing and new focus into input field
@@ -255,7 +245,7 @@ export default function DropdownField(
 		searchMode
 			? (regex = new RegExp(`.*${str}.*`, "gi"))
 			: (regex = new RegExp(`^${str}.*`, "gi"))
-		return dropdownLists[tabindex].filter((cv) => cv.match(regex))
+		return list.filter((cv) => cv.match(regex))
 	}
 
 	// Puts <strong> element around the search filter
@@ -302,8 +292,8 @@ export default function DropdownField(
 	// result is the list
 	function populateList(filter, results) {
 		let DD_LIST_SIZE
-		if (dropdownLists[tabindex]) {
-			DD_LIST_SIZE = objectLength(dropdownLists[tabindex])
+		if (list) {
+			DD_LIST_SIZE = objectLength(list)
 		} else {
 			DD_LIST_SIZE = 0
 		}
@@ -553,7 +543,7 @@ export default function DropdownField(
 			// filter and populate list
 			let results
 			if (noFiltering || filter.length <= ignoreFirstXCharacters) {
-				results = dropdownLists[tabindex]
+				results = list
 			} else {
 				results = selectionFilterWithOptions(filter, searchModeNumber)
 			}
@@ -704,7 +694,7 @@ export default function DropdownField(
 		let {origin, filter} = getAttributes()
 		let {entry, control, lastDDMode} = getMode()
 
-		const DD_LIST_SIZE = objectLength(dropdownLists[tabindex])
+		const DD_LIST_SIZE = objectLength(list)
 		let matches
 		let matchlist
 
@@ -844,7 +834,7 @@ export default function DropdownField(
 						noFiltering ||
 						elInput.value.trim().length <= ignoreFirstXCharacters
 					) {
-						results = dropdownLists[tabindex]
+						results = list
 					} else {
 						results = selectionFilterWithOptions(
 							strSearch,
@@ -1029,5 +1019,22 @@ export default function DropdownField(
 			elAutocomplete.textContent = elUL.childNodes[0].textContent
 			elUL.childNodes[0].classList.add("selected")
 		}
+	}
+
+	function getList() {
+		return list
+	}
+
+	function setList(ddList) {
+		list = ddList
+		const matchlist = list.map((cv) => `<li>${cv}</li>`).join("")
+		elUL.style.maxHeight = maxHeight + "px"
+		elUL.scrollTo(0, 0)
+		elUL.innerHTML = matchlist
+	}
+
+	return {
+		getList,
+		setList,
 	}
 }
