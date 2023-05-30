@@ -886,30 +886,35 @@ export default function DropdownField(
 	function openDropdown() {
 		elUL.addEventListener("mousedown", onMouseDownUL, false)
 
-		let indexSelected = -1
-		if (elInput.value) {
-			indexSelected = listItemValueIndex(elUL, elInput.value)
+		if (!elInput.disabled) {
+			let indexSelected = -1
+			if (elInput.value) {
+				indexSelected = listItemValueIndex(elUL, elInput.value)
 
-			if (indexSelected !== -1) {
-				listSelectWithIndex(indexSelected)
-			}
-		}
-
-		elUL.classList.add("isvisible")
-
-		if (indexSelected !== -1) {
-			// Scroll to the right position if needed
-			if (elUL.children[indexSelected]) {
-				if (elUL.children[indexSelected].offsetTop > lineHeight * 2) {
-					const ulTop = elUL.scrollTop
-					elUL.scrollTo(
-						0,
-						elUL.children[indexSelected].offsetTop - lineHeight
-					)
+				if (indexSelected !== -1) {
+					listSelectWithIndex(indexSelected)
 				}
 			}
-		} else {
-			elUL.scrollTo(0, 0)
+
+			elUL.classList.add("isvisible")
+
+			if (indexSelected !== -1) {
+				// Scroll to the right position if needed
+				if (elUL.children[indexSelected]) {
+					if (
+						elUL.children[indexSelected].offsetTop >
+						lineHeight * 2
+					) {
+						elUL.scrollTop
+						elUL.scrollTo(
+							0,
+							elUL.children[indexSelected].offsetTop - lineHeight
+						)
+					}
+				}
+			} else {
+				elUL.scrollTo(0, 0)
+			}
 		}
 	}
 
