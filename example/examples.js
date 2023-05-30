@@ -318,14 +318,7 @@ const timeList = [
 	"11:45 PM",
 ]
 
-const monthTabindex = 1
-const timeTabindex = 2
-const countryTabindex = 3
-dropdownListUpdate(monthTabindex, monthList)
-dropdownListUpdate(timeTabindex, timeList)
-dropdownListUpdate(countryTabindex, countryList)
-
-DropdownField(".example1", "Month", "Month", monthTabindex, "dd1", {
+const DDField1 = DropdownField(".example1", "Month", "Month", 1, "dd1", {
 	maxLines: 6,
 	cssClassList: ["month-field"],
 	onFocusOpenDropdown: false,
@@ -336,8 +329,9 @@ DropdownField(".example1", "Month", "Month", monthTabindex, "dd1", {
 	// autocomplete: false,
 	enterToggleDropdown: false,
 })
+DDField1.setList(monthList)
 
-DropdownField(".example2", "Time", "Time", timeTabindex, "dd2", {
+const DDField2 = DropdownField(".example2", "Time", "Time", 2, "dd2", {
 	maxLines: 6,
 	cssClassList: ["time-field"],
 	onFocusOpenDropdown: true,
@@ -346,8 +340,9 @@ DropdownField(".example2", "Time", "Time", timeTabindex, "dd2", {
 	autocomplete: false,
 	enterToggleDropdown: true,
 })
+DDField2.setList(timeList)
 
-DropdownField(".example3", "Country", "Country", countryTabindex, "dd3", {
+const DDField3 = DropdownField(".example3", "Country", "Country", 3, "dd3", {
 	maxLines: 10,
 	ignoreFirstXCharacters: 1,
 	onFocusOpenDropdown: false,
@@ -356,3 +351,4 @@ DropdownField(".example3", "Country", "Country", countryTabindex, "dd3", {
 	autocomplete: true,
 	enterToggleDropdown: true,
 })
+DDField3.setList(countryList)

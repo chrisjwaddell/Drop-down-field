@@ -1,4 +1,4 @@
-const dropDownOptions = [
+const countryList = [
 	"Afghanistan",
 	"Albania",
 	"Algeria",
@@ -216,11 +216,15 @@ const countryField = DropdownField(
 		autocomplete: true,
 		// autofocus: true,
 		// disableOnOpen: true,
-		// autofocus: true,
+		autofocus: true,
+		onChange: () => {
+			const elInput1 = document.querySelector("input")
+			console.log("country field changed to - " + elInput1.value)
+		},
 	}
 )
 
-countryField.setList(dropDownOptions)
+countryField.setList(countryList)
 
 const nameField = DropdownField(".container .outer", "Name", "Name", 2, "dd2", {
 	maxLines: 14,
@@ -230,12 +234,16 @@ const nameField = DropdownField(".container .outer", "Name", "Name", 2, "dd2", {
 	ignoreFirstXCharacters: 1,
 	// noFiltering: true,
 	showDropdownArrow: true,
-	onFocusOpenDropdown: true,
+	onFocusOpenDropdown: false,
 	onClickToggleDropdown: false,
 	typingOpenDropdown: false,
+	arrowKeysNoDropdown: 2,
 	enterToggleDropdown: true,
 	autocomplete: false,
-	autofocus: true,
+	onChange: () => {
+		const elInput2 = document.querySelectorAll("input")[1]
+		console.log("name field changed to " + elInput2.value)
+	},
 })
 
 nameField.setList(nameList)

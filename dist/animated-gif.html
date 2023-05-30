@@ -212,18 +212,19 @@
                     <div>
                         <h3>Code</h3>
                         <pre> <code>
-DropdownField(
+let countryList = DropdownField(
     ".example-container>div>div",
     "Country",
     "Country",
     2,
     "dd1",
-    dropDownOptions,
     {
         maxLines: 10,
         cssClassList: ["field1"],
     }
 )
+
+countryList.setList(countryList)
 </code></pre>
                     </div>
                 </div>
@@ -293,13 +294,12 @@ DropdownField(
 
     // const elDDFlex = document.querySelectorAll(".ddfield__examples .ddfield__flex div:first-child")
 
-    DropdownField(
+    let countryFielda = DropdownField(
         ".example-container>div>div",
         "Country",
         "Country",
         2,
         "dd1",
-        dropDownOptions,
         {
             maxLines: 10,
             cssClassList: ["field3"],
@@ -315,14 +315,37 @@ DropdownField(
             autocomplete: true,
         }
     )
+    countryFielda.setList(countryList)
 
-    DropdownField(
+    let countryField2 = DropdownField(
         ".examples>.example-container:nth-of-type(2)>div>div",
+        "Country",
+        "Country",
+        2,
+        "dd2",
+        {
+            maxLines: 10,
+            cssClassList: ["field3"],
+            searchMode: "starts with",
+            ignoreFirstXCharacters: 0,
+            noFiltering: false,
+            showDropdownArrow: true,
+            onFocusOpenDropdown: true,
+            onClickToggleDropdown: true,
+            typingOpenDropdown: true,
+            enterToggleDropdown: true,
+            arrowKeysNoDropdown: 0,
+            autocomplete: true,
+        }
+    )
+    countryField2.setList(countryList)
+
+    let countryField3 = DropdownField(
+        ".examples>.example-container:nth-of-type(3)>div>div",
         "Country",
         "Country",
         3,
         "dd3",
-        dropDownOptions,
         {
             maxLines: 10,
             cssClassList: ["field3"],
@@ -339,28 +362,7 @@ DropdownField(
         }
     )
 
-    DropdownField(
-        ".examples>.example-container:nth-of-type(3)>div>div",
-        "Country",
-        "Country",
-        4,
-        "dd4",
-        dropDownOptions,
-        {
-            maxLines: 10,
-            cssClassList: ["field3"],
-            searchMode: "starts with",
-            ignoreFirstXCharacters: 0,
-            noFiltering: false,
-            showDropdownArrow: true,
-            onFocusOpenDropdown: true,
-            onClickToggleDropdown: true,
-            typingOpenDropdown: true,
-            enterToggleDropdown: true,
-            arrowKeysNoDropdown: 0,
-            autocomplete: true,
-        }
-    )
+    countryField3.setList(countryList)
 </script>
 
 

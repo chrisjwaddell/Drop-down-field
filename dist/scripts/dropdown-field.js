@@ -653,16 +653,12 @@ var DropdownField = (function () {
 
 			closeDropdown();
 
-			// if (entry !== "listclick" && entry !== "stay") {
 			elInput.removeEventListener("click", onClickInput, false);
 			elInput.removeEventListener("keydown", onKeyDownInput);
 			elInput.removeEventListener("keyup", onKeyUpInput);
 			elInput.removeEventListener("blur", onBlurInput);
 
-			// elUL.removeEventListener("mousedown", onMouseDownUL, true)
-
 			if (elAutocomplete) elAutocomplete.classList.remove("isvisible");
-			// }
 
 			control = "input";
 			setMode(entry, control, lastDDMode);
@@ -723,6 +719,7 @@ var DropdownField = (function () {
 				if (elAutocomplete) {
 					if (elAutocomplete.classList.contains("isvisible")) {
 						elInput.value = elAutocomplete.textContent;
+						if (settings.onChange) settings.onChange();
 					}
 				}
 			}
@@ -759,6 +756,7 @@ var DropdownField = (function () {
 							elInput.value = val;
 							if (elAutocomplete)
 								elAutocomplete.classList.remove("isvisible");
+							if (settings.onChange) settings.onChange();
 						}
 
 						if (ddVisible) {
@@ -792,6 +790,7 @@ var DropdownField = (function () {
 							elInput.value = val;
 							if (elAutocomplete)
 								elAutocomplete.classList.remove("isvisible");
+							if (settings.onChange) settings.onChange();
 						}
 
 						if (ddVisible) {
@@ -857,12 +856,6 @@ var DropdownField = (function () {
 						e.keyCode === "Delete" ||
 						e.keyCode === 229
 					) {
-						// if (
-						// 	e.key.length === 1 ||
-						// 	keyCodes[e.keyCode] === "backspace" ||
-						// 	keyCodes[e.keyCode] === "delete" ||
-						// 	keyCodes[e.keyCode] === "space"
-						// ) {
 						const strSearch = elInput.value;
 
 						elDDContainer.dataset.filter = strSearch.toLowerCase();
@@ -912,6 +905,7 @@ var DropdownField = (function () {
 							elUL.scrollTo(0, 0);
 
 							if (elAutocomplete) autocomplete();
+							if (settings.onChange) settings.onChange();
 						}
 					}
 			}
@@ -981,6 +975,7 @@ var DropdownField = (function () {
 				elInput.value = elDDContainer.dataset.filter;
 			} else if (elDDContainer.dataset.origin) {
 				elInput.value = elDDContainer.dataset.origin;
+				if (settings.onChange) settings.onChange();
 			}
 			closeDropdown();
 		}
@@ -1008,6 +1003,10 @@ var DropdownField = (function () {
 				elUL.children[index].classList.add("selected");
 			}
 
+			if (e.target.tagName === "LI" || e.target.tagName === "STRONG") {
+				if (settings.onChange) settings.onChange();
+			}
+
 			lastDDMode = false;
 
 			entry = "listclick";
@@ -1026,12 +1025,14 @@ var DropdownField = (function () {
 					if (elAutocomplete) {
 						elAutocomplete.classList.remove("isvisible");
 					}
+					if (settings.onChange) settings.onChange();
 				}
 			} else {
 				// If no value in, put filter value in if there is one
 				if (filter) {
 					elInput.value = filter;
 					if (elAutocomplete) autocomplete();
+					if (settings.onChange) settings.onChange();
 				}
 			}
 
@@ -1196,10 +1197,4 @@ function onFocusClickDoc(e) {
 				.querySelector(`#${ddContainer.id} .autocomplete`)
 				.classList.remove("isvisible")
 	}
-}
-
-const dropdownLists = []
-
-function dropdownListUpdate(ddTabindex, list) {
-	dropdownLists[ddTabindex] = list
 }

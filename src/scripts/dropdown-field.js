@@ -607,16 +607,12 @@ export default function DropdownField(
 
 		closeDropdown()
 
-		// if (entry !== "listclick" && entry !== "stay") {
 		elInput.removeEventListener("click", onClickInput, false)
 		elInput.removeEventListener("keydown", onKeyDownInput)
 		elInput.removeEventListener("keyup", onKeyUpInput)
 		elInput.removeEventListener("blur", onBlurInput)
 
-		// elUL.removeEventListener("mousedown", onMouseDownUL, true)
-
 		if (elAutocomplete) elAutocomplete.classList.remove("isvisible")
-		// }
 
 		control = "input"
 		setMode(entry, control, lastDDMode)
@@ -639,11 +635,6 @@ export default function DropdownField(
 			if (onClickToggleDropdown) {
 				toggleDropdown()
 				lastDDMode = !lastDDMode
-			} else {
-				// if (onClickToggleDropdown) {
-				// 	openDropdown()
-				// 	lastDDMode = true
-				// }
 			}
 		}
 
@@ -682,6 +673,7 @@ export default function DropdownField(
 			if (elAutocomplete) {
 				if (elAutocomplete.classList.contains("isvisible")) {
 					elInput.value = elAutocomplete.textContent
+					if (settings.onChange) settings.onChange()
 				}
 			}
 		}
@@ -718,6 +710,7 @@ export default function DropdownField(
 						elInput.value = val
 						if (elAutocomplete)
 							elAutocomplete.classList.remove("isvisible")
+						if (settings.onChange) settings.onChange()
 					}
 
 					if (ddVisible) {
@@ -751,6 +744,7 @@ export default function DropdownField(
 						elInput.value = val
 						if (elAutocomplete)
 							elAutocomplete.classList.remove("isvisible")
+						if (settings.onChange) settings.onChange()
 					}
 
 					if (ddVisible) {
@@ -816,12 +810,6 @@ export default function DropdownField(
 					e.keyCode === "Delete" ||
 					e.keyCode === 229
 				) {
-					// if (
-					// 	e.key.length === 1 ||
-					// 	keyCodes[e.keyCode] === "backspace" ||
-					// 	keyCodes[e.keyCode] === "delete" ||
-					// 	keyCodes[e.keyCode] === "space"
-					// ) {
 					const strSearch = elInput.value
 
 					elDDContainer.dataset.filter = strSearch.toLowerCase()
@@ -873,6 +861,7 @@ export default function DropdownField(
 						elUL.scrollTo(0, 0)
 
 						if (elAutocomplete) autocomplete()
+						if (settings.onChange) settings.onChange()
 					}
 				}
 		}
@@ -942,6 +931,7 @@ export default function DropdownField(
 			elInput.value = elDDContainer.dataset.filter
 		} else if (elDDContainer.dataset.origin) {
 			elInput.value = elDDContainer.dataset.origin
+			if (settings.onChange) settings.onChange()
 		}
 		closeDropdown()
 	}
@@ -969,6 +959,10 @@ export default function DropdownField(
 			elUL.children[index].classList.add("selected")
 		}
 
+		if (e.target.tagName === "LI" || e.target.tagName === "STRONG") {
+			if (settings.onChange) settings.onChange()
+		}
+
 		lastDDMode = false
 
 		entry = "listclick"
@@ -987,12 +981,14 @@ export default function DropdownField(
 				if (elAutocomplete) {
 					elAutocomplete.classList.remove("isvisible")
 				}
+				if (settings.onChange) settings.onChange()
 			}
 		} else {
 			// If no value in, put filter value in if there is one
 			if (filter) {
 				elInput.value = filter
 				if (elAutocomplete) autocomplete()
+				if (settings.onChange) settings.onChange()
 			}
 		}
 

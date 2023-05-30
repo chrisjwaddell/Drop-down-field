@@ -1,4 +1,4 @@
-const dropDownOptions = [
+const countryList = [
 	"Afghanistan",
 	"Albania",
 	"Algeria",
@@ -199,15 +199,16 @@ const dropDownOptions = [
 
 const dropDownOptions2 = ["Matthew", "Mark", "Luke", "John", "Mary", "Pauline"]
 
-DropdownField(
+const countryField = DropdownField(
 	".container .outer",
 	"Country",
 	"Country",
 	2,
 	"dda",
-	dropDownOptions,
 	{
 		maxLines: 10,
 		cssClassList: ["field1"],
 	}
 )
+
+countryField.setList(countryList)

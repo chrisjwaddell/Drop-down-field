@@ -97,9 +97,3 @@ function onFocusClickDoc(e) {
 				.classList.remove("isvisible")
 	}
 }
-
-const dropdownLists = []
-
-function dropdownListUpdate(ddTabindex, list) {
-	dropdownLists[ddTabindex] = list
-}
