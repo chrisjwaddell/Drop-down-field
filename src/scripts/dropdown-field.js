@@ -109,51 +109,33 @@ export default function DropdownField(
 			[],
 			""
 		)
+
 		let elInput
+		elInput = createElementAtt(
+			elInputArrow,
+			"input",
+			[],
+			[
+				["type", "text"],
+				["placeholder", placeholder],
+				["aria-autocomplete", "both"],
+				["autocapitalize", "none"],
+				["autocomplete", "off"],
+				["autocorrect", "off"],
+				["spellcheck", "false"],
+				["tabindex", tabindex],
+				["value", ""],
+			],
+			""
+		)
+
 		if (
 			typeof settings.autofocus !== "undefined" &&
 			settings.autofocus !== null &&
 			settings.autofocus !== false
 		) {
-			elInput = createElementAtt(
-				elInputArrow,
-				"input",
-				[],
-				[
-					["type", "text"],
-					["placeholder", placeholder],
-					["aria-autocomplete", "both"],
-					["autocapitalize", "none"],
-					["autocomplete", "off"],
-					["autocorrect", "off"],
-					["spellcheck", "false"],
-					["tabindex", tabindex],
-					["autofocus", "true"],
-					["value", ""],
-				],
-				""
-			)
-		} else {
-			elInput = createElementAtt(
-				elInputArrow,
-				"input",
-				[],
-				[
-					["type", "text"],
-					["placeholder", placeholder],
-					["aria-autocomplete", "both"],
-					["autocapitalize", "none"],
-					["autocomplete", "off"],
-					["autocorrect", "off"],
-					["spellcheck", "false"],
-					["tabindex", tabindex],
-					["value", ""],
-				],
-				""
-			)
+			elInput.classList.add("autofocus")
 		}
-
-		// elDDContainer.dataset.filter = ""
 
 		// Drop down arrow
 		let elArrow
@@ -517,6 +499,10 @@ export default function DropdownField(
 		if (elArrow) {
 			elArrow.addEventListener("click", onClickArrow, true)
 		}
+
+		window.addEventListener("load", function (e) {
+			document.querySelector(".autofocus").focus()
+		})
 	})
 
 	// For each field, focus and click events are always on

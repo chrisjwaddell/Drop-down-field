@@ -214,6 +214,7 @@ const countryField = DropdownField(
 		cssClassList: ["field1"],
 		// searchMode: "starts with",
 		autocomplete: true,
+		autofocus: true,
 	}
 )
 
@@ -232,7 +233,7 @@ const nameField = DropdownField(".container .outer", "Name", "Name", 2, "dd2", {
 	typingOpenDropdown: false,
 	enterToggleDropdown: true,
 	autocomplete: false,
-	autofocus: true,
+	// autofocus: true,
 })
 
 nameField.setList(nameList)
