@@ -318,9 +318,14 @@ const timeList = [
 	"11:45 PM",
 ]
 
-// const elDDFlex = document.querySelectorAll(".ddfield__examples .ddfield__flex div:first-child")
+const monthTabindex = 1
+const timeTabindex = 2
+const countryTabindex = 3
+dropdownListUpdate(monthTabindex, monthList)
+dropdownListUpdate(timeTabindex, timeList)
+dropdownListUpdate(countryTabindex, countryList)
 
-DropdownField(".example1", "Month", "Month", 1, "dd1", monthList, {
+DropdownField(".example1", "Month", "Month", monthTabindex, "dd1", {
 	maxLines: 6,
 	cssClassList: ["month-field"],
 	onFocusOpenDropdown: false,
@@ -332,7 +337,7 @@ DropdownField(".example1", "Month", "Month", 1, "dd1", monthList, {
 	enterToggleDropdown: false,
 })
 
-DropdownField(".example2", "Time", "Time", 2, "dd2", timeList, {
+DropdownField(".example2", "Time", "Time", timeTabindex, "dd2", {
 	maxLines: 6,
 	cssClassList: ["time-field"],
 	onFocusOpenDropdown: true,
@@ -342,7 +347,7 @@ DropdownField(".example2", "Time", "Time", 2, "dd2", timeList, {
 	enterToggleDropdown: true,
 })
 
-DropdownField(".example3", "Country", "Country", 3, "dd3", countryList, {
+DropdownField(".example3", "Country", "Country", countryTabindex, "dd3", {
 	maxLines: 10,
 	ignoreFirstXCharacters: 1,
 	onFocusOpenDropdown: false,

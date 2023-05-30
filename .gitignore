@@ -1,1 +1,4 @@
 node_modules
+dist/scripts/dropdown-field-NEW.js
+src/style/dropdown-field-NEW.css
+.gitignore

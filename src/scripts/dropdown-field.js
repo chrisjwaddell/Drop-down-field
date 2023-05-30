@@ -154,13 +154,14 @@ export default function DropdownField(
 		// elDDContainer.dataset.filter = ""
 
 		// Drop down arrow
+		let elArrow
 		if (
 			typeof settings.showDropdownArrow === "undefined" ||
 			settings.showDropdownArrow === true
 		) {
 			elInput.style.padding = "5px 30px 5px 12px"
 
-			const elArrow = createElementAtt(
+			elArrow = createElementAtt(
 				elInputArrow,
 				"button",
 				["arrow"],
@@ -559,10 +560,10 @@ export default function DropdownField(
 
 			populateList(filter, results)
 
+			let indexSelected = -1
 			if (elInput.value) {
 				elDDContainer.dataset.origin = elInput.value
 
-				let indexSelected = -1
 				indexSelected = listItemValueIndex(elUL, elInput.value)
 
 				if (indexSelected !== -1) {
@@ -575,6 +576,16 @@ export default function DropdownField(
 					openDropdown()
 					lastDDMode = true
 				}
+			}
+
+			if (indexSelected !== -1) {
+				elUL.scrollTop
+				elUL.scrollTo(
+					0,
+					elUL.children[indexSelected].offsetTop - lineHeight
+				)
+			} else {
+				elUL.scrollTo(0, 0)
 			}
 		}
 
