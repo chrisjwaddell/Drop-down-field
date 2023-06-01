@@ -18,17 +18,10 @@ it.
 Filterable drop downs are in many cases better than your standard drop down box,
 it filters and you can easily choose by using up and down arrow and letters.
 
+There is also an *onChange* callback so if the list changes, you can have a function that runs.
+
+
 ## How to use
-
-`DropdownField(target, Field name, Placeholder, tabindex, ID, List, Options)`
-
-target - where the drop down field gets placed.\
-Field name\
-Placeholder\
-tabindex\
-ID - The ID that will be placed in the HTML. It must have a unique ID.\
-List - This is an array of items to appear in the list.\
-Options - an object withe the option names appearing below.
 
 Add these lines the head of your HTML:
 
@@ -39,22 +32,37 @@ Add these lines the head of your HTML:
 
 ```
 
-Add each drop down like this:
+```
+const countryField = DropdownField(".country", "Country", "Country", 1, "dd1", {
+	cssClassList: ["field1"],
+    // options go here
+	autofocus: true,
+	onChange: () => {
+		updateStateList()
+	},
+})
 
+countryField.setList("Australia", "USA");
 ```
-DropdownField(
-    ".container",
-    "Country",
-    "Country",
-    2,
-    "dd1",
-    dropDownOptions,
-    {
-        maxLines: 10,
-        // options go here
-    }
-)
-```
+
+It has the main *DropdownField* function has following option arguments:
+\
+`let <field_variable_name> = </field_variable_name>DropdownField(target, Field name, Placeholder, tabindex, ID, Options)`
+
+Then set your list (which can be changed any time) by:
+\
+`<field_variable_name>.setList(<your_dropdown_list-array>)`
+
+The mandatory settings are:
+\
+target - where the drop down field gets placed.\
+Field name\
+Placeholder\
+tabindex\
+ID - The ID that will be placed in the HTML. It must have a unique ID.\
+Options - an object with the option names appearing below.
+
+<br><br>
 
 ## Filtering options
 

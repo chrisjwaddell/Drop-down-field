@@ -212,17 +212,9 @@ const countryFielda = DropdownField(
 	2,
 	"dd1",
 	{
-		maxLines: 10,
 		cssClassList: ["field3"],
-		searchMode: "starts with",
-		ignoreFirstXCharacters: 0,
-		noFiltering: false,
 		showDropdownArrow: true,
 		onFocusOpenDropdown: true,
-		onClickToggleDropdown: true,
-		typingOpenDropdown: true,
-		enterToggleDropdown: true,
-		arrowKeysNoDropdown: 0,
 		autocomplete: true,
 	}
 )
