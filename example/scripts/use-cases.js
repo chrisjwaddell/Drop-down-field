@@ -345,7 +345,7 @@ DDField2.setList(timeList)
 const DDField3 = DropdownField(".example3", "Country", "Country", 3, "dd3", {
 	maxLines: 10,
 	ignoreFirstXCharacters: 1,
-	onFocusOpenDropdown: false,
+	onFocusOpenDropdown: true,
 	typingOpenDropdown: true,
 	arrowKeysNoDropdown: 1,
 	autocomplete: true,
