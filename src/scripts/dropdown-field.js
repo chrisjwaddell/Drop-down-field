@@ -1024,8 +1024,9 @@ export default function DropdownField(
 		let index = listFindSelectedIndex(elUL, "selected", selectionLength)
 		if (index !== -1) {
 			elUL.children[index].classList.remove("selected")
+			elInput.value = ""
+			if (settings.onChange) settings.onChange()
 		}
-		elInput.value = ""
 	}
 
 	function getList() {

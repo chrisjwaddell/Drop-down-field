@@ -556,6 +556,7 @@ var DropdownField = (function () {
 				elArrow.addEventListener("click", onClickArrow, true);
 			}
 
+			// autofocus
 			window.addEventListener("load", function (e) {
 				if (document.querySelector(".autofocus"))
 					document.querySelector(".autofocus").focus();
@@ -1063,6 +1064,15 @@ var DropdownField = (function () {
 			}
 		}
 
+		function clearField() {
+			let index = listFindSelectedIndex(elUL, "selected", selectionLength);
+			if (index !== -1) {
+				elUL.children[index].classList.remove("selected");
+				elInput.value = "";
+				if (settings.onChange) settings.onChange();
+			}
+		}
+
 		function getList() {
 			return list
 		}
@@ -1089,6 +1099,7 @@ var DropdownField = (function () {
 		}
 
 		return {
+			clearField,
 			getList,
 			setList,
 			enableList,
