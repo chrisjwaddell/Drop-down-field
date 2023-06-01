@@ -510,6 +510,7 @@ export default function DropdownField(
 			elArrow.addEventListener("click", onClickArrow, true)
 		}
 
+		// autofocus
 		window.addEventListener("load", function (e) {
 			if (document.querySelector(".autofocus"))
 				document.querySelector(".autofocus").focus()
@@ -1019,6 +1020,14 @@ export default function DropdownField(
 		}
 	}
 
+	function clearField() {
+		let index = listFindSelectedIndex(elUL, "selected", selectionLength)
+		if (index !== -1) {
+			elUL.children[index].classList.remove("selected")
+		}
+		elInput.value = ""
+	}
+
 	function getList() {
 		return list
 	}
@@ -1045,6 +1054,7 @@ export default function DropdownField(
 	}
 
 	return {
+		clearField,
 		getList,
 		setList,
 		enableList,
