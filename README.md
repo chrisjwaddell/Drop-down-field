@@ -17,48 +17,6 @@ goes back to what you typed or what was originally in the field as you entered i
 Filterable drop downs are in many cases better than your standard drop down box, it filters and you can easily choose by using up and down arrow and letters.
 
 
-## How to use
-
-``
-DropdownField(target, Field name, Placeholder, tabindex, ID, List, Options)
-``
-
-target - where the drop down field gets placed.\
-Field name\
-Placeholder\
-tabindex\
-ID - The ID that will be placed in the HTML. It must have a unique ID.\
-List - This is an array of items to appear in the list.\
-Options - an object withe the option names appearing below.
-
-
-Add these lines the head of your HTML:
-```
-<link rel="stylesheet" href="https://cdn.rawgit.com/chrisjwaddell/Drop-down-field/develop/dist/style/dropdown-field.css">
-
-<scripts src="https://cdn.rawgit.com/chrisjwaddell/Drop-down-field/develop/dist/scripts/dropdown-field.js">
-
-```
-
-
-Add each drop down like this:
-
-```
-DropdownField(
-    ".container",
-    "Country",
-    "Country",
-    2,
-    "dd1",
-    dropDownOptions,
-    {
-        maxLines: 10,
-        // options go here
-    }
-)
-```
-
-
 
 
 [Three Drop down examples](https://chrisjwaddell.github.io/Drop-down-field/example/dropdown-examples.html)\
@@ -80,6 +38,8 @@ Add these lines the head of your HTML:
 <scripts src="https://cdn.rawgit.com/chrisjwaddell/Drop-down-field/develop/dist/scripts/dropdown-field.js">
 
 ```
+
+Add this to your javascript:
 
 ```
 const countryField = DropdownField(".country", "Country", "Country", 1, "dd1", {
