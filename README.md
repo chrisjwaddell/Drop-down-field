@@ -10,9 +10,6 @@ This drop down field is a one column list. And one selection only.
 There is an autocomplete option making it fast to use. You have the option of whether you want an arrow for the drop down. If you press escape, the text field
 goes back to what you typed or what was originally in the field as you entered it.
 
-[Three Drop down examples](https://chrisjwaddell.github.io/Drop-down-field/example/dropdown-examples.html)\
-[Dropdown field Examples with code and descriptions](https://chrisjwaddell.github.io/Drop-down-field/)
-
 
 Filterable drop downs are in many cases better than your standard drop down box, it filters and you can easily choose by using up and down arrow and letters.
 
@@ -22,8 +19,9 @@ There is also an *onChange* callback so if the field value changes, you can have
 
 
 
-[Three Drop down examples](https://chrisjwaddell.github.io/Drop-down-field/example/dropdown-examples.html)\
+[Three great examples of when to use a dropdown field](https://chrisjwaddell.github.io/Drop-down-field/example/use-cases.html)\
 [Dropdown field Examples with code and descriptions](https://chrisjwaddell.github.io/Drop-down-field/)
+[Using an *onChange* callback to change a 2nd dropdown list based on the value chosen on the first dropdown field](https://chrisjwaddell.github.io/Drop-down-field/example/callback-example.htm)\
 
 
 
@@ -32,9 +30,9 @@ There is also an *onChange* callback so if the field value changes, you can have
 Add these lines the head of your HTML:
 
 ```
-<link rel="stylesheet" href="https://cdn.rawgit.com/chrisjwaddell/Drop-down-field/develop/dist/style/dropdown-field.css">
+<link rel="stylesheet" href="https://cdn.rawgit.com/chrisjwaddell/Drop-down-field/main/dist/style/dropdown-field.css">
 
-<scripts src="https://cdn.rawgit.com/chrisjwaddell/Drop-down-field/develop/dist/scripts/dropdown-field.js">
+<script src="https://cdn.rawgit.com/chrisjwaddell/Drop-down-field/main/dist/scripts/dropdown-field.js"></script>
 
 ```
 
