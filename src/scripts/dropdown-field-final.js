@@ -887,6 +887,7 @@ var DropdownField = (function () {
 								if (elAutocomplete)
 									elAutocomplete.classList.remove("isvisible");
 							}
+							if (settings.onChange) settings.onChange();
 						} else if (results.length === 0) {
 							matches = [];
 							elUL.innerHTML = "";
@@ -894,6 +895,7 @@ var DropdownField = (function () {
 
 							if (elAutocomplete)
 								elAutocomplete.classList.remove("isvisible");
+							if (settings.onChange) settings.onChange();
 						} else {
 							// Letters have been typed, they are shown as bold
 							matches = results.map((cv) =>
