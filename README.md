@@ -1,4 +1,5 @@
 # Drop Down Field
+
 This drop down field is a filterable drop down field list with various options.
 As the user types, the drop down list is filtered to match what the user types.
 You have options over how filtering is done.
@@ -60,17 +61,76 @@ DropdownField(
 
 
 
+[Three Drop down examples](https://chrisjwaddell.github.io/Drop-down-field/example/dropdown-examples.html)\
+[Dropdown field Examples with code and descriptions](https://chrisjwaddell.github.io/Drop-down-field/)
+
+Filterable drop downs are in many cases better than your standard drop down box,
+it filters and you can easily choose by using up and down arrow and letters.
+
+There is also an *onChange* callback so if the list changes, you can have a function that runs.
+
+
+## How to use
+
+Add these lines the head of your HTML:
+
+```
+<link rel="stylesheet" href="https://cdn.rawgit.com/chrisjwaddell/Drop-down-field/develop/dist/style/dropdown-field.css">
+
+<scripts src="https://cdn.rawgit.com/chrisjwaddell/Drop-down-field/develop/dist/scripts/dropdown-field.js">
+
+```
+
+```
+const countryField = DropdownField(".country", "Country", "Country", 1, "dd1", {
+	cssClassList: ["field1"],
+    // options go here
+	autofocus: true,
+	onChange: () => {
+		updateStateList()
+	},
+})
+
+countryField.setList("Australia", "USA");
+```
+
+It has the main *DropdownField* function has following option arguments:
+\
+`let <field_variable_name> = </field_variable_name>DropdownField(target, Field name, Placeholder, tabindex, ID, Options)`
+
+Then set your list (which can be changed any time) by:
+\
+`<field_variable_name>.setList(<your_dropdown_list-array>)`
+
+The mandatory settings are:
+\
+target - where the drop down field gets placed.\
+Field name\
+Placeholder\
+tabindex\
+ID - The ID that will be placed in the HTML. It must have a unique ID.\
+Options - an object with the option names appearing below.
+
+<br><br>
+
 ## Filtering options
+
 It matches characters to the options regardless of upper or lower case. You can
 filter by what each item in the list starts with or by anywhere in the item
-string. You can start filtering only when there are more than 2 characters. Anything typed goes into the data-filter attribute. See below for further options.
+string. You can start filtering only when there are more than 2 characters.
+Anything typed goes into the data-filter attribute. See below for further
+options.
 
 ## Keys and General behaviour of the field
+
 When the field focus is lost, if what is in the text field doesn't match any
 drop down option, the text field is either set to it's original field value when
 you entered the field or the field is made blank.
 
-Esc - It takes the user back to what was typed, the filter. So if they select an item from the drop down list, this will be undone and it will go back to what they typed. Or it will take them back to what was originally in the field when they entered it. It also closes the drop down list.
+Esc - It takes the user back to what was typed, the filter. So if they select an
+item from the drop down list, this will be undone and it will go back to what
+they typed. Or it will take them back to what was originally in the field when
+they entered it. It also closes the drop down list.
 
 Enter - toggles the drop down list to display it or not.
 
@@ -98,6 +158,7 @@ be visible to go through the list.
 Autocomplete kills the Escape fallback to original value feature.
 
 ## Drop down field styling
+
 You can add CSS classes to the drop down field or you can use Javascript in your
 own way to style the drop down fields. _cssClassList_ takes an array of classes
 eg _[ "field1", "ma3"]_
@@ -114,6 +175,7 @@ down field styling are:
 ```
 
 ## Attributes in the DOM
+
 origin - The field value when the field was originally entered.\
 filter - What was typed in to the field.
 

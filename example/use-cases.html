@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet"
+        href="https://cdn.rawgit.com/chrisjwaddell/Drop-down-field/develop/dist/style/dropdown-field.css">
+    <script src="https://cdn.rawgit.com/chrisjwaddell/Drop-down-field/develop/dist/scripts/dropdown-field.js">
+    </script> -->
+
+    <script src="../dist/scripts/dropdown-field.js"></script>
+    <link rel="stylesheet" href="../dist/style/dropdown-field.css" />
+
+    <link rel="stylesheet" href="./style/flex.css">
+    <title>Drop down field examples</title>
+    <style>
+        body {
+            background-color: #ffffff;
+            margin: 0;
+        }
+
+        .container {
+            width: 100%;
+            padding-right: 40px;
+            padding-left: 40px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .month-field {
+            --dd-width: 180px;
+        }
+
+
+        .time-field {
+            --dd-width: 130px;
+            --dd-font-size: 15px;
+            --dd-border-radius: 8px;
+            --dd-input-height: 36px;
+            color: #880522;
+        }
+
+
+        .time-field input {
+            border: 2px solid #E8BA40;
+            background-color: #eeeef8;
+            color: #880522;
+        }
+
+
+        .example {
+            height: 200px;
+        }
+
+        .time-field .inputarrow .arrow {
+            background-image: unset;
+            border-width: 0;
+        }
+
+        .time-field.ddfield ul.ddlist {
+            border: 2px solid #E8BA40;
+            background-color: #eeeef8;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="o-layout--center">
+            <h1>Dropdown field examples</h1>
+            <div class="o-flex x--center y--center x--around o-flex-wrap">
+                <div class="example1 example">
+                    <p>The settings in thist field has an autocomplete which chooses the first filtered option in the
+                        list so when you tab out of the field, the autocomplete item is chosen. If you type in "M" and
+                        tab out, it chooses "March". Use the arrow keys or the arrow button to choose. Or type in the
+                        first few letters. The drop down doesn't appear unless you click the arrow button. This makes it
+                        faster and ideal to select when the list is small and well known.</p>
+                </div>
+                <div class="example2 example">
+                    <p>The Enter key can be used to toggle the drop down list on or off. Type in the first few
+                        characters to
+                        limit the selection. Up arrow can take you to the bottom of the list. This makes it very fast to
+                        select especially when the list is in a known order.</p>
+                </div>
+                <div class="example3 example">
+
+                    <p>For a larger list such as a Country list, filtering is set to after 1 character is typed. Use the
+                        arrow keys or the arrow button to choose. Or type in the first few letters. THe autocomplete
+                        option is on here so that it's fast to select.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+</body>
+
+<script src="./use-cases.js"></script>
+<script>
+
+
+</script>
+
+</html>

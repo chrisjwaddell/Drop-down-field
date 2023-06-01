@@ -1,4 +1,4 @@
-const dropDownOptions = [
+const countryList = [
 	"Afghanistan",
 	"Albania",
 	"Algeria",
@@ -199,29 +199,70 @@ const dropDownOptions = [
 
 const dropDownOptions2 = ["Matthew", "Mark", "Luke", "John", "Mary", "Pauline"]
 
-DropdownField(
-	".container .outer",
-	"Country of birth",
-	"Country of birth",
+const elKeyBubble = document.querySelector(".keypressed div")
+document.addEventListener("keyup", function (e) {
+	console.log(e.key)
+	elKeyBubble.textContent = e.key
+})
+
+const countryFielda = DropdownField(
+	".example-container>div>div",
+	"Country",
+	"Country",
 	2,
 	"dd1",
-	dropDownOptions,
+	{
+		cssClassList: ["field3"],
+		showDropdownArrow: true,
+		onFocusOpenDropdown: true,
+		autocomplete: true,
+	}
+)
+countryFielda.setList(countryList)
+
+const countryField2 = DropdownField(
+	".examples>.example-container:nth-of-type(2)>div>div",
+	"Country",
+	"Country",
+	2,
+	"dd2",
 	{
 		maxLines: 10,
-		searchMode: "anywhere in",
-		firstXLettersOppositeSearchMode: 2,
+		cssClassList: ["field3"],
+		searchMode: "starts with",
+		ignoreFirstXCharacters: 0,
+		noFiltering: false,
 		showDropdownArrow: true,
+		onFocusOpenDropdown: true,
+		onClickToggleDropdown: true,
+		typingOpenDropdown: true,
+		enterToggleDropdown: true,
+		arrowKeysNoDropdown: 0,
+		autocomplete: true,
+	}
+)
+countryField2.setList(countryList)
+
+const countryField3 = DropdownField(
+	".examples>.example-container:nth-of-type(3)>div>div",
+	"Country",
+	"Country",
+	3,
+	"dd3",
+	{
+		maxLines: 10,
+		cssClassList: ["field3"],
+		searchMode: "starts with",
+		ignoreFirstXCharacters: 0,
+		noFiltering: false,
+		showDropdownArrow: true,
+		onFocusOpenDropdown: true,
+		onClickToggleDropdown: true,
+		typingOpenDropdown: true,
+		enterToggleDropdown: true,
+		arrowKeysNoDropdown: 0,
+		autocomplete: true,
 	}
 )
 
-// DropdownField(".container .outer", "Name", "Name", 3, "dd2", dropDownOptions, {
-// 	maxLines: 12,
-// 	searchMode: "starts with",
-// 	showDropdownArrow: true,
-// })
-
-DropdownField(".container .outer", "Name", "Name", 3, "dd2", dropDownOptions, {
-	maxLines: 12,
-	firstXLettersOppositeSearchMode: 2,
-	showDropdownArrow: true,
-})
+countryField3.setList(countryList)

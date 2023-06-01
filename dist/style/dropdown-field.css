@@ -38,6 +38,11 @@
 	width: var(--dd-width);
 }
 
+.inputarrow [disabled],
+.inputarrow .arrow[disabled] {
+	cursor: progress;
+}
+
 .inputarrow .arrow {
 	position: absolute;
 	right: 5px;
@@ -54,6 +59,12 @@
 		rgb(204, 204, 204)
 	);
 	border: 1px solid #aaaaaa;
+	cursor: pointer;
+}
+
+.ddfield .inputarrow .arrow:focus {
+	border-width: 0;
+	outline-width: 0;
 }
 
 .inputarrow svg {

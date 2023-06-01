@@ -21,6 +21,7 @@
 	display: block;
 	height: 25px;
 	font-size: 16px;
+	font-size: 16px;
 	margin-left: 5px;
 }
 
@@ -36,6 +37,11 @@
 .inputarrow {
 	position: relative;
 	width: var(--dd-width);
+}
+
+.inputarrow [disabled],
+.inputarrow .arrow[disabled] {
+	cursor: progress;
 }
 
 .inputarrow .arrow {
@@ -54,6 +60,12 @@
 		rgb(204, 204, 204)
 	);
 	border: 1px solid #aaaaaa;
+	cursor: pointer;
+}
+
+.ddfield .inputarrow .arrow:focus {
+	border-width: 0;
+	outline-width: 0;
 }
 
 .inputarrow svg {
@@ -68,12 +80,12 @@
 	display: none;
 	position: absolute;
 	top: 60px;
-	left: -10px;
+	/* left: -10px; */
 	width: 100%;
 	max-width: 325px;
 	max-height: 275px;
+	margin: 8px auto;
 	z-index: 1000;
-	margin: 10px 10px;
 	padding-top: 2px;
 	text-align: left;
 	overflow-x: auto;

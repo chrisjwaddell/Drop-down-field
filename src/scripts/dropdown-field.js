@@ -3,14 +3,16 @@ import {listFindSelectedIndex, listItemValueIndex} from "./lib/dom-dropdown.js"
 import {objectLength} from "./lib/object.js"
 
 export default function DropdownField(
-	ULSelector,
+	target,
 	fieldLabel,
 	placeholder,
 	tabindex,
 	ID,
-	dropDownOptions,
 	opts
 ) {
+	// This keeps the full drop down list
+	let list = []
+
 	// ^ SETTINGS
 	const settingDefaults = {
 		maxLines: 10,
@@ -65,24 +67,19 @@ export default function DropdownField(
 	const arrowKeysNoDropdown =
 		settings.arrowKeysNoDropdown ?? settingDefaults.arrowKeysNoDropdown
 
+	const disableOnOpen =
+		settings.disableOnOpen ?? settingDefaults.disableOnOpen
+
 	let selectionLength
 	let maxHeight
 	let lineHeight
-	let scrollAt
 
-	function render(
-		ULSelector,
-		fieldLabel,
-		placeholder,
-		tabindex,
-		ID,
-		dropDownOptions
-	) {
-		const elOuter = document.querySelector(ULSelector)
+	function render(target, fieldLabel, placeholder, tabindex, ID) {
+		const elTarget = document.querySelector(target)
 		let elField
 		if (settings.cssClassList) {
 			elField = createElementAtt(
-				elOuter,
+				elTarget,
 				"div",
 				["ddfield"].concat(settings.cssClassList),
 				[
@@ -95,7 +92,7 @@ export default function DropdownField(
 			)
 		} else {
 			elField = createElementAtt(
-				elOuter,
+				elTarget,
 				"div",
 				["ddfield"],
 				[
@@ -115,7 +112,9 @@ export default function DropdownField(
 			[],
 			""
 		)
-		const elInput = createElementAtt(
+
+		let elInput
+		elInput = createElementAtt(
 			elInputArrow,
 			"input",
 			[],
@@ -133,16 +132,23 @@ export default function DropdownField(
 			""
 		)
 
-		// elDDContainer.dataset.filter = ""
+		if (
+			typeof settings.autofocus !== "undefined" &&
+			settings.autofocus !== null &&
+			settings.autofocus !== false
+		) {
+			elInput.classList.add("autofocus")
+		}
 
 		// Drop down arrow
+		let elArrow
 		if (
 			typeof settings.showDropdownArrow === "undefined" ||
 			settings.showDropdownArrow === true
 		) {
 			elInput.style.padding = "5px 30px 5px 12px"
 
-			const elArrow = createElementAtt(
+			elArrow = createElementAtt(
 				elInputArrow,
 				"button",
 				["arrow"],
@@ -170,7 +176,6 @@ export default function DropdownField(
 			elSVG.appendChild(elLine2)
 
 			elArrow.appendChild(elSVG)
-			// elArrow.appendChild(elSVG)
 		}
 
 		if (settings.autocomplete) {
@@ -205,11 +210,15 @@ export default function DropdownField(
 		maxHeight = lineHeight * maxLines
 		elUL.style.maxHeight = maxHeight + "px"
 
-		scrollAt =
-			maxHeight - lineHeight * 4 > 0 ? maxHeight - lineHeight * 4 : 0
+		if (disableOnOpen) {
+			elUL.classList.remove("isvisible")
+			elUL.disabled = "true"
+			elInput.disabled = "true"
+			if (elArrow) elArrow.disabled = "true"
+		}
 	}
 
-	render(ULSelector, fieldLabel, placeholder, tabindex, ID)
+	render(target, fieldLabel, placeholder, tabindex, ID)
 
 	const elDDContainer = document.querySelector("#" + ID)
 	const elInput = document.querySelector("#" + ID + " input")
@@ -217,18 +226,18 @@ export default function DropdownField(
 	const elUL = document.querySelector("#" + ID + " ul")
 	const elAutocomplete = document.querySelector("#" + ID + " .autocomplete")
 
-	// Return search results from dropDownOptions
+	// Return search results from 'list'
 	// matching str
 	// searchMode - 0 - anywhere in, 1 - starts with str
 	// Triggered by user typing and new focus into input field
 	// Triggered in onFocusInput and onKeyUpInput
-	function selectionFilter(str, dropDownOptions, searchMode) {
+	function selectionFilter(str, searchMode) {
 		let regex
 
 		searchMode
 			? (regex = new RegExp(`.*${str}.*`, "gi"))
 			: (regex = new RegExp(`^${str}.*`, "gi"))
-		return dropDownOptions.filter((cv) => cv.match(regex))
+		return list.filter((cv) => cv.match(regex))
 	}
 
 	// Puts <strong> element around the search filter
@@ -248,34 +257,22 @@ export default function DropdownField(
 		)}</strong>${selectionLine.slice(startPos + searchString.length)}`
 	}
 
-	function selectionFilterWithOptions(
-		strSearch,
-		dropDownOptions,
-		searchMode
-	) {
+	function selectionFilterWithOptions(strSearch, searchMode) {
 		let results
 
 		if (firstXCharactersOppositeSearchMode) {
 			// If First x letters is a different mode
 			if (strSearch.length <= firstXCharactersOppositeSearchMode) {
 				if (searchModeNumber === 0) {
-					results = selectionFilter(strSearch, dropDownOptions, 1)
+					results = selectionFilter(strSearch, 1)
 				} else {
-					results = selectionFilter(strSearch, dropDownOptions, 0)
+					results = selectionFilter(strSearch, 0)
 				}
 			} else {
-				results = selectionFilter(
-					strSearch,
-					dropDownOptions,
-					searchModeNumber
-				)
+				results = selectionFilter(strSearch, searchModeNumber)
 			}
 		} else {
-			results = selectionFilter(
-				strSearch,
-				dropDownOptions,
-				searchModeNumber
-			)
+			results = selectionFilter(strSearch, searchModeNumber)
 		}
 
 		return results
@@ -286,7 +283,12 @@ export default function DropdownField(
 	// It's made bold
 	// result is the list
 	function populateList(filter, results) {
-		const DD_LIST_SIZE = objectLength(dropDownOptions)
+		let DD_LIST_SIZE
+		if (list) {
+			DD_LIST_SIZE = objectLength(list)
+		} else {
+			DD_LIST_SIZE = 0
+		}
 
 		// Nothing typed in to filter
 		if (results.length === DD_LIST_SIZE) {
@@ -507,6 +509,12 @@ export default function DropdownField(
 		if (elArrow) {
 			elArrow.addEventListener("click", onClickArrow, true)
 		}
+
+		// autofocus
+		window.addEventListener("load", function (e) {
+			if (document.querySelector(".autofocus"))
+				document.querySelector(".autofocus").focus()
+		})
 	})
 
 	// For each field, focus and click events are always on
@@ -533,31 +541,21 @@ export default function DropdownField(
 			// filter and populate list
 			let results
 			if (noFiltering || filter.length <= ignoreFirstXCharacters) {
-				results = dropDownOptions
+				results = list
 			} else {
-				results = selectionFilterWithOptions(
-					filter,
-					dropDownOptions,
-					searchModeNumber
-				)
+				results = selectionFilterWithOptions(filter, searchModeNumber)
 			}
 
-			// const results = selectionFilterWithOptions(
-			// 	filter,
-			// 	dropDownOptions,
-			// 	searchModeNumber
-			// )
 			populateList(filter, results)
 
+			let indexSelected = -1
 			if (elInput.value) {
 				elDDContainer.dataset.origin = elInput.value
 
-				let indexSelected = -1
 				indexSelected = listItemValueIndex(elUL, elInput.value)
 
 				if (indexSelected !== -1) {
 					listSelectWithIndex(indexSelected)
-					// elUL.children[indexSelected].classList.add("selected")
 				}
 			}
 
@@ -566,6 +564,16 @@ export default function DropdownField(
 					openDropdown()
 					lastDDMode = true
 				}
+			}
+
+			if (indexSelected !== -1) {
+				elUL.scrollTop
+				elUL.scrollTo(
+					0,
+					elUL.children[indexSelected].offsetTop - lineHeight
+				)
+			} else {
+				elUL.scrollTo(0, 0)
 			}
 		}
 
@@ -600,16 +608,12 @@ export default function DropdownField(
 
 		closeDropdown()
 
-		// if (entry !== "listclick" && entry !== "stay") {
 		elInput.removeEventListener("click", onClickInput, false)
 		elInput.removeEventListener("keydown", onKeyDownInput)
 		elInput.removeEventListener("keyup", onKeyUpInput)
 		elInput.removeEventListener("blur", onBlurInput)
 
-		// elUL.removeEventListener("mousedown", onMouseDownUL, true)
-
 		if (elAutocomplete) elAutocomplete.classList.remove("isvisible")
-		// }
 
 		control = "input"
 		setMode(entry, control, lastDDMode)
@@ -632,11 +636,6 @@ export default function DropdownField(
 			if (onClickToggleDropdown) {
 				toggleDropdown()
 				lastDDMode = !lastDDMode
-			} else {
-				// if (onClickToggleDropdown) {
-				// 	openDropdown()
-				// 	lastDDMode = true
-				// }
 			}
 		}
 
@@ -675,6 +674,7 @@ export default function DropdownField(
 			if (elAutocomplete) {
 				if (elAutocomplete.classList.contains("isvisible")) {
 					elInput.value = elAutocomplete.textContent
+					if (settings.onChange) settings.onChange()
 				}
 			}
 		}
@@ -684,7 +684,7 @@ export default function DropdownField(
 		let {origin, filter} = getAttributes()
 		let {entry, control, lastDDMode} = getMode()
 
-		const DD_LIST_SIZE = objectLength(dropDownOptions)
+		const DD_LIST_SIZE = objectLength(list)
 		let matches
 		let matchlist
 
@@ -711,6 +711,7 @@ export default function DropdownField(
 						elInput.value = val
 						if (elAutocomplete)
 							elAutocomplete.classList.remove("isvisible")
+						if (settings.onChange) settings.onChange()
 					}
 
 					if (ddVisible) {
@@ -744,6 +745,7 @@ export default function DropdownField(
 						elInput.value = val
 						if (elAutocomplete)
 							elAutocomplete.classList.remove("isvisible")
+						if (settings.onChange) settings.onChange()
 					}
 
 					if (ddVisible) {
@@ -809,12 +811,6 @@ export default function DropdownField(
 					e.keyCode === "Delete" ||
 					e.keyCode === 229
 				) {
-					// if (
-					// 	e.key.length === 1 ||
-					// 	keyCodes[e.keyCode] === "backspace" ||
-					// 	keyCodes[e.keyCode] === "delete" ||
-					// 	keyCodes[e.keyCode] === "space"
-					// ) {
 					const strSearch = elInput.value
 
 					elDDContainer.dataset.filter = strSearch.toLowerCase()
@@ -824,11 +820,11 @@ export default function DropdownField(
 						noFiltering ||
 						elInput.value.trim().length <= ignoreFirstXCharacters
 					) {
-						results = dropDownOptions
+						results = list
+						if (settings.onChange) settings.onChange()
 					} else {
 						results = selectionFilterWithOptions(
 							strSearch,
-							dropDownOptions,
 							searchModeNumber
 						)
 					}
@@ -848,6 +844,7 @@ export default function DropdownField(
 							if (elAutocomplete)
 								elAutocomplete.classList.remove("isvisible")
 						}
+						// if (settings.onChange) settings.onChange()
 					} else if (results.length === 0) {
 						matches = []
 						elUL.innerHTML = ""
@@ -855,6 +852,7 @@ export default function DropdownField(
 
 						if (elAutocomplete)
 							elAutocomplete.classList.remove("isvisible")
+						// if (settings.onChange) settings.onChange()
 					} else {
 						// Letters have been typed, they are shown as bold
 						matches = results.map((cv) =>
@@ -867,6 +865,7 @@ export default function DropdownField(
 						elUL.scrollTo(0, 0)
 
 						if (elAutocomplete) autocomplete()
+						// if (settings.onChange) settings.onChange()
 					}
 				}
 		}
@@ -891,30 +890,38 @@ export default function DropdownField(
 	function openDropdown() {
 		elUL.addEventListener("mousedown", onMouseDownUL, false)
 
-		let indexSelected = -1
-		if (elInput.value) {
-			indexSelected = listItemValueIndex(elUL, elInput.value)
+		if (!elInput.disabled) {
+			let indexSelected = -1
+			if (elInput.value) {
+				indexSelected = listItemValueIndex(elUL, elInput.value)
 
-			if (indexSelected !== -1) {
-				listSelectWithIndex(indexSelected)
-			}
-		}
-
-		elUL.classList.add("isvisible")
-
-		if (indexSelected !== -1) {
-			// Scroll to the right position if needed
-			if (elUL.children[indexSelected]) {
-				if (elUL.children[indexSelected].offsetTop > lineHeight * 2) {
-					const ulTop = elUL.scrollTop
-					elUL.scrollTo(
-						0,
-						elUL.children[indexSelected].offsetTop - lineHeight
-					)
+				if (indexSelected !== -1) {
+					listSelectWithIndex(indexSelected)
 				}
 			}
-		} else {
-			elUL.scrollTo(0, 0)
+
+			if (elUL.childNodes.length !== 0) {
+				elUL.classList.add("isvisible")
+
+				if (indexSelected !== -1) {
+					// Scroll to the right position if needed
+					if (elUL.children[indexSelected]) {
+						if (
+							elUL.children[indexSelected].offsetTop >
+							lineHeight * 2
+						) {
+							elUL.scrollTop
+							elUL.scrollTo(
+								0,
+								elUL.children[indexSelected].offsetTop -
+									lineHeight
+							)
+						}
+					}
+				} else {
+					elUL.scrollTo(0, 0)
+				}
+			}
 		}
 	}
 
@@ -931,6 +938,7 @@ export default function DropdownField(
 			elInput.value = elDDContainer.dataset.filter
 		} else if (elDDContainer.dataset.origin) {
 			elInput.value = elDDContainer.dataset.origin
+			if (settings.onChange) settings.onChange()
 		}
 		closeDropdown()
 	}
@@ -958,6 +966,10 @@ export default function DropdownField(
 			elUL.children[index].classList.add("selected")
 		}
 
+		if (e.target.tagName === "LI" || e.target.tagName === "STRONG") {
+			if (settings.onChange) settings.onChange()
+		}
+
 		lastDDMode = false
 
 		entry = "listclick"
@@ -976,12 +988,14 @@ export default function DropdownField(
 				if (elAutocomplete) {
 					elAutocomplete.classList.remove("isvisible")
 				}
+				if (settings.onChange) settings.onChange()
 			}
 		} else {
 			// If no value in, put filter value in if there is one
 			if (filter) {
 				elInput.value = filter
 				if (elAutocomplete) autocomplete()
+				if (settings.onChange) settings.onChange()
 			}
 		}
 
@@ -1010,5 +1024,46 @@ export default function DropdownField(
 			elAutocomplete.textContent = elUL.childNodes[0].textContent
 			elUL.childNodes[0].classList.add("selected")
 		}
+	}
+
+	function clearField() {
+		let index = listFindSelectedIndex(elUL, "selected", selectionLength)
+		if (index !== -1) {
+			elUL.children[index].classList.remove("selected")
+			elInput.value = ""
+			if (settings.onChange) settings.onChange()
+		}
+	}
+
+	function getList() {
+		return list
+	}
+
+	function setList(ddList) {
+		list = ddList
+		const matchlist = list.map((cv) => `<li>${cv}</li>`).join("")
+		elUL.style.maxHeight = maxHeight + "px"
+		elUL.scrollTo(0, 0)
+		elUL.innerHTML = matchlist
+	}
+
+	function enableList(enabled) {
+		if (enabled) {
+			elUL.removeAttribute("disabled")
+			elInput.removeAttribute("disabled")
+			elArrow.removeAttribute("disabled")
+		} else {
+			elUL.classList.remove("isvisible")
+			elUL.disabled = "true"
+			elInput.disabled = "true"
+			elArrow.disabled = "true"
+		}
+	}
+
+	return {
+		clearField,
+		getList,
+		setList,
+		enableList,
 	}
 }

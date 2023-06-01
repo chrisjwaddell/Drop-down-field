@@ -49,22 +49,28 @@
             display: flex;
             margin: 200px auto;
         }
-
     </style>
-    <link rel="stylesheet" href="./style/dropdown-field.css" />
-    <link rel="stylesheet" href="./style/app.css" />
+    <link rel="stylesheet" href="../dist/style/dropdown-field.css" />
+    <link rel="stylesheet" href="./style/callback-example.css" />
 </head>
 
 <body>
-    <div class="container">
-        <div class="outer"></div>
+    <div class="container" style="text-align: center;">
+        <h1>Callback example</h1>
+        <p>Change one dropdown field and the next fields dropdown list changes depending on the value of the first
+            field.</p>
+        <div class="country">
+            <p>On open, this field is set to autofocus through the dropdown field options.</p>
+        </div>
+        <div class="state"></div>
+        <div class="disabled" style="margin-top: 100px;">
+            <p>On page open, this field is disabled.</p>
+        </div>
     </div>
 </body>
 
-<script src="./scripts/dropdown-field.js"></script>
-<script src="./scripts/app.js"></script>
-
-<script>
-</script>
+<!-- <script type="text/javascript" src="https://cdn.rawgit.com/chrisjwaddell/console-log-plus/main/log.js"></script> -->
+<script src="../dist/scripts/dropdown-field.js"></script>
+<script src="./scripts/callback-example.js"></script>
 
 </html>
