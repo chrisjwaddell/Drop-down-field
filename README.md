@@ -16,16 +16,15 @@ goes back to what you typed or what was originally in the field as you entered i
 
 Filterable drop downs are in many cases better than your standard drop down box, it filters and you can easily choose by using up and down arrow and letters.
 
+The dropdown list can programmatically be changed.
+
+There is also an *onChange* callback so if the field value changes, you can have a function that runs. 
 
 
 
 [Three Drop down examples](https://chrisjwaddell.github.io/Drop-down-field/example/dropdown-examples.html)\
 [Dropdown field Examples with code and descriptions](https://chrisjwaddell.github.io/Drop-down-field/)
 
-Filterable drop downs are in many cases better than your standard drop down box,
-it filters and you can easily choose by using up and down arrow and letters.
-
-There is also an *onChange* callback so if the list changes, you can have a function that runs.
 
 
 ## How to use
@@ -116,6 +115,22 @@ be visible to go through the list.
 | `cssClassList`                       | Array of CSS class names    | Adds these classes to the container of the drop down. This CSS should be hierarchically placed after dropdown-field.css                                                                                                                                                                                                        |
 
 Autocomplete kills the Escape fallback to original value feature.
+
+
+## Methods
+
+| Method                  | Description
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `clearField()`          | Clears the field and the item selected in the list. |
+| `setList(list)`         | This method can be used to set and change the full dropdown list. It can be really powerful for _onChange_ events of other fields. An example would be, choosing a country, then another drop down showing the States of the country chosen, the fields are dependent on each other. |
+| `getList()`             | Show the current (unfiltered) full list. |
+| `enableList(*boolean*)` | Enable or disable a dropdown field. It can be used with the _onChange_ callback. On page load, use the _disableOnOpen_ property to get the same effect on startup. |
+|
+
+
+
+<br>
+<br>
 
 ## Drop down field styling
 
