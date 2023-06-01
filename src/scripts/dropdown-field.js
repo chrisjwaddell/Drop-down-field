@@ -141,7 +141,7 @@ export default function DropdownField(
 		}
 
 		// Drop down arrow
-		let elArrow
+		let elArrow = null
 		if (
 			typeof settings.showDropdownArrow === "undefined" ||
 			settings.showDropdownArrow === true
