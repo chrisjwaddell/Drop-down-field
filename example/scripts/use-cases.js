@@ -318,20 +318,20 @@ const timeList = [
 	"11:45 PM",
 ]
 
-// const elDDFlex = document.querySelectorAll(".ddfield__examples .ddfield__flex div:first-child")
-
-DropdownField(".example1", "Month", "Month", 1, "dd1", monthList, {
+const DDField1 = DropdownField(".example1", "Month", "Month", 1, "dd1", {
 	maxLines: 6,
 	cssClassList: ["month-field"],
 	onFocusOpenDropdown: false,
 	typingOpenDropdown: false,
 	arrowKeysNoDropdown: 2,
 	autocomplete: true,
+	autofocus: true,
 	// autocomplete: false,
 	enterToggleDropdown: false,
 })
+DDField1.setList(monthList)
 
-DropdownField(".example2", "Time", "Time", 2, "dd2", timeList, {
+const DDField2 = DropdownField(".example2", "Time", "Time", 2, "dd2", {
 	maxLines: 6,
 	cssClassList: ["time-field"],
 	onFocusOpenDropdown: true,
@@ -340,8 +340,9 @@ DropdownField(".example2", "Time", "Time", 2, "dd2", timeList, {
 	autocomplete: false,
 	enterToggleDropdown: true,
 })
+DDField2.setList(timeList)
 
-DropdownField(".example3", "Country", "Country", 3, "dd3", countryList, {
+const DDField3 = DropdownField(".example3", "Country", "Country", 3, "dd3", {
 	maxLines: 10,
 	ignoreFirstXCharacters: 1,
 	onFocusOpenDropdown: false,
@@ -350,3 +351,4 @@ DropdownField(".example3", "Country", "Country", 3, "dd3", countryList, {
 	autocomplete: true,
 	enterToggleDropdown: true,
 })
+DDField3.setList(countryList)
