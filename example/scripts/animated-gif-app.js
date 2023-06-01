@@ -199,16 +199,78 @@ const countryList = [
 
 const dropDownOptions2 = ["Matthew", "Mark", "Luke", "John", "Mary", "Pauline"]
 
-const countryField = DropdownField(
-	".container .outer",
+const elKeyBubble = document.querySelector(".keypressed div")
+document.addEventListener("keyup", function (e) {
+	console.log(e.key)
+	elKeyBubble.textContent = e.key
+})
+
+const countryFielda = DropdownField(
+	".example-container>div>div",
 	"Country",
 	"Country",
 	2,
-	"dda",
+	"dd1",
 	{
 		maxLines: 10,
-		cssClassList: ["field1"],
+		cssClassList: ["field3"],
+		searchMode: "starts with",
+		ignoreFirstXCharacters: 0,
+		noFiltering: false,
+		showDropdownArrow: true,
+		onFocusOpenDropdown: true,
+		onClickToggleDropdown: true,
+		typingOpenDropdown: true,
+		enterToggleDropdown: true,
+		arrowKeysNoDropdown: 0,
+		autocomplete: true,
+	}
+)
+countryFielda.setList(countryList)
+
+const countryField2 = DropdownField(
+	".examples>.example-container:nth-of-type(2)>div>div",
+	"Country",
+	"Country",
+	2,
+	"dd2",
+	{
+		maxLines: 10,
+		cssClassList: ["field3"],
+		searchMode: "starts with",
+		ignoreFirstXCharacters: 0,
+		noFiltering: false,
+		showDropdownArrow: true,
+		onFocusOpenDropdown: true,
+		onClickToggleDropdown: true,
+		typingOpenDropdown: true,
+		enterToggleDropdown: true,
+		arrowKeysNoDropdown: 0,
+		autocomplete: true,
+	}
+)
+countryField2.setList(countryList)
+
+const countryField3 = DropdownField(
+	".examples>.example-container:nth-of-type(3)>div>div",
+	"Country",
+	"Country",
+	3,
+	"dd3",
+	{
+		maxLines: 10,
+		cssClassList: ["field3"],
+		searchMode: "starts with",
+		ignoreFirstXCharacters: 0,
+		noFiltering: false,
+		showDropdownArrow: true,
+		onFocusOpenDropdown: true,
+		onClickToggleDropdown: true,
+		typingOpenDropdown: true,
+		enterToggleDropdown: true,
+		arrowKeysNoDropdown: 0,
+		autocomplete: true,
 	}
 )
 
-countryField.setList(countryList)
+countryField3.setList(countryList)

@@ -58,6 +58,29 @@
             margin: 10px auto;
         }
 
+        .keypressed {
+            margin: 70px auto 7px auto;
+            text-align: center;
+        }
+
+        .keypressed p {
+            margin: 4px;
+        }
+
+        .keypressed div {
+            width: 110px;
+            height: 30px;
+            margin: 0px auto 20px auto;
+            padding: 6px 2px 2px 2px;
+            color: #000000;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            /* opacity: 80%; */
+            border-radius: 7px;
+            background-color: #ffec00;
+        }
+
 
         /* CODE */
         pre {
@@ -69,7 +92,7 @@
             word-spacing: normal;
             word-break: normal;
             word-wrap: normal;
-            /* line-height: 1.5; */
+            // line-height: 1.5;
             overflow: auto;
             padding: 6px;
             background-color: #333;
@@ -153,15 +176,24 @@
             /* height: 400px; */
         }
     </style>
-    <link rel="stylesheet" href="./style/dropdown-field.css" />
+    <link rel="stylesheet" href="../dist/style/dropdown-field.css" />
     <link rel="stylesheet" href="./style/app.css" />
 </head>
 
 <body>
     <div class="container">
+        <div class="keypressed">
+            <p>Key pressed:</p>
+            <div></div>
+        </div>
+        <div class="outer">
+
+        </div>
+
+
+
 
         <div class="examples">
-            <h1>Drop down field examples with different options</h1>
             <div class="example-container">
                 <h2>Standard drop down</h2>
                 <div class="example-container--line1">
@@ -175,23 +207,24 @@
                 <div class="example-container--line2">
                     <div>
                         <h3>See it in action</h3>
-                        <img src="./img/dd1.jpg">
+                        <img src="../img/dd1.jpg">
                     </div>
                     <div>
                         <h3>Code</h3>
                         <pre> <code>
-DropdownField(
+let countryList = DropdownField(
     ".example-container>div>div",
     "Country",
     "Country",
     2,
     "dd1",
-    dropDownOptions,
     {
         maxLines: 10,
         cssClassList: ["field1"],
     }
 )
+
+countryList.setList(countryList)
 </code></pre>
                     </div>
                 </div>
@@ -210,7 +243,7 @@ DropdownField(
                 <div class="example-container--line2">
                     <div>
                         <h3>See it in action</h3>
-                        <img src="./img/dd1.jpg">
+                        <img src="../img/dd1.jpg">
                     </div>
                     <div>
                         <h3>Code</h3>
@@ -232,24 +265,11 @@ DropdownField(
                 <div class="example-container--line2">
                     <div>
                         <h3>See it in action</h3>
-                        <img src="./img/dd1.jpg">
+                        <img src="../img/dd1.jpg">
                     </div>
                     <div>
                         <h3>Code</h3>
-                        <pre> <code>
-DropdownField(
-    ".example-container>div>div",
-    "Country",
-    "Country",
-    2,
-    "dd2",
-    dropDownOptions,
-    {
-        maxLines: 10,
-        cssClassList: ["field1"],
-    }
-)
-                        </code></pre>
+                        <p>here is some code</p>
                     </div>
                 </div>
             </div>
@@ -259,88 +279,9 @@ DropdownField(
     </div>
 </body>
 
-<script src="./scripts/dropdown-field.js"></script>
+<!-- <script type="text/javascript" src="https://cdn.rawgit.com/chrisjwaddell/console-log-plus/main/log.js"></script> -->
+<script src="./scripts/log.js"></script>
+<script src="../dist/scripts/dropdown-field.js"></script>
 <script src="./scripts/animated-gif-app.js"></script>
-
-<script>
-    const elKeyBubble = document.querySelector(".keypressed div")
-    document.addEventListener("keyup", function (e) {
-        console.log(e.key)
-        elKeyBubble.textContent = e.key
-    })
-
-
-    // const elDDFlex = document.querySelectorAll(".ddfield__examples .ddfield__flex div:first-child")
-
-    DropdownField(
-        ".example-container>div>div",
-        "Country",
-        "Country",
-        2,
-        "dd1",
-        dropDownOptions,
-        {
-            maxLines: 10,
-            cssClassList: ["field3"],
-            searchMode: "starts with",
-            ignoreFirstXCharacters: 0,
-            noFiltering: false,
-            showDropdownArrow: true,
-            onFocusOpenDropdown: true,
-            onClickToggleDropdown: true,
-            typingOpenDropdown: true,
-            enterToggleDropdown: true,
-            arrowKeysNoDropdown: 0,
-            autocomplete: true,
-        }
-    )
-
-    DropdownField(
-        ".examples>.example-container:nth-of-type(2)>div>div",
-        "Country",
-        "Country",
-        2,
-        "dd2",
-        dropDownOptions,
-        {
-            maxLines: 10,
-            cssClassList: ["field3"],
-            searchMode: "starts with",
-            ignoreFirstXCharacters: 0,
-            noFiltering: false,
-            showDropdownArrow: true,
-            onFocusOpenDropdown: true,
-            onClickToggleDropdown: true,
-            typingOpenDropdown: true,
-            enterToggleDropdown: true,
-            arrowKeysNoDropdown: 0,
-            autocomplete: true,
-        }
-    )
-
-    DropdownField(
-        ".examples>.example-container:nth-of-type(3)>div>div",
-        "Country",
-        "Country",
-        2,
-        "dd3",
-        dropDownOptions,
-        {
-            maxLines: 10,
-            cssClassList: ["field3"],
-            searchMode: "starts with",
-            ignoreFirstXCharacters: 0,
-            noFiltering: false,
-            showDropdownArrow: true,
-            onFocusOpenDropdown: true,
-            onClickToggleDropdown: true,
-            typingOpenDropdown: true,
-            enterToggleDropdown: true,
-            arrowKeysNoDropdown: 0,
-            autocomplete: true,
-        }
-    )
-</script>
-
 
 </html>
