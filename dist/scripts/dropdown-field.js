@@ -867,6 +867,7 @@ var DropdownField = (function () {
 							elInput.value.trim().length <= ignoreFirstXCharacters
 						) {
 							results = list;
+							if (settings.onChange) settings.onChange();
 						} else {
 							results = selectionFilterWithOptions(
 								strSearch);
@@ -887,7 +888,7 @@ var DropdownField = (function () {
 								if (elAutocomplete)
 									elAutocomplete.classList.remove("isvisible");
 							}
-							if (settings.onChange) settings.onChange();
+							// if (settings.onChange) settings.onChange()
 						} else if (results.length === 0) {
 							matches = [];
 							elUL.innerHTML = "";
@@ -895,7 +896,7 @@ var DropdownField = (function () {
 
 							if (elAutocomplete)
 								elAutocomplete.classList.remove("isvisible");
-							if (settings.onChange) settings.onChange();
+							// if (settings.onChange) settings.onChange()
 						} else {
 							// Letters have been typed, they are shown as bold
 							matches = results.map((cv) =>
@@ -908,7 +909,7 @@ var DropdownField = (function () {
 							elUL.scrollTo(0, 0);
 
 							if (elAutocomplete) autocomplete();
-							if (settings.onChange) settings.onChange();
+							// if (settings.onChange) settings.onChange()
 						}
 					}
 			}
