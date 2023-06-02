@@ -21,7 +21,7 @@ There is also an *onChange* callback so if the field value changes, you can have
 
 [Three great examples of when to use a dropdown field](https://chrisjwaddell.github.io/Drop-down-field/example/use-cases.html)\
 [Dropdown field Examples with code and descriptions](https://chrisjwaddell.github.io/Drop-down-field/)
-[Using an *onChange* callback to change a 2nd dropdown list based on the value chosen on the first dropdown field](https://chrisjwaddell.github.io/Drop-down-field/example/callback-example.htm)\
+[Using an *onChange* callback to change a 2nd dropdown list based on the value chosen on the first dropdown field](https://chrisjwaddell.github.io/Drop-down-field/example/callback-example.htm)
 
 
 
@@ -114,7 +114,16 @@ be visible to go through the list.
 
 Autocomplete kills the Escape fallback to original value feature.
 
+<br><br>
 
+## Event Callbacks
+
+| Callback                  | Description
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `onChange`          | Place a callback function in this property to run after a change occurs in the dropdown field.  |
+|
+
+<br><br>
 ## Methods
 
 | Method                  | Description
