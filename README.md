@@ -168,6 +168,6 @@ This drop down list is for a finite number of options. It's best to keep the lis
 
 The list must contain all unique items.
 
-List item can't have special characters
+List item can't have special characters\
 ^ $    . * ?    ! : |    + - =    \ /    ( ) [ ] { }
 
