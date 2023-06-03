@@ -154,15 +154,9 @@ down field styling are:
 }
 ```
 
-## Attributes in the DOM
-
-origin - The field value when the field was originally entered.\
-filter - What was typed in to the field.
 
 
-
-
-## Other things
+## Miscellaneous notes
 
 This drop down list is for a finite number of options. It's best to keep the list no more than say 200 or 300.
 
@@ -171,3 +165,9 @@ The list must contain all unique items.
 List item can't have special characters\
 ^ $    . * ?    ! : |    + - =    \ /    ( ) [ ] { }
 
+
+
+### Attributes in the DOM
+
+origin - The field value when the field was originally entered.\
+filter - What was typed in to the field.
