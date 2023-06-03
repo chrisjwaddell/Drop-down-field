@@ -4,7 +4,6 @@ function appendChild(el, child) {
 
 function createElementAtt(parent, element, cls, att, text) {
 	const el = document.createElement(element)
-	// debugger
 
 	if (text) {
 		el.textContent = text

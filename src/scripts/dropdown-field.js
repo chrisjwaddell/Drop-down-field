@@ -33,7 +33,6 @@ export default function DropdownField(
 	const maxLines = settings.maxLines ?? settingDefaults.maxLines
 	let searchModeNumber = 1
 	if (typeof settings.searchMode !== "undefined" || settings.searchMode) {
-		// if (settings.searchMode) {
 		if (settings.searchMode.toLowerCase() === "starts with") {
 			searchModeNumber = 0
 		} else {
@@ -1027,6 +1026,7 @@ export default function DropdownField(
 	}
 
 	function clearField() {
+		if (!selectionLength) selectionLength = elUL.children.length
 		let index = listFindSelectedIndex(elUL, "selected", selectionLength)
 		if (index !== -1) {
 			elUL.children[index].classList.remove("selected")
