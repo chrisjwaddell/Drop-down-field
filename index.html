@@ -314,18 +314,18 @@
                     <div>
                         <h3>Code</h3>
                         <pre> <code>
-DropdownField(
+let field1 = DropdownField(
     ".example-container>div>div",
     "Country",
     "Country",
     1,
     "dd1",
-    dropDownOptions,
     {
         maxLines: 10,
         cssClassList: ["field1"],
     }
 )
+field1.setList(dropDownOptions)
 </code></pre>
                     </div>
                 </div>
@@ -356,19 +356,19 @@ DropdownField(
                     <div>
                         <h3>Code</h3>
                         <pre> <code>
-DropdownField(
+let field2 = DropdownField(
     ".example-container>div>div",
     "Country",
     "Country",
     2,
     "dd2",
-    dropDownOptions,
     {
         maxLines: 10,
         cssClassList: ["field1"],
         searchMode: ""
     }
 )
+field2.setList(dropDownOptions)
                         </code></pre>
                     </div>
                 </div>
@@ -394,20 +394,19 @@ DropdownField(
                     <div>
                         <h3>Code</h3>
                         <pre> <code>
-DropdownField(
+let field3 = DropdownField(
     ".example-container>div>div",
     "Country",
     "Country",
     3,
     "dd3",
-    dropDownOptions,
     {
         maxLines: 10,
         cssClassList: ["field1"],
         ignoreFirstXCharacters: 2
     }
 )
-                                    </code></pre>
+field3.setList(dropDownOptions)                                    </code></pre>
                     </div>
                 </div>
             </div>
@@ -434,19 +433,19 @@ DropdownField(
                     <div>
                         <h3>Code</h3>
                         <pre> <code>
-DropdownField(
+let field4 = DropdownField(
     ".example-container>div>div",
     "Country",
     "Country",
     4,
     "dd4",
-    dropDownOptions,
     {
         maxLines: 10,
         cssClassList: ["field1"],
         autocomplete: true
     }
 )
+field4.setList(dropDownOptions)
                                                 </code></pre>
                     </div>
                 </div>
@@ -478,19 +477,19 @@ DropdownField(
                     <div>
                         <h3>Code</h3>
                         <pre> <code>
-DropdownField(
+let field5 = DropdownField(
     ".example-container>div>div",
     "Country",
     "Country",
     5,
     "dd5",
-    dropDownOptions,
     {
         cssClassList: ["field1"],
         maxLines: 5,
         showDropdownArrow: false
     }
 )
+field5.setList(dropDownOptions)
                                                             </code></pre>
                     </div>
                 </div>
@@ -518,13 +517,12 @@ DropdownField(
                     <div>
                         <h3>Code</h3>
                         <pre> <code>
-DropdownField(
+let field6 = DropdownField(
     ".example-container>div>div",
     Country",
     Country",
     6,
     dd6",
-    dropDownOptions,
     {
         maxLines: 10,
         cssClassList: ["field1"],
@@ -532,6 +530,7 @@ DropdownField(
         onClickToggleDropdown: false
     }
 )
+field6.setList(dropDownOptions)
                                                                         </code></pre>
                     </div>
                 </div>
@@ -559,19 +558,19 @@ DropdownField(
                     <div>
                         <h3>Code</h3>
                         <pre> <code>
-DropdownField(
+let field7 = DropdownField(
     ".example-container>div>div",
     Country",
     Country",
     7,
     dd7",
-    dropDownOptions,
     {
         maxLines: 10,
         cssClassList: ["field1"],
         onFocusOpenDropdown: false
     }
 )
+field7.setList(dropDownOptions)
                                                                                     </code></pre>
                     </div>
                 </div>
@@ -610,13 +609,12 @@ DropdownField(
                     <div>
                         <h3>Code</h3>
                         <pre> <code>
-DropdownField(
+let field8 = DropdownField(
     ".example-container>div>div",
     Country",
     Country",
     8,
     dd8",
-    monthList,
     {
         maxLines: 10,
         cssClassList: ["field1"],
@@ -627,6 +625,7 @@ DropdownField(
         enterToggleDropdown: false
     }
 )
+field8.setList(monthList)
                                                                                                 </code></pre>
                     </div>
                 </div>
@@ -660,13 +659,12 @@ DropdownField(
                     <div>
                         <h3>Code</h3>
                         <pre> <code>
-DropdownField(
+let field9 = DropdownField(
     ".example-container>div>div",
     "Start Time",
     "Start Time",
     9,
     dd9",
-    timeList,
     {
         maxLines: 5,
         cssClassList: ["field1"],
@@ -677,6 +675,7 @@ DropdownField(
         enterToggleDropdown: false
     }
 )
+field9.setList(timeList)
                                                                                                             </code></pre>
                     </div>
                 </div>

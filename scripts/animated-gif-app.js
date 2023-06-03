@@ -323,82 +323,81 @@ const dropDownOptions2 = ["Matthew", "Mark", "Luke", "John", "Mary", "Pauline"]
 
 // const elDDFlex = document.querySelectorAll(".ddfield__examples .ddfield__flex div:first-child")
 
-DropdownField(
+let field1 = DropdownField(
 	".example-container>div>div",
 	"Country",
 	"Country",
 	1,
 	"dd1",
-	dropDownOptions,
 	{
 		maxLines: 10,
 		cssClassList: ["field3"],
 	}
 )
+field1.setList(dropDownOptions)
 
-DropdownField(
+let field2 = DropdownField(
 	".examples>.example-container:nth-of-type(2)>div>div",
 	"Country",
 	"Country",
 	2,
 	"dd2",
-	dropDownOptions,
 	{
 		maxLines: 10,
 		cssClassList: ["field3"],
 		searchMode: "",
 	}
 )
+field2.setList(dropDownOptions)
 
-DropdownField(
+let field3 = DropdownField(
 	".examples>.example-container:nth-of-type(3)>div>div",
 	"Country",
 	"Country",
 	3,
 	"dd3",
-	dropDownOptions,
 	{
 		maxLines: 10,
 		cssClassList: ["field3"],
 		ignoreFirstXCharacters: 2,
 	}
 )
+field3.setList(dropDownOptions)
 
-DropdownField(
+let field4 = DropdownField(
 	".examples>.example-container:nth-of-type(4)>div>div",
 	"Country",
 	"Country",
 	4,
 	"dd4",
-	dropDownOptions,
 	{
 		maxLines: 10,
 		cssClassList: ["field3"],
 		autocomplete: true,
 	}
 )
+field4.setList(dropDownOptions)
 
-DropdownField(
+let field5 = DropdownField(
 	".examples>.example-container:nth-of-type(5)>div>div",
 	"Country",
 	"Country",
 	5,
 	"dd5",
-	dropDownOptions,
 	{
 		cssClassList: ["field3"],
 		maxLines: 5,
 		showDropdownArrow: false,
 	}
 )
+field5.setList(dropDownOptions)
 
-DropdownField(
+let field6 = DropdownField(
 	".examples>.example-container:nth-of-type(6)>div>div",
 	"Country",
 	"Country",
 	6,
 	"dd6",
-	dropDownOptions,
 	{
 		maxLines: 10,
 		cssClassList: ["field3"],
@@ -406,28 +405,28 @@ DropdownField(
 		onClickToggleDropdown: false,
 	}
 )
+field6.setList(dropDownOptions)
 
-DropdownField(
+let field7 = DropdownField(
 	".examples>.example-container:nth-of-type(7)>div>div",
 	"Country",
 	"Country",
 	7,
 	"dd7",
-	dropDownOptions,
 	{
 		maxLines: 10,
 		cssClassList: ["field3"],
 		onFocusOpenDropdown: false,
 	}
 )
+field7.setList(dropDownOptions)
 
-DropdownField(
+let field8 = DropdownField(
 	".examples>.example-container:nth-of-type(8)>div>div",
 	"Month",
 	"Month",
 	8,
 	"dd8",
-	monthList,
 	{
 		maxLines: 10,
 		cssClassList: ["field3"],
@@ -438,14 +437,14 @@ DropdownField(
 		enterToggleDropdown: false,
 	}
 )
+field8.setList(monthList)
 
-DropdownField(
+let field9 = DropdownField(
 	".examples>.example-container:nth-of-type(9)>div>div",
 	"Start Time",
 	"Start Time",
 	9,
 	"dd9",
-	timeList,
 	{
 		maxLines: 5,
 		cssClassList: ["time-field"],
@@ -456,3 +455,4 @@ DropdownField(
 		enterToggleDropdown: false,
 	}
 )
+field9.setList(timeList)
