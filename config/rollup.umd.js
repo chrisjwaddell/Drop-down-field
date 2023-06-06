@@ -4,7 +4,7 @@ export default {
 		{
 			file: "src/scripts/dropdown-field-final.js",
 			name: "DropdownField",
-			format: "iife",
+			format: "umd",
 		},
 	],
 }

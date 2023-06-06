@@ -1,5 +1,8 @@
-var DropdownField = (function () {
-	'use strict';
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.DropdownField = factory());
+})(this, (function () { 'use strict';
 
 	function appendChild(el, child) {
 		return el.appendChild(child)
@@ -7,7 +10,6 @@ var DropdownField = (function () {
 
 	function createElementAtt(parent, element, cls, att, text) {
 		const el = document.createElement(element);
-		// debugger
 
 		if (text) {
 			el.textContent = text;
@@ -81,7 +83,6 @@ var DropdownField = (function () {
 		const maxLines = settings.maxLines ?? settingDefaults.maxLines;
 		let searchModeNumber = 1;
 		if (typeof settings.searchMode !== "undefined" || settings.searchMode) {
-			// if (settings.searchMode) {
 			if (settings.searchMode.toLowerCase() === "starts with") {
 				searchModeNumber = 0;
 			} else {
@@ -189,7 +190,7 @@ var DropdownField = (function () {
 			}
 
 			// Drop down arrow
-			let elArrow;
+			let elArrow = null;
 			if (
 				typeof settings.showDropdownArrow === "undefined" ||
 				settings.showDropdownArrow === true
@@ -1071,6 +1072,7 @@ var DropdownField = (function () {
 		}
 
 		function clearField() {
+			if (!selectionLength) selectionLength = elUL.children.length;
 			let index = listFindSelectedIndex(elUL, "selected", selectionLength);
 			if (index !== -1) {
 				elUL.children[index].classList.remove("selected");
@@ -1114,4 +1116,4 @@ var DropdownField = (function () {
 
 	return DropdownField;
 
-})();
+}));
