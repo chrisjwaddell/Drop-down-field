@@ -133,7 +133,7 @@ Autocomplete kills the Escape fallback to original value feature.
 | `clearField()`          | Clears the field and the item selected in the list. |
 | `setList(list)`         | This method can be used to set and change the full dropdown list. It can be really powerful for _onChange_ events of other fields. An example would be, choosing a country, then another drop down showing the States of the country chosen, the fields are dependent on each other. |
 | `getList()`             | Show the current (unfiltered) full list. |
-| `enableList(*boolean*)` | Enable or disable a dropdown field. It can be used with the _onChange_ callback. On page load, use the _disableOnOpen_ property to get the same effect on startup. |
+| `enableList(boolean)`   | Enable or disable a dropdown field so that it can't get focus. It can be used with the _onChange_ callback. On page load, use the _disableOnOpen_ property to get the same effect on startup. |
 
 
 <br>
