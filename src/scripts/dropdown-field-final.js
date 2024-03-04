@@ -672,12 +672,12 @@
 			let {entry, control, lastDDMode} = getMode();
 
 			if (entry === "enter") {
-				if (!lastDDMode) {
-					if (onClickToggleDropdown) {
-						openDropdown();
-						lastDDMode = true;
-					}
+				// if (!lastDDMode) {
+				if (onClickToggleDropdown) {
+					openDropdown();
+					lastDDMode = true;
 				}
+				// }
 				entry = "stay";
 			} else {
 				if (onClickToggleDropdown) {
@@ -846,10 +846,10 @@
 						e.keyCode === 229
 					) {
 						if (typingOpenDropdown) {
-							if (!lastDDMode) {
-								openDropdown();
-								lastDDMode = true;
-							}
+							// if (!lastDDMode) {
+							openDropdown();
+							lastDDMode = true;
+							// }
 						}
 					}
 
