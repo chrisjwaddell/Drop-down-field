@@ -5,7 +5,7 @@ export default {
 	input: "src/scripts/dropdown-field.js",
 	output: [
 		{
-			file: "dust/scripts/dropdown-field.js",
+			file: "dist/scripts/dropdown-field.js",
 			name: "DropdownField",
 			format: "umd",
 		},
