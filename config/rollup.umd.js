@@ -5,10 +5,10 @@ export default {
 	input: "src/scripts/dropdown-field.js",
 	output: [
 		{
-			file: "final/scripts/dropdown-field.js",
+			file: "dust/scripts/dropdown-field.js",
 			name: "DropdownField",
-			format: "umd"
-		}
+			format: "umd",
+		},
 	],
-	plugins: [terser(terserOptions)]
+	plugins: [terser(terserOptions)],
 }
