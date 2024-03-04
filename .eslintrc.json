@@ -1,7 +1,7 @@
 {
 	"env": {
 		"browser": true,
-		"node": false,
+		"node": true,
 		"es2020": true
 	},
 	"extends": ["eslint:recommended"],
@@ -16,7 +16,6 @@
 		"createElementAtt": true,
 		"dateDDMMYY": true,
 		"eventkeyEditing": true,
-
 		"ht": true,
 		"d": true,
 		"strJSON": true,
@@ -57,7 +56,7 @@
 
 		// Code
 		"semi": "off",
-		"comma-dangle": "warn",
+		"comma-dangle": [1, "only-multiline"],
 		// potential problem with automatic semicolon insertion
 		"no-plusplus": "warn",
 		"prefer-const": "warn",

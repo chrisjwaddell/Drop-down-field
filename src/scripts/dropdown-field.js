@@ -112,8 +112,7 @@ export default function DropdownField(
 			""
 		)
 
-		let elInput
-		elInput = createElementAtt(
+		const elInput = createElementAtt(
 			elInputArrow,
 			"input",
 			[],
@@ -385,7 +384,6 @@ export default function DropdownField(
 					}
 				}
 			}
-		} else {
 		}
 	}
 
@@ -419,8 +417,7 @@ export default function DropdownField(
 				if (list.children[currentSelection]) {
 					const ulTop = list.scrollTop
 					if (currentSelection === 0) {
-						if (down) {
-						} else {
+						if (!down) {
 							list.scrollTo(
 								0,
 								list.children[listLength - 1].offsetTop
@@ -510,7 +507,7 @@ export default function DropdownField(
 		}
 
 		// autofocus
-		window.addEventListener("load", function (e) {
+		window.addEventListener("load", function () {
 			if (document.querySelector(".autofocus"))
 				document.querySelector(".autofocus").focus()
 		})
@@ -521,7 +518,7 @@ export default function DropdownField(
 	// As soon as the field gets focus, keyup event fires
 	// Filter is empty on focus so the list is all items
 	// If text is in, select that item
-	function onFocusInput(e) {
+	function onFocusInput() {
 		/*eslint-disable*/
 		let {origin, filter} = getAttributes()
 		let {entry, control, lastDDMode} = getMode()
