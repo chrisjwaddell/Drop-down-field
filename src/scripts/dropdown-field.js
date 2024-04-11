@@ -1,5 +1,10 @@
 import {createElementAtt} from "./lib/dom.js"
-import {listFindSelectedIndex, listItemValueIndex} from "./lib/dom-dropdown.js"
+import {
+	listFindSelectedIndex,
+	listItemValueIndex,
+	listSelectWithIndex,
+	listSelectionChange,
+} from "./lib/dom-dropdown.js"
 import {objectLength} from "./lib/object.js"
 
 export default function DropdownField(
@@ -26,6 +31,7 @@ export default function DropdownField(
 		enterToggleDropdown: true,
 		arrowKeysNoDropdown: 0,
 		autocomplete: false,
+		disableOnOpen: false,
 	}
 
 	const settings = opts || {}
@@ -224,6 +230,84 @@ export default function DropdownField(
 	const elUL = document.querySelector("#" + ID + " ul")
 	const elAutocomplete = document.querySelector("#" + ID + " .autocomplete")
 
+	// Standard DOM list functions
+
+	// Should be used with listSelectionChange
+	// Scrolls the list up or down
+	// scrollAmount should be the line height
+	function listSelectionChangeScroll(
+		list,
+		down,
+		currentSelection,
+		listLength,
+		scrollAmount,
+		listSize
+	) {
+		if (listLength > 0) {
+			if (currentSelection === -1) {
+				if (down) {
+					list.scrollTo(0, 0)
+				} else {
+					if (list.children[listLength - 1].offsetTop > 0) {
+						const ulTop = list.scrollTop
+						list.scrollTo(
+							0,
+							list.children[listLength - 1].offsetTop -
+								scrollAmount
+						)
+					}
+				}
+			} else {
+				if (list.children[currentSelection]) {
+					const ulTop = list.scrollTop
+					if (currentSelection === 0) {
+						if (!down) {
+							list.scrollTo(
+								0,
+								list.children[listLength - 1].offsetTop
+							)
+						}
+					} else if (currentSelection === listLength - 1) {
+						if (down) {
+							if (list.children[listLength - 1].offsetTop > 0) {
+								list.scrollTo(0, 0)
+							}
+						} else {
+							const ot = list.children[currentSelection].offsetTop
+							const ulTop = list.scrollTop
+							if (ot - ulTop > listSize - 2 * scrollAmount) {
+								list.scrollTo(0, ulTop + scrollAmount)
+							} else {
+								list.scrollTo(0, ulTop - scrollAmount)
+							}
+						}
+					} else {
+						const ot = list.children[currentSelection].offsetTop
+						const ulTop = list.scrollTop
+						if (down) {
+							if (ot - ulTop > scrollAmount / 2) {
+								if (
+									list.children[currentSelection].offsetTop >
+									0
+								) {
+									list.scrollTo(0, ulTop + scrollAmount)
+								}
+							}
+						} else {
+							if (ot - ulTop > listSize - 2 * scrollAmount) {
+								list.scrollTo(0, ulTop + scrollAmount)
+							} else {
+								list.scrollTo(0, ulTop - scrollAmount)
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// app specific functions
+
 	// Return search results from 'list'
 	// matching str
 	// searchMode - 0 - anywhere in, 1 - starts with str
@@ -311,154 +395,6 @@ export default function DropdownField(
 			elUL.style.maxHeight = maxHeight + "px"
 			elUL.scrollTo(0, 0)
 			elUL.innerHTML = matchlist
-		}
-	}
-
-	// On populating a field list, mark the list item
-	// as selected if the field has a value
-	// Use listItemValueIndex to convert value to index
-	function listSelectWithIndex(index) {
-		elUL.children[index].classList.add("selected")
-	}
-
-	function listSelectionChange(
-		list,
-		selectClass,
-		down,
-		currentSelection,
-		listLength
-	) {
-		function oldNewSelection(oldIndex, newIndex) {
-			if (oldIndex === -1) {
-				if (list.childNodes[newIndex]) {
-					list.childNodes[newIndex].classList.add(selectClass)
-					return list.childNodes[newIndex].textContent
-				} else {
-					return null
-				}
-			} else {
-				if (list.childNodes[oldIndex] && list.childNodes[newIndex]) {
-					list.childNodes[oldIndex].classList.remove(selectClass)
-					list.childNodes[newIndex].classList.add(selectClass)
-					return list.childNodes[newIndex].textContent
-				} else {
-					return null
-				}
-			}
-		}
-
-		if (listLength > 0) {
-			if (currentSelection === -1) {
-				if (down) {
-					return oldNewSelection(-1, 0)
-				} else {
-					return oldNewSelection(-1, listLength - 1)
-				}
-			} else if (list.childNodes[currentSelection]) {
-				if (currentSelection === 0) {
-					if (down) {
-						return oldNewSelection(0, 1)
-					} else {
-						return oldNewSelection(0, listLength - 1)
-					}
-				} else if (currentSelection === listLength - 1) {
-					if (down) {
-						return oldNewSelection(currentSelection, 0)
-					} else {
-						return oldNewSelection(
-							currentSelection,
-							currentSelection - 1
-						)
-					}
-				} else {
-					if (down) {
-						return oldNewSelection(
-							currentSelection,
-							currentSelection + 1
-						)
-					} else {
-						return oldNewSelection(
-							currentSelection,
-							currentSelection - 1
-						)
-					}
-				}
-			}
-		}
-	}
-
-	// Should be used with listSelectionChange
-	// Scrolls the list up or down
-	// scrollAmount should be the line height
-	function listSelectionChangeScroll(
-		list,
-		selectClass,
-		down,
-		currentSelection,
-		listLength,
-		scrollAmount,
-		listSize
-	) {
-		if (listLength > 0) {
-			if (currentSelection === -1) {
-				if (down) {
-					list.scrollTo(0, 0)
-				} else {
-					if (list.children[listLength - 1].offsetTop > 0) {
-						const ulTop = list.scrollTop
-						list.scrollTo(
-							0,
-							list.children[listLength - 1].offsetTop -
-								scrollAmount
-						)
-					}
-				}
-			} else {
-				if (list.children[currentSelection]) {
-					const ulTop = list.scrollTop
-					if (currentSelection === 0) {
-						if (!down) {
-							list.scrollTo(
-								0,
-								list.children[listLength - 1].offsetTop
-							)
-						}
-					} else if (currentSelection === listLength - 1) {
-						if (down) {
-							if (list.children[listLength - 1].offsetTop > 0) {
-								list.scrollTo(0, 0)
-							}
-						} else {
-							const ot = list.children[currentSelection].offsetTop
-							const ulTop = list.scrollTop
-							if (ot - ulTop > listSize - 2 * scrollAmount) {
-								list.scrollTo(0, ulTop + scrollAmount)
-							} else {
-								list.scrollTo(0, ulTop - scrollAmount)
-							}
-						}
-					} else {
-						const ot = list.children[currentSelection].offsetTop
-						const ulTop = list.scrollTop
-						if (down) {
-							if (ot - ulTop > scrollAmount / 2) {
-								if (
-									list.children[currentSelection].offsetTop >
-									0
-								) {
-									list.scrollTo(0, ulTop + scrollAmount)
-								}
-							}
-						} else {
-							if (ot - ulTop > listSize - 2 * scrollAmount) {
-								list.scrollTo(0, ulTop + scrollAmount)
-							} else {
-								list.scrollTo(0, ulTop - scrollAmount)
-							}
-						}
-					}
-				}
-			}
 		}
 	}
 
@@ -551,7 +487,7 @@ export default function DropdownField(
 				indexSelected = listItemValueIndex(elUL, elInput.value)
 
 				if (indexSelected !== -1) {
-					listSelectWithIndex(indexSelected)
+					listSelectWithIndex(elUL, indexSelected)
 				}
 			}
 
@@ -584,7 +520,7 @@ export default function DropdownField(
 
 	function onBlurInput(e) {
 		/*eslint-disable*/
-		let {origin, filter} = getAttributes()
+		// let {origin, filter} = getAttributes()
 		let {entry, control, lastDDMode} = getMode()
 
 		let arr = []
@@ -617,7 +553,7 @@ export default function DropdownField(
 
 	function onClickInput() {
 		/*eslint-disable*/
-		let {origin, filter} = getAttributes()
+		// let {origin, filter} = getAttributes()
 		let {entry, control, lastDDMode} = getMode()
 
 		if (entry === "enter") {
@@ -698,7 +634,6 @@ export default function DropdownField(
 				} else {
 					let val = listSelectionChange(
 						elUL,
-						"selected",
 						false,
 						index,
 						selectionLength
@@ -713,7 +648,6 @@ export default function DropdownField(
 					if (ddVisible) {
 						listSelectionChangeScroll(
 							elUL,
-							"selected",
 							false,
 							index,
 							selectionLength,
@@ -732,7 +666,6 @@ export default function DropdownField(
 				} else {
 					let val = listSelectionChange(
 						elUL,
-						"selected",
 						true,
 						index,
 						selectionLength
@@ -747,7 +680,6 @@ export default function DropdownField(
 					if (ddVisible) {
 						listSelectionChangeScroll(
 							elUL,
-							"selected",
 							true,
 							index,
 							selectionLength,
@@ -795,10 +727,10 @@ export default function DropdownField(
 					e.keyCode === 229
 				) {
 					if (typingOpenDropdown) {
-						// if (!lastDDMode) {
-						openDropdown()
-						lastDDMode = true
-						// }
+						if (!lastDDMode) {
+							openDropdown()
+							lastDDMode = true
+						}
 					}
 				}
 
@@ -892,7 +824,7 @@ export default function DropdownField(
 				indexSelected = listItemValueIndex(elUL, elInput.value)
 
 				if (indexSelected !== -1) {
-					listSelectWithIndex(indexSelected)
+					listSelectWithIndex(elUL, indexSelected)
 				}
 			}
 
@@ -941,7 +873,6 @@ export default function DropdownField(
 
 	function onMouseDownUL(e) {
 		/*eslint-disable*/
-		let {origin, filter} = getAttributes()
 		let {entry, control, lastDDMode} = getMode()
 
 		if (e.target.tagName === "LI") {
