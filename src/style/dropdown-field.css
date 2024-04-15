@@ -22,12 +22,12 @@
 	height: 25px;
 	font-size: 16px;
 	font-size: 16px;
-	margin-left: 5px;
 }
 
 .ddfield input {
 	height: var(--dd-input-height);
-	width: var(--dd-width);
+	/* width: var(--dd-width); */
+	width: 100%;
 	padding: 5px 12px;
 	font-size: var(--dd-font-size);
 	border-radius: var(--dd-border-radius);
@@ -36,7 +36,8 @@
 
 .inputarrow {
 	position: relative;
-	width: var(--dd-width);
+	/* width: var(--dd-width); */
+	width: 100%;
 }
 
 .inputarrow [disabled],
@@ -80,7 +81,8 @@
 .ddfield ul.ddlist {
 	display: none;
 	position: absolute;
-	top: 60px;
+	/* top: 60px; */
+	top: calc(var(--dd-input-height) + 20px);
 	/* left: -10px; */
 	width: 100%;
 	max-width: 325px;
@@ -103,6 +105,7 @@
 
 .ddfield .ddlist li {
 	padding-left: 12px;
+	text-wrap: nowrap;
 }
 
 .ddfield .ddlist li:hover {
