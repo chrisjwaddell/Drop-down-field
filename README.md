@@ -63,14 +63,20 @@ Then set your list (which can be changed any time) by:
 
 The mandatory settings are:
 \
-target - where the drop down field gets placed.\
-Field name\
-Placeholder\
-tabindex\
+target - the query string of where the drop down field gets placed.\
 ID - The ID that will be placed in the HTML. It must have a unique ID.\
+
+<br>
+If 'ID' is missing, some features won't work properly. 
+
+
+Settings that should be filled in:
+\
+Field name - If this isn't filled in, the field label will not be visible
+Placeholder - If this is not filled in, it will take the field name
+tabindex
 Options - an object with the option names appearing below.
 
-<br><br>
 
 ## Filtering options
 

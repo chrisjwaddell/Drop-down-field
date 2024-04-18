@@ -79,6 +79,12 @@ export default function DropdownField(
 	let maxHeight
 	let lineHeight
 
+	if (!ID)
+		console.error(
+			"Warning: 'id' parameter not in. You must put 'id' in otherwise some " +
+				"features won't work correctly when you leave the DropdownField component"
+		)
+
 	function render(target, fieldLabel, placeholder, tabindex, ID) {
 		const elTarget = document.querySelector(target)
 		let elField
@@ -124,13 +130,13 @@ export default function DropdownField(
 			[],
 			[
 				["type", "text"],
-				["placeholder", placeholder],
+				["placeholder", placeholder ? placeholder : fieldLabel],
 				["aria-autocomplete", "both"],
 				["autocapitalize", "none"],
 				["autocomplete", "off"],
 				["autocorrect", "off"],
 				["spellcheck", "false"],
-				["tabindex", tabindex],
+				["tabindex", tabindex || 1],
 				["value", ""],
 			],
 			""
@@ -208,7 +214,7 @@ export default function DropdownField(
 		const elLI = createElementAtt(elULTemp, "li", [], [], "li")
 		elLI.textContent = "a"
 
-		lineHeight = elLI.clientHeight
+		lineHeight = elLI.offsetHeight
 		elULTemp.remove()
 
 		maxHeight = lineHeight * maxLines
