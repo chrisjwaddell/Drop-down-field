@@ -142,11 +142,7 @@ export default function DropdownField(
 			""
 		)
 
-		if (
-			typeof settings.autofocus !== "undefined" &&
-			settings.autofocus !== null &&
-			settings.autofocus !== false
-		) {
+		if (settings.autofocus !== true) {
 			elInput.classList.add("autofocus")
 		}
 
