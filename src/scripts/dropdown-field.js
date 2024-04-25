@@ -7,6 +7,8 @@ import {
 } from "./lib/dom-dropdown.js"
 import {objectLength} from "./lib/object.js"
 
+import {escapeRegExp} from "./01-string"
+
 export default function DropdownField(
 	target,
 	fieldLabel,
@@ -318,16 +320,20 @@ export default function DropdownField(
 	function selectionFilter(str, searchMode) {
 		let regex
 
+		const escapedStr = escapeRegExp(str)
+
 		searchMode
-			? (regex = new RegExp(`.*${str}.*`, "gi"))
-			: (regex = new RegExp(`^${str}.*`, "gi"))
+			? (regex = new RegExp(`.*${escapedStr}.*`, "gi"))
+			: (regex = new RegExp(`^${escapedStr}.*`, "gi"))
 		return list.filter((cv) => cv.match(regex))
 	}
 
 	// Puts <strong> element around the search filter
 	// of the line item
 	function dropdownSelectedString(selectionLine, searchString) {
-		const fieldString = new RegExp(`${searchString}`, "i")
+		const escapedStr = escapeRegExp(searchString)
+
+		const fieldString = new RegExp(`${escapedStr}`, "i")
 		const startPos = selectionLine.search(fieldString)
 		if (startPos === -1 || searchString.length === 0) {
 			return selectionLine
