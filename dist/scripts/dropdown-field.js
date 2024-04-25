@@ -87,6 +87,10 @@
         }
     }
     const objectLength = obj => Object.entries(obj).length;
+    function escapeRegExp(str) {
+        const avoidEscapeError = str.slice(-1) === "\\" ? str[str.length - 1] : str;
+        return avoidEscapeError.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+    }
     function DropdownField(target, fieldLabel, placeholder, tabindex, ID, opts) {
         let list = [];
         const settingDefaults = {
@@ -127,6 +131,7 @@
         let selectionLength;
         let maxHeight;
         let lineHeight;
+        if (!ID) console.error("Warning: 'id' parameter not in. You must put 'id' in otherwise some " + "features won't work correctly when you leave the DropdownField component");
         function render(target, fieldLabel, placeholder, tabindex, ID) {
             const elTarget = document.querySelector(target);
             let elField;
@@ -137,8 +142,8 @@
             }
             createElementAtt(elField, "label", [], [], fieldLabel);
             const elInputArrow = createElementAtt(elField, "div", [ "inputarrow" ], [], "");
-            const elInput = createElementAtt(elInputArrow, "input", [], [ [ "type", "text" ], [ "placeholder", placeholder ], [ "aria-autocomplete", "both" ], [ "autocapitalize", "none" ], [ "autocomplete", "off" ], [ "autocorrect", "off" ], [ "spellcheck", "false" ], [ "tabindex", tabindex ], [ "value", "" ] ], "");
-            if (typeof settings.autofocus !== "undefined" && settings.autofocus !== null && settings.autofocus !== false) {
+            const elInput = createElementAtt(elInputArrow, "input", [], [ [ "type", "text" ], [ "placeholder", placeholder ? placeholder : fieldLabel ], [ "aria-autocomplete", "both" ], [ "autocapitalize", "none" ], [ "autocomplete", "off" ], [ "autocorrect", "off" ], [ "spellcheck", "false" ], [ "tabindex", tabindex || 1 ], [ "value", "" ] ], "");
+            if (settings.autofocus !== true) {
                 elInput.classList.add("autofocus");
             }
             let elArrow = null;
@@ -172,7 +177,7 @@
             elULTemp.style.visibility = "hidden";
             const elLI = createElementAtt(elULTemp, "li", [], [], "li");
             elLI.textContent = "a";
-            lineHeight = elLI.clientHeight;
+            lineHeight = elLI.offsetHeight;
             elULTemp.remove();
             maxHeight = lineHeight * maxLines;
             elUL.style.maxHeight = maxHeight + "px";
@@ -244,11 +249,13 @@
         }
         function selectionFilter(str, searchMode) {
             let regex;
-            searchMode ? regex = new RegExp(`.*${str}.*`, "gi") : regex = new RegExp(`^${str}.*`, "gi");
+            const escapedStr = escapeRegExp(str);
+            searchMode ? regex = new RegExp(`.*${escapedStr}.*`, "gi") : regex = new RegExp(`^${escapedStr}.*`, "gi");
             return list.filter((cv => cv.match(regex)));
         }
         function dropdownSelectedString(selectionLine, searchString) {
-            const fieldString = new RegExp(`${searchString}`, "i");
+            const escapedStr = escapeRegExp(searchString);
+            const fieldString = new RegExp(`${escapedStr}`, "i");
             const startPos = selectionLine.search(fieldString);
             if (startPos === -1 || searchString.length === 0) {
                 return selectionLine;

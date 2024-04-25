@@ -7,7 +7,7 @@ import {
 } from "./lib/dom-dropdown.js"
 import {objectLength} from "./lib/object.js"
 
-import {escapeRegExp} from "./01-string"
+import {escapeRegExp} from "./lib/01-string"
 
 export default function DropdownField(
 	target,
