@@ -55,7 +55,7 @@ countryField.setList("Australia", "USA");
 
 It has the main *DropdownField* function has following option arguments:
 \
-`let <field_variable_name> = </field_variable_name>DropdownField(target, Field name, Placeholder, tabindex, ID, Options)`
+`let <field_variable_name> = DropdownField(target, Field name, Placeholder, tabindex, ID, Options)`
 
 Then set your list (which can be changed any time) by:
 \
