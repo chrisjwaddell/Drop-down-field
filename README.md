@@ -32,9 +32,9 @@ There is also an *onChange* callback so if the field value changes, you can have
 Add these lines the head of your HTML:
 
 ```
-<link rel="stylesheet" href="https://cdn.rawgit.com/chrisjwaddell/Drop-down-field/main/dist/style/dropdown-field.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/chrisjwaddell/Drop-down-field@main/dist/style/dropdown-field.css">
 
-<script src="https://cdn.rawgit.com/chrisjwaddell/Drop-down-field/main/dist/scripts/dropdown-field.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/chrisjwaddell/Drop-down-field@main/dist/scripts/dropdown-field.js"></script>
 
 ```
 
