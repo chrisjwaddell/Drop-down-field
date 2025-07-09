@@ -1,4 +1,10 @@
-# Drop Down Field
+<!-- PROJECT LOGO -->
+<div align="center">
+    <img src="dist/images/logo.jpg" alt="Logo" width="135" height="100">
+    <h1 align="center">Drop Down Field</h1>
+    <h3>A beautiful Drop down field with many options</h3>
+    <br />
+</div>
 
 This drop down field is a filterable drop down field list with various options.
 As the user types, the drop down list is filtered to match what the user types.
